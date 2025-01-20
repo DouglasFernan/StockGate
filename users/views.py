@@ -1,4 +1,5 @@
 from django.contrib.auth import logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -260,11 +261,18 @@ class VendedorVendasListView(ListView):
         return queryset.order_by(order)
 
 
-@login_required
-def vendedor_dashboard(request):
-    return render(request, 'users/vendedor/registrar_vendas.html')
+class vendedor_dashboard(LoginRequiredMixin, ListView):
+    model = models.Vendas
+    template_name = 'users/vendedor/registrar_vendas.html'
 
+    def get_queryset(self):
+        order = self.request.GET.get('order', '-created_at')
+        queryset = models.Vendas.objects.filter(vendedor=self.request.user)
 
-@login_required
-def vendedor_registrar_vendas(request):
-    return render(request, 'users/vendedor/registrar_vendas.html')
+        start_date = self.request.GET.get('start_date')
+        end_date = self.request.GET.get('end_date')
+        if start_date and end_date:
+            queryset = queryset.filter(
+                created_at__range=[start_date, end_date])
+
+        return queryset.order_by(order)

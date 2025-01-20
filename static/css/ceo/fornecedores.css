@@ -192,6 +192,8 @@ h5 {
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
+    border-bottom: 3px solid #E2E8F0;
+
 }
 
 form {

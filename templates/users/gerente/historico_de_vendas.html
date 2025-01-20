@@ -58,10 +58,9 @@
                         <div class="sales-info">
                             <div class="sales-product-image">
                                 <div>
-                                    <img src="{{ venda.produto.product_picture.url }}" alt="{{ venda.produto.name }}">
-                                </div>
-                                <div>
-                                    <span class="sales-product">{{ venda.produto }}</span>
+                                    <span class="sales-product" style="display: flex; justify-content: start; align-items: center; gap: 15px;">                                <div>
+                                        <img src="{{ venda.produto.product_picture.url }}" alt="{{ venda.produto.name }}">
+                                    </div>{{ venda.produto }}</span>
                                 </div>
                             </div>
                             <span class="sales-payment">{{ venda.get_payment_method_display }}</span>

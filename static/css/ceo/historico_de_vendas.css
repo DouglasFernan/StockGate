@@ -95,7 +95,7 @@ h5 {
 }
 
 .sales-total {
-    color: #2B6CB0;
+    color: #0C7FDA;
     font-weight: bold;
 }
 
@@ -229,4 +229,14 @@ button[type="submit"]:hover, button[type="reset"]:hover {
 
 .reset-button:hover {
     background-color: #2B6CB0;
+}
+
+@media (min-width: 1850px) {
+    .sales-total {
+        margin-left: -35px; /* Ajuste o valor conforme necessário */
+    }
+
+    .sales-payment {
+        margin-left: -35px;
+    }
 }

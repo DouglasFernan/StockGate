@@ -89,8 +89,8 @@ h5 {
 .user-details {
     display: flex;
     flex-direction: column;
-    text-align: left; 
-    gap: 5px;
+    text-align: left; /* Nome e email alinhados à esquerda */
+    gap:15px;
 }
 
 .user-details span{

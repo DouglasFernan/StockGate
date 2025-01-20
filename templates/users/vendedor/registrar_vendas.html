@@ -82,13 +82,48 @@
                     </div>
                 </div>
 
-            </section>    
+                <div class="btn">
+                    <a href="">
+                        <button class="btn-new-user">Registrar Venda</button>
+                    </a>
+                </div>
+
+            </section>  
+            <section>
+                <h5>Últimas vendas</h5>
+                <div id="sales-container">
+                    <ul id="sales">
+                        <div class="sales-titles">
+                            <span class="title">PRODUTO</span>
+                            <span class="title">MÉTODO DE PAGAMENTO</span>
+                            <span class="title">QUANTIDADE</span>
+                            <span class="title">DATA</span>
+                            <!-- <div class="title">Options</div>  -->
+                        </div>
+        
+                        {% for venda in object_list %}
+                            <div class="sales-card">
+                                <div class="sales-info">
+                                    <div class="sales-product-image">
+
+                                        <div>
+                                            <span class="sales-product">{{ venda.produto }}</span>
+                                        </div>
+                                    </div>
+                                    <span class="sales-payment">{{ venda.get_payment_method_display }}</span>
+                                    <span class="sales-id">{{ venda.quantity }}</span>
+                                    <span class="sales-date">{{ venda.created_at|date:"d/m/Y" }}</span>
+                                    <!-- <div class="sales-options">...</div> -->
+                                </div>
+                            </div>
+                        {% empty %}
+                            <h4 id="h5-unico">Sem vendas registradas ainda</h4>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </section>  
             
-            <section class="btn">
-                <a href="">
-                    <button class="btn-new-user">Registrar Venda</button>
-                </a>
-            </section>
+
         </div>
     </div>
 </section>

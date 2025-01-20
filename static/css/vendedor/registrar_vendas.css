@@ -27,24 +27,34 @@ h5 {
 
 #users-container {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: start;
+    justify-content: start;
     flex-direction: column;
 }
 
 .fields {
-    width: 75%;
+    width: 50%;
     margin-left: 35px;
     display: flex;
     flex-direction: column;
     gap: 80px;
+    padding-right: 35px;
+    border-right: 2px solid #d9d9d9;
 }
 
 .top, .down {
     display: flex;
     justify-content: space-between;
-    padding-bottom: 35px;
     border-bottom: 2px solid #d9d9d9;
+}
+
+.top {
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+.down {
+    padding-bottom: 25px;
 }
 
 .area-1, .area-2, .area-3, .area-4 {
@@ -110,14 +120,14 @@ input:focus, select:focus {
 .input-container label {
     display: flex;
     align-items: center;
-    gap: 5px;
     font-size: 14px;
     color: #555;
     cursor: pointer;
 }
 
 .input-container input[type="radio"] {
-    display: none; /* Esconde os radio buttons */
+    height: 10px;
+    width: 10px;
 }
 
 .input-container label img {
@@ -149,7 +159,6 @@ input:focus, select:focus {
     color: white;
     cursor: pointer;
     border-radius: 5px;
-    margin-top: 20px;
     height: 44px;
     width: 500px;
     text-transform: uppercase;
@@ -207,10 +216,120 @@ form {
 }
 
 .container {
-    width: 70%;
+    width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    flex-direction: row;
 }
 
+#sales-container {
+    max-height: calc(80% - 25px);
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+}
+
+#sales {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sales-titles {
+    display: grid;
+    grid-template-columns: 2.5fr 1.5fr 1fr 1.5fr;
+    gap: 15px;
+    margin-bottom: 10px;
+    text-align: left;
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 10;
+    border-bottom: 2px solid #E2E8F0;
+    padding-bottom: 8px;
+    width: 100%;
+}
+
+.title {
+    font-size: 12px;
+    color: #A0AEC0;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 1.4;
+    text-align: left;
+}
+
+.sales-card {
+    border: 1px solid #E2E8F0;
+    border-radius: 5px;
+    padding: 8px 12px;
+    background-color: #F9FAFB;
+    display: flex;
+    align-items: center;
+    height: 60px;
+}
+
+.sales-info {
+    display: grid;
+    grid-template-columns: 2.5fr 1.5fr 1fr 1.5fr;
+    gap: 20px;
+    align-items: center;
+    width: 100%;
+    text-align: left;
+}
+
+.sales-product-image img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.sales-product, .sales-payment, .sales-total, .sales-id, .sales-date {
+    font-size: 12px;
+    font-weight: bold;
+    color: #2D3748;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.sales-total {
+    color: #2B6CB0;
+    font-weight: bold;
+}
+
+.sales-id, .sales-options {
+    padding-left: 35px;
+}
+
+.sales-payment, .sales-total {
+    text-align: center;
+}
+
+.sales-payment {
+    margin-right: 80px;
+}
+
+.sales-total {
+    padding-right: 100px;
+}
+
+.sales-options {
+    font-size: 12px;
+    color: #2D3748;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+    color: #2B6CB0;
+}
+
+#h5-unico {
+    color: #5D7285;
+    margin-top: 35px;
+    margin-bottom: 0px;
+    font-size: 20px;
+}

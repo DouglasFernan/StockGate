@@ -28,7 +28,7 @@ urlpatterns = [
     path('gerente/gerenciar_categorias/', views.GerenteCategoriaListView.as_view(), name="gerente_gerenciar_categorias"),
     path('gerente/fornecedores/', views.GerenteFornecedorListView.as_view(), name="gerente_fornecedores"),
     # -------- Vendedor ------------
-    path('vendedor/registrar_vendas/', views.vendedor_dashboard, name="vendedor_dashboard"),
+    path('vendedor/registrar_vendas/', views.vendedor_dashboard.as_view(), name="vendedor_dashboard"),
     path('vendedor/gerenciar_produtos/', views.VendedorProdutoListView.as_view(), name="vendedor_consultar_produtos"),
     path('vendedor/gerenciar_clientes/', views.VendedorClienteListView.as_view(), name="vendedor_clientes"),
     path('vendedor/minhas_vendas/', views.VendedorVendasListView.as_view(), name="vendedor_minhas_vendas"),

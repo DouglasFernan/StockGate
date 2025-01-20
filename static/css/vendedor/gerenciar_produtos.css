@@ -124,9 +124,9 @@ h5 {
 #product-price {
     max-width: 30%;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: bold;
     margin-bottom: 15px;
-    color: #232323;
+    color: #0C7FDA;
 }
 
 .search-form {
@@ -158,6 +158,8 @@ h5 {
     justify-content: space-between;
     align-items: center;
     flex-direction: row;
+    border-bottom: 3px solid #E2E8F0;
+
 }
 
 form {
