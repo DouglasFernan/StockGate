@@ -1,0 +1,232 @@
+.content {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    font-family: 'Epilogue', sans-serif;
+    height: 90%;
+}
+
+h5 {
+    color: #5D7285;
+    margin-left: 35px;
+    margin-top: 0px;
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+#core {
+    width: calc(100% - 370px);
+    height: calc(100% - 150px);
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#sales-container {
+    max-height: calc(80% - 25px);
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+}
+
+#sales {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sales-titles {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr 1fr 1.5fr 0.5fr;
+    gap: 5px;
+    margin-bottom: 10px;
+    text-align: left;
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 10;
+    border-bottom: 2px solid #E2E8F0;
+    padding-bottom: 8px;
+}
+
+.title {
+    font-size: 12px;
+    color: #A0AEC0;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 1.4;
+    text-align: left;
+}
+
+.sales-card {
+    border: 1px solid #E2E8F0;
+    border-radius: 5px;
+    padding: 8px 12px;
+    background-color: #F9FAFB;
+    display: flex;
+    align-items: center;
+    height: 60px;
+}
+
+.sales-info {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1fr 1fr 1.5fr 0.5fr;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+    text-align: left;
+}
+
+.sales-product-image img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.sales-product, .sales-payment, .sales-total, .sales-id, .sales-date {
+    font-size: 12px;
+    font-weight: bold;
+    color: #2D3748;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.sales-total {
+    color: #2B6CB0;
+    font-weight: bold;
+}
+
+.sales-id, .sales-options {
+    padding-left: 35px;
+}
+
+.sales-payment, .sales-total {
+    text-align: center;
+}
+
+.sales-payment {
+    margin-right: 80px;
+}
+
+.sales-total {
+    padding-right: 100px;
+}
+
+.sales-options {
+    font-size: 12px;
+    color: #2D3748;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+    color: #2B6CB0;
+}
+
+/* Formulário de Filtros */
+
+
+.top {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    margin-top: 25px;
+    margin-bottom: 20px
+}
+
+.h5 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #5D7285;
+    font-weight: bold;
+    gap: 10px;
+    margin-left: 35px
+}
+
+#filter-form {
+    margin-left: 35px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+label {
+    font-size: 0.9rem;
+    color: #5D7285;
+}
+
+select, input[type="date"] {
+    padding: 0.5rem;
+    border: 2px solid #5D7285;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: #5D7285;
+    background-color: #f9f9f9;
+    width: 150px;
+}
+
+select:focus, input[type="date"]:focus {
+    outline: none;
+    border-color: #5D7285;
+}
+
+/* Estilo para os botões */
+.filter-button {
+    font-weight: bold;
+    padding: 0.5rem;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 75px; 
+    height: 38px;
+}
+
+button[type="submit"], button[type="reset"] {
+    background-color: #0C7FDA;
+    border: none;
+}
+
+button[type="submit"]:hover, button[type="reset"]:hover {
+    background-color: #2B6CB0;
+}
+
+/* Estilo específico para o botão Limpar */
+.reset-button {
+    font-weight: bold;
+    padding: 0.5rem;
+    border-radius: 5px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: #fff;
+    background-color: #0C7FDA;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 75px;
+    height: 22px;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.reset-button:hover {
+    background-color: #2B6CB0;
+}

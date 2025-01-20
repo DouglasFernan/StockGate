@@ -1,0 +1,66 @@
+{% extends 'users/vendedor/base.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/vendedor/registrar_vendas.css' %}">
+{% endblock %}
+{% block content %}
+<section id="core">
+    <h5>Dashboard</h5>
+    <div id="users-container">
+        <div class="container">        
+    
+            <section class="dados-venda">
+                <h2>DADOS DA VENDA</h2>
+                
+                <form class="form-venda">
+                    <div class="input-group">
+                        <input type="text" id="cliente" placeholder="Cliente" disabled>
+                    </div>
+                    <div class="input-group">
+
+                        <input type="text" id="telefone" placeholder=" Telefone (00) 00000-0000" disabled>
+                    </div>
+                    <div class="input-group">
+
+                        
+                        <input type="email" id="email" placeholder="Email" disabled>
+                    </div>
+                    <div class="input-group">
+                        
+                        <input type="text" id="cpf" placeholder=" CPF 000.000.000-00" disabled>
+                    </div>
+                    <div class="input-group">
+
+                        <input type="text" id="produto" placeholder="Produto" disabled>
+                    </div>
+                    <div class="input-group">    
+                        
+                        <input type="text" id="quantidade" placeholder="100 Disponíveis" disabled>
+                    </div>
+                    <div class="input-group">
+                      
+                        <input type="text" id="vendedor" placeholder="Nome do Vendedor" disabled>
+                    </div>
+                    <div class="input-group">
+                       
+                        <input type="text" id="Data de Compra DD/MM/aaaa" placeholder="Data de Compra DD/MM/aaaa" id="data-compra" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label for="forma-pagamento">Forma de Pagamento</label>
+                        <div class="forma-pagamento">
+                            <img src="pix-icon.png" alt="Pix">
+                            <img src="cartao-icon.png" alt="Cartão">
+                            <img src="dinheiro-icon.png" alt="Dinheiro">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="total" placeholder="Total" disabled>
+                    </div>
+                    <button type="submit" class="btn-registrar-venda">REGISTRAR VENDA</button>
+                </form>
+            </section>
+        </div>
+    </div>
+</section>
+{% endblock %}

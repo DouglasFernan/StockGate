@@ -1,0 +1,71 @@
+{% extends 'users/vendedor/base.html' %}
+{% load static %}
+{% block title %}Gerenciar Usuários{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/vendedor/customuser_list.css' %}">
+{% endblock %}
+{% block content %}
+<section id="core">
+    <div class="top">
+        <div class="h5">
+            <h5>Gerenciar Clientes</h5>
+        </div>
+        <div class="form">
+            <div>
+                <form method="get" action="{% url 'gerenciar_produtos' %}" class="search-form">
+                    <input type="text" name="search" placeholder="Busca" value="{{ request.GET.search }}">
+                    <button type="submit">Buscar</button>
+                </form>
+            </div>
+            <div>
+            <a href="">
+                <button class="btn-new-user">Novo Cliente</button>
+            </a>
+            </div>
+        </div>
+    </div>
+    <div id="users-container">
+        <ul id="users">
+            <div class="user-titles">
+                <span class="title">CLIENTES</span>
+                <span class="title empty"></span>
+                <span class="title">EMAIL</span>
+                <span class="title">ÚLTIMA COMPRA</span>
+                <span class="title">AÇÕES</span>
+            </div>
+
+            {% for user in object_list %}
+                <div class="user-card">
+                    <div class="user-info">
+                        <div class="user-details">
+                            <span class="user-name">{{ user.name }}</span>
+                        </div>
+                        <span></span>
+                        <span class="user-email">{{ user.email }}</span>
+                        <span class="user-last-login">
+                            {% if user.last_login %}
+                                {{ user.last_login|date:"d/m/Y" }}
+                            {% else %}
+                                Sem dados
+                            {% endif %}
+                        </span>                        
+                        <div class="user-actions">
+                            <a href="">
+                                <button class="btn-edit">
+                                    <img src="{% static 'images/ceo/edit.png' %}" alt="Edit"> Editar
+                                </button>
+                            </a>
+                            <a href="">
+                                <button class="btn-delete">
+                                    <img src="{% static 'images/ceo/trub.png' %}" alt="Delete"> Deletar
+                                </button>
+                            </a>
+                        </div>
+                    </div>    
+                </div>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endblock %}
+

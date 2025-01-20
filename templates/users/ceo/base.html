@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Stock Gate{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/ceo/base.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Zen+Kaku+Gothic+Antique&display=swap" rel="stylesheet">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <header id="header">
+        <div id="pic-profile">
+            {% if request.user.profile_picture %}
+                <img src="{{ request.user.profile_picture.url }}" alt="Profile Picture" style="max-width: 60px; max-height: 60px; border-radius: 50%;" />
+            {% else %}
+                <img src="{% static 'images/default.jpg' %}" alt="Default Profile Picture" style="max-width: 60px; max-height: 60px; border-radius: 50%;" />
+            {% endif %}
+        </div>
+        <div id="info">
+            <div id="openModalBtn">
+                <div>
+                    {% for group in request.user.groups.all %}
+                        <span onclick="toggleModal(event)">{{ group.name }} - {{ request.user.name }}</span>
+                        <img src="{% static 'images/ceo/down.png' %}" alt="Seta" style="width: auto; height: auto; margin-left: 10px;" />
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Modal Dropdown -->
+    <div id="modal" class="dropdown-modal">
+        <div class="modal-content">
+            <ul>
+                <li>
+                    <a href="#edit-profile">
+                        <img src="{% static 'images/ceo/editprof.png' %}" alt="Edit Profile Icon" class="menu-icon"/>
+                        Edit Profile
+                    </a>
+                </li>
+                <li>
+                    <a href="#change-password">
+                        <img src="{% static 'images/ceo/editpass.png' %}" alt="Change Password Icon" class="menu-icon"/>
+                        Change Password
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'logout' %}">
+                        <img src="{% static 'images/ceo/logout2.png' %}" alt="Logout Icon" class="menu-icon"/>
+                        Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div id="logo">
+            <div id="logo-child"><img src="{% static 'images/logo.png' %}" alt="logo Stock Gate"></div>
+            <div id="logo-name">Stock Gate</div>
+        </div>
+        <ul>
+            <li><a href="{% url "ceo_dashboard" %}"><img src="{% static 'images/ceo/Home.png' %}" alt="Dashboard Icon">Dashboard</a></li>
+            <li><a href="{% url "historico_de_vendas" %}"><img src="{% static 'images/ceo/Document.png' %}" alt="Histórico Icon">Histórico de Vendas</a></li>
+            <li><a href="{% url "gerenciar_usuarios" %}"><img src="{% static 'images/ceo/3 User.png' %}" alt="Usuários Icon">Gerenciar Usuários</a></li>
+            <li class="dropdown">
+                <a href="#produtos" class="dropdown-btn"><img src="{% static 'images/ceo/Bag.png' %}" alt="Produtos Icon">Gerenciar Catálogo<img src="{% static 'images/ceo/down.png' %}" alt="Seta" style="width: auto; height: auto; margin-left: 10px;" />
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="{% url "gerenciar_produtos" %}">Gerenciar Produtos</a></li>
+                    <li><a href="{% url "gerenciar_categorias" %}">Gerenciar Categorias</a></li>
+                </ul>
+            </li>
+            <li><a href="{% url "fornecedores" %}"><img src="{% static 'images/ceo/wallet.png' %}" alt="Fornecedor Icon">Fornecedores</a></li>
+        </ul>
+        <a class="logout-btn" href="{% url "logout" %}">
+            <img src="{% static 'images/ceo/Logout.png' %}"  alt="Ícone de Sair" class="logout-icon">
+            Sair
+        </a>
+    </div>
+
+    <div class="content">
+        {% block content %}
+        <!-- O conteúdo específico de cada página será inserido aqui -->
+        {% endblock %}
+    </div>
+
+    <script src="{% static 'js/ceo/base.js' %}"></script>
+</body>
+</html>

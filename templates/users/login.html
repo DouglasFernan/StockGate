@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Zen+Kaku+Gothic+Antique&display=swap" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <div id="core">
+        <section id="left-side">
+            <div id="left-side-item1">
+                <div id="left-side-item1-logo"><img src="{% static 'images/logo.png' %}" alt="logo Stock Gate"></div>
+                <div id="left-side-item1-name">Stock Gate</div>
+            </div>
+            <div id="left-side-item2">
+                <img src="{% static 'images/illustration.png' %}" alt="">
+            </div>
+            <div id="left-side-item3">
+                Solução Inteligente Para<br>Gerenciamento de Lojas
+            </div>
+        </section>
+        <section id="right-side">
+            <div id="container">
+                <div id="right-side-item1">
+                    <div>Bem-vindo</div>
+                    <div>a comunidade Stock Gate</div>
+                </div>
+                <div id="right-side-item2">
+                    <form method="POST" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        {{form.errors}}
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required placeholder="Digite seu email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Senha</label>
+                            <input type="password" id="password" name="password" required placeholder="Digite sua senha">
+                        </div>
+                        <div id="button-div">
+                            <button type="submit" class="btn-entrar">Entrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+</body>
+</html>

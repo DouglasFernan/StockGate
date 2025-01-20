@@ -1,0 +1,74 @@
+{% extends 'users/ceo/base.html' %}
+{% load static %}
+{% block title %}Gerenciar Usuários{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/ceo/customuser_list.css' %}">
+{% endblock %}
+{% block content %}
+<section id="core">
+    <div class="top">
+        <div class="h5">
+            <h5>Gerenciar Usuários</h5>
+        </div>
+        <div class="form">
+            <div>
+                <form method="get" action="{% url 'gerenciar_usuarios' %}" class="search-form">
+                    <input type="text" name="search" placeholder="Busca" value="{{ request.GET.search }}">
+                    <button type="submit">Buscar</button>
+                </form>
+            </div>
+            <div>
+            <a href="{% url 'create_user' %}">
+                <button class="btn-new-user">Novo Usuário</button>
+            </a>
+            </div>
+        </div>
+    </div>
+    <div id="users-container">
+        <ul id="users">
+            <div class="user-titles">
+                <span class="title">USUÁRIO</span>
+                <span class="title empty"></span>
+                <span class="title">CARGO</span>
+                <span class="title">ÚLTIMO LOGIN</span>
+                <span class="title">AÇÕES</span>
+            </div>
+
+            {% for user in object_list %}
+                <div class="user-card">
+                    <div class="user-info">
+                        <div class="user-photo">
+                            <img src="{{ user.profile_picture.url }}" alt="Foto de {{ user.name }}" />
+                        </div>
+                        <div class="user-details">
+                            <span class="user-name">{{ user.name }}</span>
+                            <span class="user-email">{{ user.email }}</span>
+                        </div>
+                        <span class="user-group">{{ user.groups.first }}</span>
+                        <span class="user-last-login">
+                            {% if user.last_login %}
+                                {{ user.last_login|date:"d/m/Y" }}
+                            {% else %}
+                                Sem dados
+                            {% endif %}
+                        </span>                        
+                        <div class="user-actions">
+                            <a href="">
+                                <button class="btn-edit">
+                                    <img src="{% static 'images/ceo/edit.png' %}" alt="Edit"> Editar
+                                </button>
+                            </a>
+                            <a href="">
+                                <button class="btn-delete">
+                                    <img src="{% static 'images/ceo/trub.png' %}" alt="Delete"> Deletar
+                                </button>
+                            </a>
+                        </div>
+                    </div>    
+                </div>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endblock %}
+

@@ -1,0 +1,47 @@
+{% extends 'users/ceo/base.html' %}
+{% load static %}
+{% block title %}Gerenciar produtos{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/ceo/gerenciar_produtos.css' %}">
+{% endblock %}
+{% block content %}
+<section id="core">
+    <div class="top">
+        <div class="h5">
+            <h5>Gerenciar Produtos</h5>
+        </div>
+        <div class="form">
+            <div>
+                <form method="get" action="{% url 'gerenciar_produtos' %}" class="search-form">
+                    <input type="text" name="search" placeholder="Busca" value="{{ request.GET.search }}">
+                    <button type="submit">Buscar</button>
+                </form>
+            </div>
+            <div>
+            <a href="{% url 'create_produto' %}">
+                <button class="btn-new-user">Novo Produto</button>
+            </a>
+            </div>
+        </div>
+    </div>
+    <div id="users-container">
+        <div class="produtos">
+            {% for product in object_list %}
+                {% comment %} <div class="inline"> {% endcomment %}
+                    <div class="box">
+                        <div class="user-photo">
+                            <img src="{{ product.product_picture.url }}" alt="Foto de {{ product.name }}" />
+                        </div>
+                        <div class="product-desc">
+                            <div id="product-name">{{product.name}}</div>
+                            <div id="product-price">R$ {{product.price}}</div>
+                        </div>
+                    </div>
+                {% comment %} </div> {% endcomment %}
+            {% empty %}
+                <h5>No data yet</h5>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

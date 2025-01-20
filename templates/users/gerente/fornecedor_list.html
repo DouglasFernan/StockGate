@@ -1,0 +1,70 @@
+{% extends 'users/ceo/base.html' %}
+{% load static %}
+{% block title %}Gerenciar Fornecedores{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/ceo/fornecedores.css' %}">
+{% endblock %}
+{% block content %}
+<section id="core">
+    <div class="top">
+        <div class="h5">
+            <h5>Fornecedores</h5>
+        </div>
+        <div class="form">
+            <div>
+                <form method="get" action="{% url 'gerenciar_produtos' %}" class="search-form">
+                    <input type="text" name="search" placeholder="Busca" value="{{ request.GET.search }}">
+                    <button type="submit">Buscar</button>
+                </form>
+            </div>
+            <div>
+            <a href="">
+                <button class="btn-new-user">Novo Fornecedor</button>
+            </a>
+            </div>
+        </div>
+    </div>
+    <div id="users-container">
+        <ul id="users">
+            <!-- <div class="user-titles">
+                <span class="title">CONTATOS</span>
+                <span class="title empty"></span>
+                <span class="title empty"></span>
+                <span class="title empty"></span>
+                <span class="title">AÇÕES</span>
+            </div> -->
+
+            {% for user in object_list %}
+                <div class="user-card">
+                    <div class="user-info">
+                        <div class="user-details">
+                            <span id="name" class="user-name">{{ user.name }}</span>
+                            <span class="user-name"><span style="font-size: 14px; color: #A0AEC0; font-weight: 400;">Empresa: </span>{{ user.company }}</span>
+                            <span class="user-name"><span style="font-size: 14px; color: #A0AEC0; font-weight: 400;">Email: </span>{{ user.email }}</span>
+                            <span class="user-name"><span style="font-size: 14px; color: #A0AEC0; font-weight: 400;">Descrição: </span>{{ user.description }}</span>
+                        </div>
+                        <div></div>
+                        <span></span>
+                        <span class="user-last-login">{{ user.last_login|date:"d-m-Y" }}</span>
+                        <div class="user-actions">
+                            <a href="">
+                                <button class="btn-edit">
+                                    <img src="{% static 'images/ceo/edit.png' %}" alt="Edit"> Editar
+                                </button>
+                            </a>
+                            <a href="">
+                                <button class="btn-delete">
+                                    <img src="{% static 'images/ceo/trub.png' %}" alt="Delete"> Deletar
+                                </button>
+                            </a>
+                        </div>
+                    </div>    
+                </div>
+                {% empty %}
+                    <h5>No data yet</h5>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endblock %}
+

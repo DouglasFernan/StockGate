@@ -1,0 +1,14 @@
+{% extends 'users/gerente/base.html' %}
+{% block title %}Criar Novo Usuário{% endblock %}
+
+{% block content %}
+    <section id="core">
+        <h5>Criar Novo Usuário</h5>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Criar Vendedor</button>
+        </form>                
+        <a href="{% url 'gerente_gerenciar_usuarios' %}">Voltar à lista de usuários</a>
+    </section>
+{% endblock %}

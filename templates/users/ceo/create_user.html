@@ -1,0 +1,14 @@
+{% extends 'users/ceo/base.html' %}
+{% block title %}Criar Novo Usuário{% endblock %}
+
+{% block content %}
+    <section id="core">
+        <h5>Criar Novo Usuário</h5>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}  
+            <button type="submit">Criar Usuário</button>
+        </form>
+        <a href="{% url 'gerenciar_usuarios' %}">Voltar à lista de usuários</a>
+    </section>
+{% endblock %}

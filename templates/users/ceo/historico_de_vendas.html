@@ -1,0 +1,81 @@
+{% extends 'users/ceo/base.html' %}
+{% load static %}
+{% block title %}Histórico de Vendas{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/ceo/historico_de_vendas.css' %}">
+{% endblock %}
+{% block content %}
+    <section id="core">
+        <div class="top">
+            <div class="h5">
+                <h5>Histórico de Vendas</h5>
+            </div>
+             <div class="form">
+                <form method="get">
+                    <label for="order">Ordenar por:</label>
+                    <select name="order" id="order" onchange="this.form.submit()">
+                        <option value="-created_at" {% if request.GET.order == '-created_at' %}selected{% endif %}>
+                            Data (Mais recentes)
+                        </option>
+                        <option value="created_at" {% if request.GET.order == 'created_at' %}selected{% endif %}>
+                            Data (Mais antigos)
+                        </option>
+                        <option value="-total" {% if request.GET.order == '-total' %}selected{% endif %}>
+                            Valor (Mais caro)
+                        </option>
+                        <option value="total" {% if request.GET.order == 'total' %}selected{% endif %}>
+                            Valor (Mais barato)
+                        </option>
+                    </select>
+                
+                    <!-- Período de tempo -->
+                    <label for="start_date">De:</label>
+                    <input type="date" name="start_date" id="start_date" value="{{ request.GET.start_date }}">
+                    <label for="end_date">Até:</label>
+                    <input type="date" name="end_date" id="end_date" value="{{ request.GET.end_date }}">
+                
+                    <button type="submit" class="filter-button button">Enviar</button>
+                    <a href="{% url 'historico_de_vendas' %}" class="filter-button reset-button">Limpar</a>
+                </form>
+             </div>
+        
+        </div>
+
+
+        <div id="sales-container">
+            <ul id="sales">
+                <div class="sales-titles">
+                    <span class="title">PRODUTO</span>
+                    <span class="title">MÉTODO DE PAGAMENTO</span>
+                    <span class="title">TOTAL</span>
+                    <span class="title">QUANTIDADE</span>
+                    <span class="title">DATA</span>
+                    <div class="title">Options</div> 
+                </div>
+
+                {% for venda in object_list %}
+                    <div class="sales-card">
+                        <div class="sales-info">
+                            <div class="sales-product-image">
+                                <div>
+                                    <img src="{{ venda.produto.product_picture.url }}" alt="{{ venda.produto.name }}">
+                                </div>
+                                <div>
+                                    <span class="sales-product">{{ venda.produto }}</span>
+                                </div>
+                            </div>
+                            <span class="sales-payment">{{ venda.get_payment_method_display }}</span>
+                            <span class="sales-total">R$ {{ venda.total }}</span>
+                            <span class="sales-id">{{ venda.quantity }}</span>
+                            <span class="sales-date">{{ venda.created_at|date:"d/m/Y" }}</span>
+                            <div class="sales-options">...</div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <h5>Sem vendas registradas ainda</h5>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+
+{% endblock %}

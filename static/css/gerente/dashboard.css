@@ -1,0 +1,43 @@
+.content {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    font-family: 'Epilogue', sans-serif;
+    height: 90%;
+}
+
+h3 {
+    font-size: 22px;
+    color: #5D7285;
+    margin-bottom: 15px;
+}
+
+h5 {
+    color: #5D7285;
+    margin-left: 35px;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+
+#core {
+    width: calc(100% - 370px);
+    height: calc(100% - 150px);
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#users-container {
+    max-height: 80%;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+}
+
+#users {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
