@@ -36,6 +36,12 @@ h5 {
     padding: 0;
 }
 
+.area-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
 #users {
     display: flex;
     flex-direction: column;
