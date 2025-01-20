@@ -95,7 +95,7 @@ h5 {
 }
 
 .sales-total {
-    color: #2B6CB0;
+    color: #0C7FDA;
     font-weight: bold;
 }
 
@@ -123,7 +123,7 @@ h5 {
     overflow: hidden;
     text-overflow: ellipsis;
     font-weight: bold;
-    color: #2B6CB0;
+    color: #0C7FDA;
 }
 
 /* Formulário de Filtros */
@@ -205,7 +205,7 @@ button[type="submit"], button[type="reset"] {
 }
 
 button[type="submit"]:hover, button[type="reset"]:hover {
-    background-color: #2B6CB0;
+    background-color: #0C7FDA;
 }
 
 /* Estilo específico para o botão Limpar */
