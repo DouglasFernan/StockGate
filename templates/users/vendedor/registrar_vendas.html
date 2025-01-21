@@ -92,7 +92,7 @@
                                     <div class="sales-product-image">
 
                                         <div>
-                                            <span class="sales-product">{{ venda.produto }}</span>
+                                            <span class="sales-product" title="{{ venda.produto }}">{{ venda.produto|truncatechars:15 }}</span>
                                         </div>
                                     </div>
                                     <span class="sales-payment">{{ venda.get_payment_method_display }}</span>

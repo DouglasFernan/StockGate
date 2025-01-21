@@ -280,6 +280,15 @@ form {
     object-fit: cover;
 }
 
+.sales-product {
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    max-width: 100px; 
+    display: inline-block; 
+}
+
+
 .sales-product, .sales-payment, .sales-total, .sales-id, .sales-date {
     font-size: 12px;
     font-weight: bold;
@@ -326,6 +335,23 @@ form {
     margin-bottom: 0px;
     font-size: 20px;
 }
+
+@media (max-width: 1840px) {
+    .sales-info {
+        grid-template-columns: 1fr 1fr 1fr 1fr; /* Empilha os elementos */
+        gap: 10px;
+    }
+
+    .sales-titles {
+        grid-template-columns: 1fr 1fr 1fr 1fr; /* Empilha os elementos */
+        gap: 10px;
+    }
+
+    .sales-payment {
+        text-align: center;
+    }
+}
+
 
 @media (max-width: 1780px) {
   
@@ -409,7 +435,7 @@ form {
 
 }
 
-@media (max-height: 750px) {
+@media (max-height: 830px) {
       
     .input-container {
         height: 34px;
@@ -424,5 +450,12 @@ form {
     .area-1 input, .area-1 select, 
     .area-3 input, .area-3 select {
     height: 34px;
+    }
+
+    .top {
+        box-sizing: border-box;
+        padding: 0px;
+        padding-bottom: 15px;
+        margin: 0px;
     }
 }
