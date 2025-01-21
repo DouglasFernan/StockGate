@@ -10,7 +10,6 @@
 h5 {
     color: #5D7285;
     margin-left: 35px;
-    margin-top: 35px;
     margin-bottom: 0px;
     font-size: 20px;
 }
@@ -121,7 +120,7 @@ input:focus, select:focus {
     display: flex;
     align-items: center;
     font-size: 14px;
-    color: #555;
+    color: #2D3748;
     cursor: pointer;
 }
 
@@ -130,14 +129,9 @@ input:focus, select:focus {
     width: 10px;
 }
 
-.input-container label img {
-    width: 24px;
-    height: 24px;
-}
-
 /* Estilo quando o botão está selecionado */
 .input-container input[type="radio"]:checked + label {
-    color: #000;
+    color: #2D3748;
     font-weight: bold;
 }
 
@@ -329,7 +323,135 @@ form {
 
 #h5-unico {
     color: #5D7285;
-    margin-top: 35px;
     margin-bottom: 0px;
     font-size: 20px;
+}
+
+@media (max-width: 1780px) {
+  
+    .input-container {
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        padding: 8px 12px;
+        background-color: #f7f7f7;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        width: 322px;
+        color: #5D7285;
+    
+    }
+
+    input, select {
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        padding: 8px 13px;
+        background-color: #f7f7f7;
+        color: #5D7285;
+        font-size: 12px;
+        height: 44px;
+        box-sizing: border-box;
+    }
+
+    .area-1 input, .area-1 select, 
+    .area-3 input, .area-3 select {
+    width: 350px; /* Define largura fixa */
+    }
+
+    #span {
+        font-size: 12px;
+    }
+
+    .input-container label {
+        font-size: 12px;
+    }
+
+    .btn-new-user {
+        font-size: 12px;
+        width: 350px;
+    }
+
+    .fields {
+        gap: 20px;
+    }
+
+    .top {
+        margin-bottom: -30px;
+    }
+
+}
+
+@media (max-width: 1630px) {
+  
+    .input-container {
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        padding: 8px 12px;
+        background-color: #f7f7f7;
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        width: 300px;
+        color: #5D7285;
+    
+    }
+
+    input, select {
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        padding: 8px 13px;
+        background-color: #f7f7f7;
+        color: #5D7285;
+        font-size: 12px;
+        height: 34px;
+        box-sizing: border-box;
+    }
+
+    .area-1 input, .area-1 select, 
+    .area-3 input, .area-3 select {
+    width: 300px; /* Define largura fixa */
+    }
+
+    #span {
+        font-size: 12px;
+    }
+
+    .input-container label {
+        font-size: 12px;
+    }
+
+    .btn-new-user {
+        font-size: 12px;
+        width: 300px;
+    }
+
+    .fields {
+        gap: 40px;
+    }
+
+    .top {
+        box-sizing: border-box;
+        padding: 0px;
+        padding-bottom: 15px;
+        margin: 0px;
+    }
+
+}
+
+@media (max-height: 750px) {
+      
+    .input-container {
+        height: 34px;
+    
+    }
+
+    input, select {
+        font-size: 12px;
+        height: 34px;
+    }
+
+    .area-1 input, .area-1 select, 
+    .area-3 input, .area-3 select {
+    height: 34px;
+    }
 }

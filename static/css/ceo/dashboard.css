@@ -55,15 +55,15 @@ h5 {
     height: 500px;
 }
 
-#cgart_div {
+#chart_div {
     width: 900px;
     height: 500px;
 }
 
-@media (min-width: 1450px) {
+@media (max-width: 1610px) {
     #pie_chart_div {
-        width: 325px;
-        height: 325px;
+        width: 400px;
+        height: 400px;
     }
 
     #chart_div {
