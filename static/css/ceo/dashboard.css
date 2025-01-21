@@ -49,3 +49,27 @@ h5 {
     flex-direction: column;
     gap: 10px;
 }
+
+#pie_chart_div {
+    width: 500px;
+    height: 500px;
+}
+
+#cgart_div {
+    width: 900px;
+    height: 500px;
+}
+
+@media (min-width: 1450px) {
+    #pie_chart_div {
+        width: 325px;
+        height: 325px;
+    }
+
+    #chart_div {
+        width: 585px;
+        height: 325px;
+    }
+
+
+}
