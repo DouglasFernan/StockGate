@@ -36,7 +36,7 @@ h5 {
     margin-left: 35px;
     display: flex;
     flex-direction: column;
-    gap: 80px;
+    gap: 30px;
     padding-right: 35px;
     border-right: 2px solid #d9d9d9;
 }
@@ -330,12 +330,6 @@ form {
 @media (max-width: 1780px) {
   
     .input-container {
-        border: 2px solid #ccc;
-        border-radius: 8px;
-        padding: 8px 12px;
-        background-color: #f7f7f7;
-        display: flex;
-        align-items: center;
         gap: 15px;
         width: 322px;
         color: #5D7285;
@@ -343,14 +337,8 @@ form {
     }
 
     input, select {
-        border: 2px solid #ccc;
-        border-radius: 8px;
-        padding: 8px 13px;
-        background-color: #f7f7f7;
-        color: #5D7285;
         font-size: 12px;
         height: 44px;
-        box-sizing: border-box;
     }
 
     .area-1 input, .area-1 select, 
@@ -372,11 +360,7 @@ form {
     }
 
     .fields {
-        gap: 20px;
-    }
-
-    .top {
-        margin-bottom: -30px;
+        gap: 30px;
     }
 
 }
@@ -384,27 +368,14 @@ form {
 @media (max-width: 1630px) {
   
     .input-container {
-        border: 2px solid #ccc;
-        border-radius: 8px;
-        padding: 8px 12px;
-        background-color: #f7f7f7;
-        display: flex;
-        align-items: center;
         gap: 30px;
         width: 300px;
-        color: #5D7285;
     
     }
 
     input, select {
-        border: 2px solid #ccc;
-        border-radius: 8px;
-        padding: 8px 13px;
-        background-color: #f7f7f7;
-        color: #5D7285;
         font-size: 12px;
         height: 34px;
-        box-sizing: border-box;
     }
 
     .area-1 input, .area-1 select, 
@@ -426,7 +397,7 @@ form {
     }
 
     .fields {
-        gap: 40px;
+        gap: 30px;
     }
 
     .top {

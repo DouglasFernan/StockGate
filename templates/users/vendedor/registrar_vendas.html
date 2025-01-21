@@ -54,27 +54,12 @@
                             <option value="">Antonio Fernandes</option>
                             <option value="">Douglas Fernandes</option>
                         </select>
-                        <div class="input-container">
-                            <span id="span">Forma de Pagamento</span>
-                          
-                            <!-- Opção PIX -->
-                            <input type="radio" id="pix" name="forma_pagamento" value="pix">
-                            <label for="pix">
-                              Pix
-                            </label>
-                          
-                            <!-- Opção Cartão -->
-                            <input type="radio" id="cartao" name="forma_pagamento" value="cartao">
-                            <label for="cartao">
-                              Cartão
-                            </label>
-                          
-                            <!-- Opção Dinheiro -->
-                            <input type="radio" id="dinheiro" name="forma_pagamento" value="dinheiro">
-                            <label for="dinheiro">
-                              Dinheiro
-                            </label>
-                          </div>
+                        <select name="forma_pagamento" id="forma_pagamento">
+                            <option value="" selected>Forma de Pagamento</option>
+                            <option value="pix">Pix</option>
+                            <option value="cartao">Cartão</option>
+                            <option value="dinheiro">Dinheiro</option>
+                        </select>
                     </div>
                     <div class="area-4">
                         <input type="date" placeholder="Data de Compra">
@@ -122,7 +107,6 @@
                     </ul>
                 </div>
             </section>  
-            
 
         </div>
     </div>

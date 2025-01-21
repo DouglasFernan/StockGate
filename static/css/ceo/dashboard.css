@@ -60,7 +60,7 @@ h5 {
     height: 500px;
 }
 
-@media (max-width: 1610px) {
+@media (max-width: 1640px) {
     #pie_chart_div {
         width: 400px;
         height: 400px;
@@ -72,4 +72,10 @@ h5 {
     }
 
 
+}
+
+@media (max-width: 1275px) {
+    .area-top {
+        flex-direction: column;
+    }
 }
