@@ -1,7 +1,9 @@
+from django.contrib import messages
 from django.contrib.auth import logout
+from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.generic import FormView, ListView
@@ -276,3 +278,41 @@ class vendedor_dashboard(LoginRequiredMixin, ListView):
                 created_at__range=[start_date, end_date])
 
         return queryset.order_by(order)
+
+
+# def get_product(request, product_id):
+#     try:
+#         produto = models.Produto.objects.get(id=product_id)
+#         data = {
+#             'name': produto.name,
+#             'price': produto.price,
+#             'quantity': produto.quantity,
+#             'fornecedor': produto.fornecedor.id,
+#             'categoria': produto.categoria.id,
+#             'description': produto.description,
+#             'product_picture': produto.product_picture.url if produto.product_picture else None,
+#         }
+#         return JsonResponse(data)
+#     except models.Produto.DoesNotExist:
+#         return JsonResponse({'error': 'Produto não encontrado'}, status=404)
+
+
+# def update_product(request):
+#     if request.method == "POST":
+#         product_id = request.POST.get('product_id')
+#         product = get_object_or_404(models.Produto, id=product_id)
+#         product.name = request.POST.get('name')
+#         product.price = request.POST.get('price')
+#         product.quantity = request.POST.get('quantity')
+#         product.fornecedor_id = request.POST.get('fornecedor')
+#         product.categoria_id = request.POST.get('categoria')
+#         product.description = request.POST.get('description')
+
+#         if request.FILES.get('product_picture'):
+#             product.product_picture = request.FILES.get('product_picture')
+
+#         product.save()
+#         messages.success(request, "Produto atualizado com sucesso!")
+#         # Substitua pelo nome correto da view de listagem, se diferente
+#         return redirect('gerenciar_produtos')
+#     return redirect('gerenciar_produtos')

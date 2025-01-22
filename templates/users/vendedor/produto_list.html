@@ -3,6 +3,7 @@
 {% block title %}Gerenciar produtos{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/vendedor/gerenciar_produtos.css' %}">
+<script src="{% static 'js/vendedor/produtos.js' %}"></script>
 {% endblock %}
 {% block content %}
 <section id="core">
@@ -23,7 +24,7 @@
         <div class="produtos">
             {% for product in object_list %}
                 {% comment %} <div class="inline"> {% endcomment %}
-                    <div class="box">
+                    <div id="open-modal" class="box">
                         <div class="user-photo">
                             <img src="{{ product.product_picture.url }}" alt="Foto de {{ product.name }}" />
                         </div>
@@ -39,4 +40,59 @@
         </div>
     </div>
 </section>
+<section class="modal-sales">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal-header">
+            <div class="modal-group-1">
+                <select name="Clientes" id="modal-customers">
+                    <option value="" selected>Clientes</option>
+                    <option value="">Irlan Arley</option>
+                    <option value="">Thiago Moura</option>
+                    <option value="">Raphael Muniz</option>
+                </select>
+                <input type="email" placeholder="Email" id="modal-email">
+                <select name="Produtos" id="modal-products">
+                    <option value="" selected>Produtos</option>
+                    <option value="">Carro de controle remoto</option>
+                    <option value="">Maquiagem</option>
+                    <option value="">Esmalte de unha</option>
+                </select>
+            </div>
+            <div class="modal-group-2">
+                <input type="number" placeholder="Telefone" id="modal-phone">
+                <input type="number" name="cpf" placeholder="CPF" id="modal-cpf">
+                <input type="number" placeholder="Quantidade" id="modal-quantity">
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <div class="modal-group-3">
+                <select name="Vendedor" id="modal-sellers">
+                    <option value="" selected>Vendedor</option>
+                    <option value="">Weslley Fernandes</option>
+                    <option value="">Antonio Fernandes</option>
+                    <option value="">Douglas Fernandes</option>
+                </select>
+                <select name="forma_pagamento" id="modal-payment-method">
+                    <option value="" selected>Forma de Pagamento</option>
+                    <option value="pix">Pix</option>
+                    <option value="cartao">Cartão</option>
+                    <option value="dinheiro">Dinheiro</option>
+                </select>
+            </div>
+            <div class="modal-group-4">
+                <input type="date" placeholder="Data de Compra" id="modal-date">
+                <input type="number" placeholder="Total" id="modal-total">
+            </div>
+        </div>
+
+        <div class="modal-button">
+            <a href="">
+                <button type="submit" class="btn-register-sale">Registrar Venda</button>
+            </a>
+        </div>
+    </form>
+</section>
+
 {% endblock %}

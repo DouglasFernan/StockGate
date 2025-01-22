@@ -2,14 +2,14 @@ document.querySelectorAll('.dropdown-btn').forEach(button => {
     button.addEventListener('click', () => {
         const dropdown = button.parentElement;
         dropdown.classList.toggle('active');
- });
+    });
 });
 
 function toggleModal(event) {
     event.stopPropagation();
 
     // Verifica se o clique foi no #info ou no #openModalBtn
-    const modal = document.getElementById("modal");
+    const modal = document.getElementById("modal-drop");
     const isVisible = modal.style.display === "block";
 
     // Se o modal já está aberto ele fecha, caso contrário, aparece
@@ -25,7 +25,7 @@ function toggleModal(event) {
 }
 
 // Fecha o modal se o clique ocorrer fora do modal
-window.onclick = function(event) {
+window.onclick = function (event) {
     var modal = document.getElementById("modal");
     if (!modal.contains(event.target) && !event.target.closest('#openModalBtn') && !event.target.closest('#info')) {
         modal.style.display = "none";

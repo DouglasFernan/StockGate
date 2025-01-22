@@ -68,25 +68,25 @@ body {
     opacity: 1; /* Quando a classe show é adicionada, o modal aparece */
 }
 
-.dropdown-modal .modal-content ul {
+.dropdown-modal .modal-content-base ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
-.dropdown-modal .modal-content ul li {
+.dropdown-modal .modal-content-base ul li {
     padding: 10px;
     text-align: left;
 }
 
-.dropdown-modal .modal-content ul li a {
+.dropdown-modal .modal-content-base ul li a {
     color: #5D7285;
     text-decoration: none;
     display: flex;
     align-items: center;
 }
 
-.dropdown-modal .modal-content ul li a:hover {
+.dropdown-modal .modal-content-base ul li a:hover {
     background-color: #CCE8FA;
     color: #0C7FDA;
 }
@@ -191,15 +191,15 @@ body {
     font-weight: bold;
     font-size: 17px;
     cursor: pointer;
-    margin-top: auto; /* Coloca o botão no final do sidebar */
+    margin-top: auto;
     border-radius: 8px;
     text-decoration: none;
   }
   
   .logout-icon {
-    width: 20px; /* Defina o tamanho do ícone */
+    width: 20px; 
     height: 20px;
-    margin-right: 10px; /* Espaçamento entre o ícone e o texto */
+    margin-right: 10px; 
   }
 
 .content {
