@@ -400,3 +400,44 @@ select.form-control {
 input, select, textarea {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
+
+@media (max-height: 840px) {
+    
+    /* #id_email {
+        margin-top: 0px;
+    } */
+
+    #form {
+        margin-top: 20px;
+    }
+
+    button.btn-new-user-2 {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    input.form-control, 
+    select.form-control {
+    padding: 8px 10px;
+    font-size: 12px;
+    }
+
+    label {
+        font-size: 12px;
+        margin-bottom: 5px;
+    }
+
+    .error {
+        font-size: 10px; 
+    }
+    
+    .error div {
+        padding: 3px 8px; 
+        margin-top: 5px; 
+    }
+    
+    .error div::before {
+        content: "⚠️ "; /* Ícone de alerta */
+        font-size: 12px; 
+    }
+  }
