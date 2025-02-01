@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import logout
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect, get_object_or_404
@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.generic import FormView, ListView
 from django.db.models import Q
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView
 from . import forms
@@ -101,22 +101,51 @@ class UsersListView(ListView):
             )
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Exibe o formulário de criação
+        context["form"] = forms.CustomUserCreationForm()
+        context["object_list"] = self.get_queryset()  # Lista de usuários
+        context["modal_open"] = False  # Inicialmente o modal está fechado
+        return context
 
-class CreateUserView(CreateView):
-    model = models.CustomUser
-    form_class = forms.CustomUserCreationForm
-    template_name = 'users/ceo/create_user.html'
-    success_url = reverse_lazy('gerenciar_usuarios')
+    def post(self, request, *args, **kwargs):
+        form = forms.CustomUserCreationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            # Redireciona após salvar
+            return redirect(reverse('gerenciar_usuarios'))
+        else:
+            return render(request, 'users/ceo/customuser_list.html', {
+                'form': form,
+                'modal_open': True,  # Controla a abertura do modal
+                'object_list': models.CustomUser.objects.all(),  # Lista de usuários
+            })
 
-    def form_valid(self, form):
-        user = form.save(commit=False)
-        user.set_password(form.cleaned_data.get('password1'))
-        user.save()
 
-        vendedor_group, created = Group.objects.get_or_create(name="Vendedor")
-        user.groups.add(vendedor_group)
+# def create_user(request):
+#     if request.method == 'POST':
+#         form = forms.CustomUserCreationForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return redirect(reverse('gerenciar_usuarios'))
+#         else:
+#             # Quando o formulário não é válido, renderiza a página novamente
+#             # com a listagem de usuários, o formulário com erros e o modal aberto
+#             return render(request, 'users/ceo/customuser_list.html', {
+#                 'form': form,
+#                 'modal_open': True,  # Controla a abertura do modal
+#                 'object_list': models.CustomUser.objects.all(),  # Lista de usuários
+#             })
 
-        return super().form_valid(form)
+#     else:
+#         # Inicializa o formulário vazio na primeira vez
+#         form = forms.CustomUserCreationForm()
+#         return render(request, 'users/ceo/customuser_list.html', {
+#             'form': form,
+#             'modal_open': False,  # Inicialmente o modal está fechado
+#             'object_list': models.CustomUser.objects.all(),  # Lista de usuários
+#         })
 
 
 class CreateProdutoView(CreateView):

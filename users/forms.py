@@ -6,7 +6,13 @@ from .models import CustomUser, Produto, Categoria, Fornecedor, Vendas
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
-        fields = ("email", "name", "cpf", "groups", "profile_picture")  
+        fields = ("email", "name", "cpf", "groups", "profile_picture")
+
+    def clean_groups(self):
+        groups = self.cleaned_data.get("groups")
+        if not groups:
+            raise forms.ValidationError("Selecione um grupo.")
+        return groups
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -17,13 +23,11 @@ class CustomUserCreationForm(UserCreationForm):
             self.save_m2m()  # Salva os grupos
         return user
 
-class CustomUserChangeForm(UserChangeForm):
 
+class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
-        fields = ("email",)
-        
-        
+        fields = ("email", "name", "cpf", "profile_picture", "groups")
 
 
 class VendedorCreationForm(forms.ModelForm):
@@ -40,7 +44,7 @@ class VendedorCreationForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ("email", "name", "cpf", "profile_picture") 
+        fields = ("email", "name", "cpf", "profile_picture")
 
     def clean(self):
         cleaned_data = super().clean()
@@ -52,19 +56,20 @@ class VendedorCreationForm(forms.ModelForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password"])  
+        user.set_password(self.cleaned_data["password"])
         if commit:
             user.save()
         return user
 
+
 class ProdutoForm(forms.ModelForm):
     class Meta:
         model = Produto
-        fields = ['name', 'price', 'quantity', 'description', 'product_picture', 'fornecedor', 'categoria']
+        fields = ['name', 'price', 'quantity', 'description',
+                  'product_picture', 'fornecedor', 'categoria']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Adiciona classes CSS para estilização (opcional)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
-            

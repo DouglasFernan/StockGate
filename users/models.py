@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, MinLengthValidator
 
 
 class CustomUserManager(BaseUserManager):
@@ -39,7 +39,7 @@ class CustomUser(AbstractUser):
     USERNAME_FIELD = "email"
     email = models.EmailField("email", unique=True)
     name = models.CharField("name", max_length=150)
-    cpf = models.CharField("cpf", max_length=15)
+    cpf = models.CharField("CPF", max_length=14, unique=True, validators=[MinLengthValidator(14)])    
     profile_picture = models.ImageField(
         upload_to='profile_pictures/', null=True, blank=True, default='profile_pictures/default.jpg')
     REQUIRED_FIELDS = []
@@ -63,8 +63,8 @@ class Fornecedor(models.Model):
     description = models.TextField("description", blank=True)
 
     class Meta:
-        verbose_name = "Fornecedor"  
-        verbose_name_plural = "Fornecedores"  
+        verbose_name = "Fornecedor"
+        verbose_name_plural = "Fornecedores"
 
     def __str__(self):
         return f"Venda {self.pk} - {self.cliente}"
@@ -184,5 +184,5 @@ class Vendas(models.Model):
     total = models.DecimalField("total", max_digits=10, decimal_places=2)
 
     class Meta:
-        verbose_name = "Venda"  
-        verbose_name_plural = "Vendas"  
+        verbose_name = "Venda"
+        verbose_name_plural = "Vendas"

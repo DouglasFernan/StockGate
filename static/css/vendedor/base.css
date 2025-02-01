@@ -84,11 +84,12 @@ body {
     text-decoration: none;
     display: flex;
     align-items: center;
+    height: 15px;
 }
 
-.dropdown-modal .modal-content ul li a:hover {
+.dropdown-modal .modal-content ul li:hover {
     background-color: #CCE8FA;
-    color: #0C7FDA;
+    font-weight: bold;
 }
 
 .menu-icon {
