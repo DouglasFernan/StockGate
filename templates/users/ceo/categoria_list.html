@@ -3,7 +3,7 @@
 {% block title %}Gerenciar Categorias{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/ceo/gerenciar_categorias.css' %}">
-<script src="{% static 'js/ceo/produtos.js' %}"></script>
+<script src="{% static 'js/ceo/create_user.js' %}"></script>
 {% endblock %}
 {% block content %}
 <section id="core">
@@ -20,7 +20,7 @@
             </div>
             <div>
                 <a href="">
-                    <button class="btn-new-user">Nova Categoria</button>
+                    <button id="open-modal" class="btn-new-user">Nova Categoria</button>
                 </a>
             </div>
         </div>
@@ -28,12 +28,19 @@
     <div id="users-container">
         <div class="categorias">
             {% for category in object_list %}
-                <div id="open-modal" class="box" 
+                <div class="box" 
                      data-category-id="{{ category.id }}"
                      data-category-name="{{ category.name }}"
                      data-category-desc="{{ category.description }}">
-                    <div id="category_name">{{ category.name }}</div>
-                    <div id="category_desc">{{ category.description }}</div>
+                    <div id="edit-div">
+                        <button class="btn-edit">
+                            <img src="{% static 'images/ceo/edit.png' %}" alt="Edit"> Editar
+                        </button>                                                       
+                    </div>
+                    <div id="categoria-info">
+                        <div id="category_name">{{ category.name }}</div>
+                        <div id="category_desc">{{ category.description }}</div>
+                    </div>
                 </div>
             {% empty %}
                 <h5>No data yet</h5>
@@ -43,22 +50,35 @@
 </section>
 
 <!-- Modal para edição de categorias -->
-<section class="modal">
-    <form id="form" method="post">
-        {% csrf_token %}
-        <div class="top-2">
-            <div class="area-1">
-                <input type="text" name="name" id="category-name" placeholder="Nome da Categoria" required>
+<section class="modal {% if modal_open %}show{% endif %}">
+    <div >
+        <form method="post" action="{% url 'gerenciar_categorias' %}" id="form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div id="create-user-form">
+
+                <div class="input-item">
+                    <label for="{{ form.name.id_for_label }}">Nome</label>
+                    <input placeholder="Nome" type="text" id="{{ form.name.id_for_label }}" name="{{ form.name.html_name }}" value="{{ form.name.value|default:'' }}" class="form-control">
+                    <div class="error">
+                        {% for error in form.name.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="input-item">
+                    <label for="{{ form.description.id_for_label }}">Descrição</label>
+                    <input placeholder="Descrição" type="text" id="{{ form.description.id_for_label }}" name="{{ form.description.html_name }}" value="{{ form.description.value|default:'' }}" class="form-control">
+                    <div class="error">
+                        {% for error in form.description.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
             </div>
-            <div class="area-2">
-                <textarea name="description" id="category-description" placeholder="Descrição (opcional)" rows="3"></textarea>
-            </div>
-        </div>
-        <div class="down">
-            <div class="area-3">
-                <button type="submit" class="btn-new-user-2">Salvar Categoria</button>
-            </div>
-        </div>
-    </form>
+            <button class="btn-new-user-3" type="submit">Criar Categoria</button>
+        </form>
+    </div>
 </section>
 {% endblock %}

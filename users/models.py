@@ -75,8 +75,8 @@ class Fornecedor(models.Model):
 
 
 class Categoria(models.Model):
-    name = models.CharField("name", max_length=100)
-    description = models.TextField("description", blank=True)
+    name = models.CharField("name", max_length=40)
+    description = models.TextField("description", max_length=115)
 
     def __str__(self):
         return self.name

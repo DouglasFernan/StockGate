@@ -75,6 +75,12 @@ class ProdutoForm(forms.ModelForm):
             field.widget.attrs.update({'class': 'form-control'})
 
 
+class CategoriaForm(forms.ModelForm):
+    class Meta:
+        model = Categoria
+        fields = ['name', 'description']
+
+
 class ProdutoChangeForm(forms.ModelForm):
     class Meta:
         model = Produto

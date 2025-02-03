@@ -123,17 +123,37 @@ class UsersListView(ListView):
             })
 
 
-class CreateProdutoView(CreateView):
-    model = models.Produto
-    form_class = forms.ProdutoForm
-    template_name = 'users/ceo/create_produto.html'
-    # Após a criação, redireciona para a lista de produtos
-    success_url = reverse_lazy('gerenciar_produtos')
-
-
 class CategoriaListView(ListView):
     model = models.Categoria
     template_name = 'users/ceo/categoria_list.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search = self.request.GET.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(name__icontains=search))
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Exibe o formulário de criação
+        context["form"] = forms.CategoriaForm()
+        context["object_list"] = self.get_queryset()  # Lista de usuários
+        context["modal_open"] = False  # Inicialmente o modal está fechado
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = forms.CategoriaForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('gerenciar_categorias'))
+        else:
+            return render(request, 'users/ceo/categoria_list.html', {
+                'form': form,
+                'modal_open': True,  # Controla a abertura do modal
+                'object_list': models.Categoria.objects.all(),  # Lista de usuários
+            })
 
 
 class FornecedorListView(ListView):
