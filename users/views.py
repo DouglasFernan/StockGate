@@ -123,31 +123,6 @@ class UsersListView(ListView):
             })
 
 
-# def create_user(request):
-#     if request.method == 'POST':
-#         form = forms.CustomUserCreationForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             form.save()
-#             return redirect(reverse('gerenciar_usuarios'))
-#         else:
-#             # Quando o formulário não é válido, renderiza a página novamente
-#             # com a listagem de usuários, o formulário com erros e o modal aberto
-#             return render(request, 'users/ceo/customuser_list.html', {
-#                 'form': form,
-#                 'modal_open': True,  # Controla a abertura do modal
-#                 'object_list': models.CustomUser.objects.all(),  # Lista de usuários
-#             })
-
-#     else:
-#         # Inicializa o formulário vazio na primeira vez
-#         form = forms.CustomUserCreationForm()
-#         return render(request, 'users/ceo/customuser_list.html', {
-#             'form': form,
-#             'modal_open': False,  # Inicialmente o modal está fechado
-#             'object_list': models.CustomUser.objects.all(),  # Lista de usuários
-#         })
-
-
 class CreateProdutoView(CreateView):
     model = models.Produto
     form_class = forms.ProdutoForm
@@ -177,6 +152,27 @@ class ProdutoListView(ListView):
             queryset = queryset.filter(
                 Q(name__icontains=search))
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Exibe o formulário de criação
+        context["form"] = forms.ProdutoForm()
+        context["object_list"] = self.get_queryset()  # Lista de usuários
+        context["modal_open"] = False  # Inicialmente o modal está fechado
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = forms.ProdutoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            # Redireciona após salvar
+            return redirect(reverse('gerenciar_produtos'))
+        else:
+            return render(request, 'users/ceo/produto_list.html', {
+                'form': form,
+                'modal_open': True,  # Controla a abertura do modal
+                'object_list': models.Produto.objects.all(),  # Lista de usuários
+            })
 
 
 # ---------  Gerente   ------------

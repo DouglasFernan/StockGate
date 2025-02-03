@@ -73,3 +73,10 @@ class ProdutoForm(forms.ModelForm):
         # Adiciona classes CSS para estilização (opcional)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
+
+
+class ProdutoChangeForm(forms.ModelForm):
+    class Meta:
+        model = Produto
+        fields = ['name', 'price', 'quantity', 'description',
+                  'product_picture', 'fornecedor', 'categoria']

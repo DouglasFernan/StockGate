@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
-from django.core.validators import RegexValidator, MinLengthValidator
+from django.core.validators import RegexValidator, MinLengthValidator, MaxLengthValidator, MinValueValidator, MaxValueValidator
 
 
 class CustomUserManager(BaseUserManager):
@@ -39,7 +39,8 @@ class CustomUser(AbstractUser):
     USERNAME_FIELD = "email"
     email = models.EmailField("email", unique=True)
     name = models.CharField("name", max_length=150)
-    cpf = models.CharField("CPF", max_length=14, unique=True, validators=[MinLengthValidator(14)])    
+    cpf = models.CharField("CPF", max_length=14, unique=True,
+                           validators=[MinLengthValidator(14)])
     profile_picture = models.ImageField(
         upload_to='profile_pictures/', null=True, blank=True, default='profile_pictures/default.jpg')
     REQUIRED_FIELDS = []
@@ -83,17 +84,19 @@ class Categoria(models.Model):
 
 class Produto(models.Model):
     name = models.CharField("name", max_length=150)
-    price = models.DecimalField("price", max_digits=10, decimal_places=2)
-    quantity = models.PositiveIntegerField("quantity")
+    price = models.DecimalField("price", max_digits=10, decimal_places=2, validators=[
+                                MinValueValidator(1), MaxValueValidator(100000)])
+    quantity = models.PositiveIntegerField(
+        "quantity", validators=[MinValueValidator(1), MaxValueValidator(100000)])
     description = models.TextField("description", blank=True)
     product_picture = models.ImageField(
         upload_to='product_pictures/', null=True, blank=True, default='product_pictures/default.jpg'
     )
     fornecedor = models.ForeignKey(
-        Fornecedor, verbose_name=_("Fornecedor"), null=True, on_delete=models.SET_NULL
+        Fornecedor, verbose_name=_("Fornecedor"), on_delete=models.DO_NOTHING
     )
     categoria = models.ForeignKey(
-        Categoria, verbose_name=_("Categoria"), on_delete=models.CASCADE
+        Categoria, verbose_name=_("Categoria"), on_delete=models.DO_NOTHING
     )
 
     def __str__(self):
