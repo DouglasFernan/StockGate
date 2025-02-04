@@ -42,11 +42,11 @@
                             <span id="name" class="user-name">{{ user.name }}</span>
                             <span class="user-name"><span style="font-size: 14px; color: #A0AEC0; font-weight: 400;">Empresa:  </span>{{ user.company }}</span>
                             <span id="email" class="user-name"><span style="font-size: 14px; color: #A0AEC0; font-weight: 400;">Email:  </span>{{ user.email }}</span>
-                            <span class="user-name"><span style="font-size: 14px; color: #A0AEC0; font-weight: 400;">Descrição: </span>{{ user.description }}</span>
+                            <!-- <span class="user-name"><span style="font-size: 14px; color: #A0AEC0; font-weight: 400;">Descrição: </span>{{ user.description }}</span> -->
                         </div>
                         <div></div>
+                        <div></div>
                         <span></span>
-                        <span class="user-last-login">{{ user.last_login|date:"d-m-Y" }}</span>
                         <div class="user-actions">
                             <a href="">
                                 <button class="btn-edit">
@@ -104,7 +104,7 @@
                     </div>
                 </div>                
                 
-                <div class="input-item">
+                <!-- <div class="input-item">
                     <label for="{{ form.description.id_for_label }}">Descrição</label>
                     <input placeholder="Descrição" type="textarea" id="{{ form.description.id_for_label }}" name="{{ form.description.html_name }}" value="{{ form.description.value|default:'' }}" class="form-control">
                     <div class="error">
@@ -112,7 +112,7 @@
                             <div>{{ error }}</div>
                         {% endfor %}
                     </div>
-                </div>
+                </div> -->
 
             </div>
             <button class="btn-new-user-3" type="submit">Criar Fornecedor</button>
