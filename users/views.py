@@ -160,6 +160,34 @@ class FornecedorListView(ListView):
     model = models.Fornecedor
     template_name = 'users/ceo/fornecedor_list.html'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search = self.request.GET.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(name__icontains=search))
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Exibe o formulário de criação
+        context["form"] = forms.FornecedorForm()
+        context["object_list"] = self.get_queryset()  # Lista de usuários
+        context["modal_open"] = False  # Inicialmente o modal está fechado
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = forms.FornecedorForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('fornecedores'))
+        else:
+            return render(request, 'users/ceo/fornecedor_list.html', {
+                'form': form,
+                'modal_open': True,  # Controla a abertura do modal
+                'object_list': models.Fornecedor.objects.all(),  # Lista de usuários
+            })
+
 
 class ProdutoListView(ListView):
     model = models.Produto

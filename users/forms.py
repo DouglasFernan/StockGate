@@ -81,6 +81,12 @@ class CategoriaForm(forms.ModelForm):
         fields = ['name', 'description']
 
 
+class FornecedorForm(forms.ModelForm):
+    class Meta:
+        model = Fornecedor
+        fields = ['name', 'company', 'email', 'description']
+
+
 class ProdutoChangeForm(forms.ModelForm):
     class Meta:
         model = Produto
