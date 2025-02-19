@@ -3,6 +3,7 @@
 {% block title %}Gerenciar Usuários{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/gerente/customuser_list.css' %}">
+<script src="{% static 'js/ceo/create_user.js' %}"></script>
 {% endblock %}
 {% block content %}
 <section id="core">
@@ -18,8 +19,8 @@
                 </form>
             </div>
             <div>
-            <a href="{% url 'gerente_create_user_vendedor' %}">
-                <button class="btn-new-user">Novo Vendedor</button>
+            <a href="">
+                <button class="btn-new-user" id="open-modal">Novo Vendedor</button>
             </a>
             </div>
         </div>
@@ -68,6 +69,76 @@
                 </div>
             {% endfor %}
         </ul>
+    </div>
+</section>
+
+<section class="modal {% if modal_open %}show{% endif %}">
+    <div >
+        <form method="post" action="{% url 'gerente_gerenciar_usuarios' %}" id="form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div id="create-user-form">
+                <div class="input-item">
+                    <label for="{{ form.email.id_for_label }}">E-mail</label>
+                    <input placeholder="Email" type="email" id="{{ form.email.id_for_label }}" name="{{ form.email.html_name }}" value="{{ form.email.value|default:'' }}" class="form-control">
+                    <div class="error">
+                        {% for error in form.email.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="input-item">
+                    <label for="{{ form.name.id_for_label }}">Nome</label>
+                    <input placeholder="Nome" type="text" id="{{ form.name.id_for_label }}" name="{{ form.name.html_name }}" value="{{ form.name.value|default:'' }}" class="form-control">
+                    <div class="error">
+                        {% for error in form.name.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="input-item">
+                    <label for="{{ form.cpf.id_for_label }}">CPF</label>
+                    <input placeholder="CPF" type="text" id="{{ form.cpf.id_for_label }}" name="{{ form.cpf.html_name }}" value="{{ form.cpf.value|default:'' }}" class="form-control">
+                    <div class="error">
+                        {% for error in form.cpf.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="input-item">
+                    <label for="{{ form.profile_picture.id_for_label }}">Foto de Perfil</label>
+                    <input type="file" id="{{ form.profile_picture.id_for_label }}" name="{{ form.profile_picture.html_name }}" class="form-control">
+                    <div class="error">
+                        {% for error in form.profile_picture.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="input-item">
+                    <label for="{{ form.password1.id_for_label }}">Senha</label>
+                    <input placeholder="Digite sua senha" type="password" id="{{ form.password1.id_for_label }}" name="{{ form.password1.html_name }}" class="form-control">
+                    <div class="error">
+                        {% for error in form.password1.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="input-item">
+                    <label for="{{ form.password2.id_for_label }}">Confirmar Senha</label>
+                    <input placeholder="Confirme sua senha" type="password" id="{{ form.password2.id_for_label }}" name="{{ form.password2.html_name }}" class="form-control">
+                    <div class="error">
+                        {% for error in form.password2.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <button class="btn-new-user-2" type="submit">Criar Usuário</button>
+        </form>
     </div>
 </section>
 {% endblock %}

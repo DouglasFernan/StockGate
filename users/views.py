@@ -203,23 +203,21 @@ class ProdutoListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Exibe o formulário de criação
         context["form"] = forms.ProdutoForm()
-        context["object_list"] = self.get_queryset()  # Lista de usuários
-        context["modal_open"] = False  # Inicialmente o modal está fechado
+        context["object_list"] = self.get_queryset()
+        context["modal_open"] = False
         return context
 
     def post(self, request, *args, **kwargs):
         form = forms.ProdutoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            # Redireciona após salvar
             return redirect(reverse('gerenciar_produtos'))
         else:
             return render(request, 'users/ceo/produto_list.html', {
                 'form': form,
-                'modal_open': True,  # Controla a abertura do modal
-                'object_list': models.Produto.objects.all(),  # Lista de usuários
+                'modal_open': True,
+                'object_list': models.Produto.objects.all(),
             })
 
 
@@ -244,20 +242,41 @@ class GerenteVendasListView(ListView):
         return queryset.order_by(order)
 
 
-class CreateUserVendedorView(CreateView):
+class GerenteVendedorListView(ListView):
     model = models.CustomUser
-    form_class = forms.VendedorCreationForm
-    template_name = 'users/gerente/create_user_vendedor.html'
-    success_url = reverse_lazy('gerente_gerenciar_usuarios')
+    template_name = 'users/gerente/customuser_list.html'
 
-    def form_valid(self, form):
-        user = form.save(commit=False)
-        user.save()
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search = self.request.GET.get('search')
+        vendedor_group = Group.objects.get(name="Vendedor")
+        queryset = queryset.filter(groups=vendedor_group)
+        if search:
+            queryset = queryset.filter(
+                Q(name__icontains=search) |
+                Q(email__icontains=search)
+            )
+        return queryset
 
-        vendedor_group, created = Group.objects.get_or_create(name="Vendedor")
-        user.groups.add(vendedor_group)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = forms.VendedorCreationForm()
+        context["object_list"] = self.get_queryset()
+        context["modal_open"] = False
+        return context
 
-        return super().form_valid(form)
+    def post(self, request, *args, **kwargs):
+        form = forms.VendedorCreationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            # Redireciona após salvar
+            return redirect(reverse('gerente_gerenciar_usuarios'))
+        else:
+            return render(request, 'users/gerente/customuser_list.html', {
+                'form': form,
+                'modal_open': True,  # Abre o modal em caso de erro
+                'object_list': self.get_queryset(),  # Lista de vendedores
+            })
 
 
 class GerenteUsersListView(ListView):
@@ -272,10 +291,65 @@ class GerenteCategoriaListView(ListView):
     model = models.Categoria
     template_name = 'users/gerente/categoria_list.html'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search = self.request.GET.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(name__icontains=search))
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = forms.CategoriaForm()
+        context["object_list"] = self.get_queryset()
+        context["modal_open"] = False
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = forms.CategoriaForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('gerente_gerenciar_categorias'))
+        else:
+            return render(request, 'users/gerente/categoria_list.html', {
+                'form': form,
+                'modal_open': True,
+                'object_list': models.Categoria.objects.all(),
+            })
+
 
 class GerenteFornecedorListView(ListView):
     model = models.Fornecedor
     template_name = 'users/gerente/fornecedor_list.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search = self.request.GET.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(name__icontains=search))
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = forms.FornecedorForm()
+        context["object_list"] = self.get_queryset()  
+        context["modal_open"] = False  
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = forms.FornecedorForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('gerente_fornecedores'))
+        else:
+            return render(request, 'users/gerente/fornecedor_list.html', {
+                'form': form,
+                'modal_open': True,  # Controla a abertura do modal
+                'object_list': models.Fornecedor.objects.all(),  # Lista de usuários
+            })
+
 
 
 class GerenteProdutoListView(ListView):
@@ -289,6 +363,25 @@ class GerenteProdutoListView(ListView):
             queryset = queryset.filter(
                 Q(name__icontains=search))
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = forms.ProdutoForm()
+        context["object_list"] = self.get_queryset()
+        context["modal_open"] = False
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = forms.ProdutoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('gerente_gerenciar_produtos'))
+        else:
+            return render(request, 'users/gerente/produto_list.html', {
+                'form': form,
+                'modal_open': True,
+                'object_list': models.Produto.objects.all(),
+            })
 
 
 class CreateProdutoGerenteView(CreateView):

@@ -1,17 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const modal = document.querySelector('.modal'); // Seleciona o modal
-    const openModalButtons = document.querySelectorAll('#open-modal'); // Seleciona todos os botões "Novo Usuário"
-    const closeModalArea = document.querySelector('.modal'); // Seleciona o modal inteiro para fechar clicando fora
-    const errorMessages = document.querySelectorAll('.error'); // Seleciona todas as mensagens de erro
-    const form = document.getElementById('form'); // Seleciona o formulário
-    const userIdField = document.getElementById('user_id'); // Campo oculto do ID do usuário
+    const modal = document.querySelector('.modal'); 
+    const openModalButtons = document.querySelectorAll('#open-modal');
+    const closeModalArea = document.querySelector('.modal');
+    const errorMessages = document.querySelectorAll('.error'); 
+    const form = document.getElementById('form'); 
+    const userIdField = document.getElementById('user_id'); 
+    const deleteButtons = document.querySelectorAll('.delete-user'); // Botões de "Deletar"
 
     // Função para aplicar a máscara de CPF
     function applyCpfMask(cpfField) {
         cpfField.addEventListener('input', function (event) {
-            let value = event.target.value.replace(/\D/g, ''); // Remove tudo que não é dígito
+            let value = event.target.value.replace(/\D/g, ''); 
             if (value.length > 11) {
-                value = value.substring(0, 11); // Limita a 11 caracteres
+                value = value.substring(0, 11);
             }
 
             // Aplica a máscara
@@ -29,19 +30,17 @@ document.addEventListener('DOMContentLoaded', () => {
         applyCpfMask(cpfField);
     }
 
-    // Função para limpar os erros do formulário
     function clearErrors() {
         errorMessages.forEach(error => {
             error.innerHTML = ''; // Remove o conteúdo das divs de erro
         });
     }
 
-    // Função para limpar os campos do formulário
     function clearFormFields() {
         form.reset(); // Reseta todos os campos do formulário
     }
 
-    // Mostrar o modal ao clicar no botão "Novo Usuário" ou "Editar Usuário"
+    // Abre o modal de criação
     openModalButtons.forEach(button => {
         button.addEventListener('click', (event) => {
             event.preventDefault(); // Impede o comportamento padrão do botão
@@ -51,12 +50,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Fechar o modal ao clicar fora do conteúdo do formulário
+    // Fecha o modal
     closeModalArea.addEventListener('click', (event) => {
         if (event.target === closeModalArea) {
             modal.classList.remove('show'); // Remove a classe para esconder o modal
         }
     });
-});
 
-// quase desistindo de formulario kkk
+    // Adiciona lógica de exclusão
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault(); // Evita comportamento padrão
+            const userId = button.dataset.userId; // Obtém o ID do usuário
+            const confirmation = confirm("Tem certeza que deseja deletar este usuário?"); // Confirmação
+
+            if (confirmation) {
+                // Faz uma requisição para deletar o usuário
+                fetch(`/delete_user/${userId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCsrfToken(), // Obtém o token CSRF dinamicamente
+                        'Content-Type': 'application/json',
+                    },
+                }).then(response => {
+                    if (response.ok) {
+                        alert("Usuário deletado com sucesso!");
+                        location.reload(); // Recarrega a página
+                    } else {
+                        alert("Erro ao deletar o usuário.");
+                    }
+                });
+            }
+        });
+    });
+
+    // Função para obter o token CSRF
+    function getCsrfToken() {
+        return document.querySelector('[name=csrfmiddlewaretoken]').value;
+    }
+});

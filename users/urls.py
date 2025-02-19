@@ -20,8 +20,8 @@ urlpatterns = [
 
     # -------- Gerente ------------
     path('gerente/historico_de_vendas/', views.GerenteVendasListView.as_view(), name="gerente_dashboard"),
-    path('gerente/gerenciar_vendedores/', views.GerenteUsersListView.as_view(), name="gerente_gerenciar_usuarios"),
-    path('gerente/gerenciar_vendedores/novo/', views.CreateUserVendedorView.as_view(), name='gerente_create_user_vendedor'),
+    path('gerente/gerenciar_vendedores/', views.GerenteVendedorListView.as_view(), name="gerente_gerenciar_usuarios"),
+    # path('gerente/gerenciar_vendedores/novo/', views.GerenteVendedorListView.as_view(), name='gerente_create_user_vendedor'),
     path('gerente/gerenciar_produtos/', views.GerenteProdutoListView.as_view(), name="gerente_gerenciar_produtos"),
     path('gerente/gerenciar_produtos/novo/', views.CreateProdutoGerenteView.as_view(), name='gerente_create_produto'),
     path('gerente/gerenciar_categorias/', views.GerenteCategoriaListView.as_view(), name="gerente_gerenciar_categorias"),

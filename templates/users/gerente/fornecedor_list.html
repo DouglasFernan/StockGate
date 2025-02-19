@@ -3,12 +3,13 @@
 {% block title %}Gerenciar Fornecedores{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/gerente/fornecedores.css' %}">
+<script src="{% static 'js/ceo/create_user.js' %}"></script>
 {% endblock %}
 {% block content %}
 <section id="core">
     <div class="top">
         <div class="h5">
-            <h5>Fornecedores</h5>
+            <h5>Gerenciar Fornecedores</h5>
         </div>
         <div class="form">
             <div>
@@ -19,7 +20,7 @@
             </div>
             <div>
             <a href="">
-                <button class="btn-new-user">Novo Fornecedor</button>
+                <button class="btn-new-user" id="open-modal" >Novo Fornecedor</button>
             </a>
             </div>
         </div>
@@ -39,13 +40,13 @@
                     <div class="user-info">
                         <div class="user-details">
                             <span id="name" class="user-name">{{ user.name }}</span>
-                            <span class="user-name"><span style="font-size: 14px; color: #A0AEC0; font-weight: 400;">Empresa: </span>{{ user.company }}</span>
-                            <span class="user-name"><span style="font-size: 14px; color: #A0AEC0; font-weight: 400;">Email: </span>{{ user.email }}</span>
-                            <span class="user-name"><span style="font-size: 14px; color: #A0AEC0; font-weight: 400;">Descrição: </span>{{ user.description }}</span>
+                            <span class="user-name"><span style="font-size: 14px; color: #A0AEC0; font-weight: 400;">Empresa:  </span>{{ user.company }}</span>
+                            <span id="email" class="user-name"><span style="font-size: 14px; color: #A0AEC0; font-weight: 400;">Email:  </span>{{ user.email }}</span>
+                            <!-- <span class="user-name"><span style="font-size: 14px; color: #A0AEC0; font-weight: 400;">Descrição: </span>{{ user.description }}</span> -->
                         </div>
                         <div></div>
+                        <div></div>
                         <span></span>
-                        <span class="user-last-login">{{ user.last_login|date:"d-m-Y" }}</span>
                         <div class="user-actions">
                             <a href="">
                                 <button class="btn-edit">
@@ -66,5 +67,47 @@
         </ul>
     </div>
 </section>
+
+<section class="modal {% if modal_open %}show{% endif %}">
+    <div >
+        <form method="post" action="{% url 'gerente_fornecedores' %}" id="form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div id="create-user-form">
+
+                <div class="input-item">
+                    <label for="{{ form.name.id_for_label }}">Nome</label>
+                    <input placeholder="Nome" type="text" id="{{ form.name.id_for_label }}" name="{{ form.name.html_name }}" value="{{ form.name.value|default:'' }}" class="form-control">
+                    <div class="error">
+                        {% for error in form.name.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="input-item">
+                    <label for="{{ form.company.id_for_label }}">Empresa</label>
+                    <input placeholder="Empresa" type="text" id="{{ form.company.id_for_label }}" name="{{ form.company.html_name }}" value="{{ form.company.value|default:'' }}" class="form-control">
+                    <div class="error">
+                        {% for error in form.company.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="input-item">
+                    <label for="{{ form.email.id_for_label }}">Email</label>
+                    <input placeholder="Email" type="email" id="{{ form.email.id_for_label }}" name="{{ form.email.html_name }}" value="{{ form.email.value|default:'' }}" class="form-control">
+                    <div class="error">
+                        {% for error in form.email.errors %}
+                            <div>{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>                
+            </div>
+            <button class="btn-new-user-3" type="submit">Criar Fornecedor</button>
+        </form>
+    </div>
+</section>
+
 {% endblock %}
 
