@@ -3,7 +3,7 @@
 {% block title %}Gerenciar Usuários{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/gerente/customuser_list.css' %}">
-<script src="{% static 'js/ceo/create_user.js' %}"></script>
+<script src="{% static 'js/gerente/manter_vendedores.js' %}"></script>
 {% endblock %}
 {% block content %}
 <section id="core">
@@ -59,11 +59,11 @@
                                     <img src="{% static 'images/ceo/edit.png' %}" alt="Edit"> Editar
                                 </button>
                             </a>
-                            <a href="">
-                                <button class="btn-delete">
+                            <a href=""> 
+                                <button class="btn-delete" data-user-id="{{ user.id }}">
                                     <img src="{% static 'images/ceo/trub.png' %}" alt="Delete"> Deletar
-                                </button>
-                            </a>
+                                </button>                           
+                            </a>                            
                         </div>
                     </div>    
                 </div>
@@ -141,5 +141,6 @@
         </form>
     </div>
 </section>
+
 {% endblock %}
 

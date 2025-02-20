@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.contrib.auth import logout
 from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -6,6 +7,7 @@ from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views import View
 from django.views.generic import FormView, ListView
 from django.db.models import Q
 from django.urls import reverse_lazy, reverse
@@ -278,6 +280,21 @@ class GerenteVendedorListView(ListView):
                 'object_list': self.get_queryset(),  # Lista de vendedores
             })
 
+
+class GerenteDeletarVendedorView(View):
+    def post(self, request, *args, **kwargs):
+        user_id = kwargs.get("pk")
+        CustomUser = get_user_model()
+        vendedor = get_object_or_404(CustomUser, id=user_id)
+
+        vendedor_group = Group.objects.get(name="Vendedor")
+        if vendedor_group in vendedor.groups.all():
+            vendedor.delete()
+            messages.success(request, "Vendedor deletado com sucesso!")
+        else:
+            messages.error(request, "Erro: O usuário não pertence ao grupo Vendedor.")
+
+        return redirect("gerente_gerenciar_usuarios")
 
 class GerenteUsersListView(ListView):
     model = models.CustomUser
