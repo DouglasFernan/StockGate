@@ -14,8 +14,11 @@ urlpatterns = [
     path('ceo/dashboard/', views.ceo_dashboard, name='ceo_dashboard'),
     path('ceo/historico_de_vendas/', views.VendasListView.as_view(), name="historico_de_vendas"),
     path('ceo/gerenciar_usuarios/', views.UsersListView.as_view(), name="gerenciar_usuarios"),
+    path("delete_user/<int:pk>/", views.CeoDeletarUsuarioView.as_view(), name="deletar_usuario"),
     path('ceo/gerenciar_produtos/', views.ProdutoListView.as_view(), name="gerenciar_produtos"),
+    path('delete_produto/<int:pk>/', views.ProdutoDeleteView.as_view(), name='deletar_produto'),
     path('ceo/gerenciar_categorias/', views.CategoriaListView.as_view(), name="gerenciar_categorias"),
+    path('delete_categoria/<int:pk>/', views.CategoriaDeleteView.as_view(), name='deletar_categoria'),
     path('ceo/fornecedores/', views.FornecedorListView.as_view(), name="fornecedores"),
 
     # -------- Gerente ------------

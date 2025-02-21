@@ -95,7 +95,7 @@ class Produto(models.Model):
         Fornecedor, verbose_name=_("Fornecedor"), on_delete=models.DO_NOTHING
     )
     categoria = models.ForeignKey(
-        Categoria, verbose_name=_("Categoria"), on_delete=models.DO_NOTHING
+        Categoria, verbose_name=_("Categoria"), on_delete=models.SET_DEFAULT, default=4
     )
 
     def __str__(self):

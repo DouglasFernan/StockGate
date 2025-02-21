@@ -178,6 +178,12 @@ h5 {
     align-items: center;
     justify-content: end;
     margin-right: 25px;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+#edit-div a {
+    gap: 10px;
 }
 
 .btn-edit, .btn-delete {
@@ -210,10 +216,6 @@ h5 {
     width: 100%;
     margin-left: 30px;
     flex-wrap: wrap;
-}
-
-#edit-div {
-    margin-top: 20px;
 }
 
 #create-user-form {

@@ -33,9 +33,16 @@
                      data-category-name="{{ category.name }}"
                      data-category-desc="{{ category.description }}">
                     <div id="edit-div">
-                        <button class="btn-edit">
-                            <img src="{% static 'images/ceo/edit.png' %}" alt="Edit"> Editar
-                        </button>                                                       
+                        <a href="">
+                            <button class="btn-edit" data-id="{{ user.id }}">
+                                <img src="{% static 'images/ceo/edit.png' %}" alt="Edit"> 
+                            </button>
+                        </a>
+                        <a href=""> 
+                            <button class="btn-delete" data-user-id="{{ user.id }}">
+                                <img src="{% static 'images/ceo/trub.png' %}" alt="Delete"> 
+                            </button>                           
+                        </a>                                                    
                     </div>
                     <div id="categoria-info">
                         <div id="category_name">{{ category.name }}</div>

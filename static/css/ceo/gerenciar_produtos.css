@@ -194,6 +194,7 @@ form {
     display: flex;
     align-items: center;
     justify-content: end;
+    gap: 10px;
 }
 textarea {
     resize: vertical;

@@ -71,6 +71,23 @@ def ceo_dashboard(request):
     return render(request, 'users/ceo/dashboard.html')
 
 
+class CeoDeletarUsuarioView(View):
+    def post(self, request, *args, **kwargs):
+        user_id = kwargs.get("pk")
+        CustomUser = get_user_model()
+        usuario = get_object_or_404(CustomUser, id=user_id)
+
+        if usuario.is_superuser:
+            messages.error(
+                request, "Erro: Não é permitido excluir superusuários.")
+            return redirect("gerenciar_usuarios")
+
+        usuario.delete()
+        messages.success(request, "Usuário deletado com sucesso!")
+
+        return redirect("gerenciar_usuarios")
+
+
 class VendasListView(ListView):
     model = models.Vendas
     template_name = "users/ceo/historico_de_vendas.html"
@@ -158,6 +175,20 @@ class CategoriaListView(ListView):
             })
 
 
+class CategoriaDeleteView(View):
+    def post(self, request, *args, **kwargs):
+        categoria_id = kwargs.get("pk")
+        categoria = get_object_or_404(models.Categoria, id=categoria_id)
+
+        try:
+            categoria.delete()
+            messages.success(request, "Categoria deletada com sucesso!")
+        except Exception as e:
+            messages.error(request, f"Erro ao deletar categoria: {str(e)}")
+
+        return redirect("gerenciar_categorias")
+
+
 class FornecedorListView(ListView):
     model = models.Fornecedor
     template_name = 'users/ceo/fornecedor_list.html'
@@ -221,6 +252,20 @@ class ProdutoListView(ListView):
                 'modal_open': True,
                 'object_list': models.Produto.objects.all(),
             })
+
+
+class ProdutoDeleteView(View):
+    def post(self, request, *args, **kwargs):
+        product_id = kwargs.get("pk")
+        product = get_object_or_404(models.Produto, id=product_id)
+
+        try:
+            product.delete()
+            messages.success(request, "Produto deletado com sucesso!")
+        except Exception as e:
+            messages.error(request, f"Erro ao deletar produto: {str(e)}")
+
+        return redirect("gerenciar_produtos")
 
 
 # ---------  Gerente   ------------
@@ -292,9 +337,11 @@ class GerenteDeletarVendedorView(View):
             vendedor.delete()
             messages.success(request, "Vendedor deletado com sucesso!")
         else:
-            messages.error(request, "Erro: O usuário não pertence ao grupo Vendedor.")
+            messages.error(
+                request, "Erro: O usuário não pertence ao grupo Vendedor.")
 
         return redirect("gerente_gerenciar_usuarios")
+
 
 class GerenteUsersListView(ListView):
     model = models.CustomUser
@@ -351,8 +398,8 @@ class GerenteFornecedorListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["form"] = forms.FornecedorForm()
-        context["object_list"] = self.get_queryset()  
-        context["modal_open"] = False  
+        context["object_list"] = self.get_queryset()
+        context["modal_open"] = False
         return context
 
     def post(self, request, *args, **kwargs):
@@ -366,7 +413,6 @@ class GerenteFornecedorListView(ListView):
                 'modal_open': True,  # Controla a abertura do modal
                 'object_list': models.Fornecedor.objects.all(),  # Lista de usuários
             })
-
 
 
 class GerenteProdutoListView(ListView):

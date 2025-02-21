@@ -3,7 +3,7 @@
 {% block title %}Gerenciar produtos{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/ceo/gerenciar_produtos.css' %}">
-<script src="{% static 'js/ceo/create_user.js' %}"></script>
+<script src="{% static 'js/ceo/manter_produtos.js' %}"></script>
 {% endblock %}
 {% block content %}
 <section id="core">
@@ -31,9 +31,16 @@
                 {% comment %} <div class="inline"> {% endcomment %}
                     <div class="box">
                         <div id="edit-div">
-                            <button class="btn-edit">
-                                <img src="{% static 'images/ceo/edit.png' %}" alt="Edit"> Editar
-                            </button>                                                       
+                            <a href="">
+                                <button class="btn-edit" data-id="{{ user.id }}">
+                                    <img src="{% static 'images/ceo/edit.png' %}" alt="Edit"> 
+                                </button>
+                            </a>
+                            <a href=""> 
+                                <button class="btn-delete" data-user-id="{{ product.id }}">
+                                    <img src="{% static 'images/ceo/trub.png' %}" alt="Delete"> 
+                                </button>                           
+                            </a>                                                    
                         </div>
                         <div class="user-photo">
                             <img src="{{ product.product_picture.url }}" alt="Foto de {{ product.name }}" />
@@ -50,42 +57,6 @@
         </div>
     </div>
 </section>
-<!-- <section class="modal">
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="top-2">
-            <div class="area-1">
-                <input type="text" name="name" placeholder="Nome do Produto" required>
-                <input type="number" step="0.01" name="price" placeholder="Preço" required>
-                <input type="number" name="quantity" placeholder="Quantidade" required>
-            </div>
-            <div class="area-2">
-                <select name="fornecedor" required>
-                    <option value="" selected>Selecione o Fornecedor</option>
-                    {% for fornecedor in fornecedores %}
-                    <option value="{{ fornecedor.id }}">{{ fornecedor.name }}</option>
-                    {% endfor %}
-                </select>
-                <select name="categoria" required>
-                    <option value="" selected>Selecione a Categoria</option>
-                    {% for categoria in categorias %}
-                    <option value="{{ categoria.id }}">{{ categoria.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </div>
-        <div class="down">
-            <div class="area-3">
-                <textarea name="description" placeholder="Descrição (opcional)" rows="3"></textarea>
-                <input type="file" name="product_picture" accept="image/*">
-            </div>
-            <div class="area-4">
-                <button type="submit" class="btn-new-user-2">Salvar Produto</button>
-            </div>
-        </div>
-    </form>
-</section> -->
-
 <section class="modal {% if modal_open %}show{% endif %}">
     <div >
         <form method="post" action="{% url 'gerenciar_produtos' %}" id="form" enctype="multipart/form-data">

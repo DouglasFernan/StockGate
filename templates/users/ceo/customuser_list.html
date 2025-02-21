@@ -3,7 +3,7 @@
 {% block title %}Gerenciar Usuários{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/ceo/customuser_list.css' %}">
-<script src="{% static 'js/ceo/create_user.js' %}"></script>
+<script src="{% static 'js/ceo/manter_usuarios.js' %}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.6/inputmask.min.js"></script>
 {% endblock %}
 {% block content %}
@@ -60,11 +60,11 @@
                                     <img src="{% static 'images/ceo/edit.png' %}" alt="Edit"> Editar
                                 </button>
                             </a>
-                            <a href="">
-                                <button class="btn-delete">
+                            <a href=""> 
+                                <button class="btn-delete" data-user-id="{{ user.id }}">
                                     <img src="{% static 'images/ceo/trub.png' %}" alt="Delete"> Deletar
-                                </button>
-                            </a>
+                                </button>                           
+                            </a>  
                         </div>
                     </div>    
                 </div>
