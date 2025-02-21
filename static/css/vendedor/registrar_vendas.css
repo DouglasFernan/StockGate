@@ -26,9 +26,18 @@ h5 {
 
 #users-container {
     display: flex;
-    align-items: start;
+    align-items: flex-start;
     justify-content: start;
-    flex-direction: column;
+
+}
+
+#users-container .input-item {
+    margin-bottom: 10px; /* Ajuste o espaçamento entre os campos */
+}
+
+.container {
+    border-right: 2px solid #d9d9d9;
+    width: 54%;
 }
 
 .fields {
@@ -37,7 +46,7 @@ h5 {
     display: flex;
     flex-direction: column;
     gap: 30px;
-    padding-right: 35px;
+    padding-right: 40px;
     border-right: 2px solid #d9d9d9;
 }
 
@@ -62,89 +71,6 @@ h5 {
     gap: 15px;
 }
 
-/* Inputs e selects */
-input, select {
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    padding: 10px 15px;
-    background-color: #f7f7f7;
-    color: #5D7285;
-    font-size: 14px;
-    height: 44px;
-    box-sizing: border-box;
-}
-
-.area-1 input, .area-1 select, 
-.area-3 input, .area-3 select {
-    width: 450px; /* Define largura fixa */
-}
-
-input::placeholder, select {
-    color: #5D7285; /* Placeholder com a mesma cor da fonte */
-}
-
-select {
-    color: #5D7285;
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-}
-
-
-/* Foco nos inputs e selects */
-input:focus, select:focus {
-    border-color: #5D7285;
-    outline: none;
-    box-shadow: 0 0 5px rgba(93, 114, 133, 0.5);
-}
-
-/* Container de forma de pagamento */
-.input-container {
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    padding: 10px 15px;
-    background-color: #f7f7f7;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    width: 416px;
-    color: #5D7285;
-
-}
-
-#span {
-    font-size: 14px;
-}
-
-.input-container label {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    color: #2D3748;
-    cursor: pointer;
-}
-
-.input-container input[type="radio"] {
-    height: 10px;
-    width: 10px;
-}
-
-/* Estilo quando o botão está selecionado */
-.input-container input[type="radio"]:checked + label {
-    color: #2D3748;
-    font-weight: bold;
-}
-
-.input-container input[type="radio"]:checked + label img {
-    filter: brightness(0.5);
-}
-
-.btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .btn-new-user {
     padding: 8px 12px;
     font-size: 14px;
@@ -153,10 +79,7 @@ input:focus, select:focus {
     color: white;
     cursor: pointer;
     border-radius: 5px;
-    height: 44px;
-    width: 500px;
-    text-transform: uppercase;
-    font-weight: bold;
+    margin-top: 20px;
 }
 
 .top {
@@ -185,18 +108,153 @@ form {
     margin-right: 30px;
 }
 
-.search-form {
+/* Modal */
+
+#create-user-form {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    margin-bottom: 15px;
+    gap: 10px;
+    width: 100%;
 }
 
-.search-form input {
-    padding: 8px;
+.error {
+    color: #fff; 
+    font-weight: 500; 
+    text-transform: none; 
+    font-size: 10px; 
+    display: flex;
+    flex-direction: column;
+}
+
+.error div {
+    background-color: rgba(211, 47, 47, 0.9); 
+    padding: 5px 10px; 
+    border-radius: 4px; 
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15); 
+    display: inline-block;
+    margin-top: 4px; 
+    max-width: 300px; 
+}
+
+.error div::before {
+    content: "⚠️ "; /* Ícone de alerta */
+    font-size: 12px; 
+}
+
+#form {
+    background-color: #fff;
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    padding-right: 40px;
+    padding-left: 40px;
+    padding-top: 40px;
+    max-width: 1000px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin: auto;
+}
+
+.input-item {
+    margin-top: 10px;
+}
+
+label {
     font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #E2E8F0;
-    width: 70%;
+    color: #555;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+input.form-control, 
+select.form-control {
+    width: 100%;
+    max-width: 100%; 
+    padding: 10px 12px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+    box-sizing: border-box; /* Evita que padding aumente o tamanho */
+}
+
+input.form-control:focus, select.form-control:focus, textarea.form-control:focus {
+    border-color: #0C7FDA;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(12, 127, 218, 0.5);
+}
+
+input[type="file"].form-control {
+    width: 100%;
+    max-width: 100%;
+    padding: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    border: none;
+    box-sizing: border-box;
+}
+
+input[type="file"].form-control::file-selector-button {
+    padding: 8px 12px;
+    background-color: #0C7FDA;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="file"].form-control::file-selector-button:hover {
+    background-color: #0A5C9B;
+}
+
+input::placeholder, textarea::placeholder {
+    color: #aaa;
+    font-size: 13px;
+}
+
+button.btn-new-user-2 {
+    padding: 10px 20px;
+    background-color: #0C7FDA;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+button.btn-new-user-2:hover {
+    background-color: #0A5C9B;
+    transform: translateY(-2px);
+}
+
+button.btn-new-user-2:active {
+    transform: translateY(0);
+}
+
+select.form-control {
+    appearance: none;
+    cursor: pointer;
+}
+
+input, select, textarea {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-left, .form-right {
+    width: 48%; 
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .search-form button {
@@ -204,235 +262,140 @@ form {
     font-size: 14px;
     border: none;
     background-color: #0C7FDA;
-    color: white;
+    color: #fff;
     cursor: pointer;
     border-radius: 5px;
 }
 
-.container {
-    width: 100%;
-    display: flex;
-    align-items: start;
-    justify-content: start;
-    flex-direction: row;
-}
-
-#sales-container {
-    max-height: calc(80% - 25px);
-    overflow-y: auto;
-    margin: 0;
-    padding: 0;
-}
-
-#sales {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.sales-titles {
-    display: grid;
-    grid-template-columns: 2.5fr 1.5fr 1fr 1.5fr;
-    gap: 15px;
-    margin-bottom: 10px;
-    text-align: left;
-    position: sticky;
-    top: 0;
-    background-color: #fff;
-    z-index: 10;
-    border-bottom: 2px solid #E2E8F0;
-    padding-bottom: 8px;
-    width: 100%;
-}
-
-.title {
-    font-size: 12px;
-    color: #A0AEC0;
-    font-weight: bold;
-    text-transform: uppercase;
-    line-height: 1.4;
-    text-align: left;
-}
-
-.sales-card {
-    border: 1px solid #E2E8F0;
-    border-radius: 5px;
-    padding: 8px 12px;
-    background-color: #F9FAFB;
-    display: flex;
-    align-items: center;
-    height: 60px;
-}
-
-.sales-info {
-    display: grid;
-    grid-template-columns: 2.5fr 1.5fr 1fr 1.5fr;
-    gap: 20px;
-    align-items: center;
-    width: 100%;
-    text-align: left;
-}
-
-.sales-product-image img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.sales-product {
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
-    max-width: 100px; 
-    display: inline-block; 
-}
-
-
-.sales-product, .sales-payment, .sales-total, .sales-id, .sales-date {
-    font-size: 12px;
-    font-weight: bold;
-    color: #2D3748;
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.sales-total {
-    color: #2B6CB0;
-    font-weight: bold;
-}
-
-.sales-id, .sales-options {
-    padding-left: 35px;
-}
-
-.sales-payment, .sales-total {
+#side2 {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 42%; 
+    max-width: 100%; 
+    margin: 10px auto; 
     text-align: center;
 }
 
-.sales-payment {
-    margin-right: 80px;
-}
-
-.sales-total {
-    padding-right: 100px;
-}
-
-.sales-options {
-    font-size: 12px;
-    color: #2D3748;
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-weight: bold;
-    color: #2B6CB0;
-}
-
-#h5-unico {
+#side2-h5 {
     color: #5D7285;
-    margin-bottom: 0px;
-    font-size: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 15px;
 }
 
-@media (max-width: 1840px) {
-    .sales-info {
-        grid-template-columns: 1fr 1fr 1fr 1fr; /* Empilha os elementos */
-        gap: 10px;
-    }
-
-    .sales-titles {
-        grid-template-columns: 1fr 1fr 1fr 1fr; /* Empilha os elementos */
-        gap: 10px;
-    }
-
-    .sales-payment {
-        text-align: center;
-    }
+.table-container {
+    max-height: 450px; 
+    overflow-y: auto;
+    border-radius: 8px;
+    border: 1px solid #d9d9d9;
+    background: #fff;
+    margin: auto;
+    width: 100%;
 }
 
-
-@media (max-width: 1780px) {
-  
-    .input-container {
-        gap: 15px;
-        width: 322px;
-        color: #5D7285;
-    
-    }
-
-    input, select {
-        font-size: 12px;
-        height: 44px;
-    }
-
-    .area-1 input, .area-1 select, 
-    .area-3 input, .area-3 select {
-    width: 350px; /* Define largura fixa */
-    }
-
-    #span {
-        font-size: 12px;
-    }
-
-    .input-container label {
-        font-size: 12px;
-    }
-
-    .btn-new-user {
-        font-size: 12px;
-        width: 350px;
-    }
-
-    .fields {
-        gap: 30px;
-    }
-
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-@media (max-width: 1630px) {
-  
-    .input-container {
-        gap: 30px;
-        width: 300px;
-    
+th, td {
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+th {
+    background: #0C7FDA;
+    color: white;
+    position: sticky;
+    top: 0;
+}
+
+td {
+    color: #5D7285;
+}
+
+tbody tr:nth-child(even) {
+    background: #e2e2e2;
+}
+
+tbody tr:hover {
+    background: #fcf6f6;
+}
+
+.no-sales {
+    text-align: center;
+    font-size: 16px;
+    color: #888;
+    padding: 15px;
+}
+
+.form-control {
+    appearance: none;
+    background: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%235D7285'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E") no-repeat right 12px center;
+    background-size: 16px;
+    padding-right: 40px; 
+    cursor: pointer;
+}
+
+input.form-control {
+    background: none;
+    padding-right: 10px;
+}
+
+select.form-control {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.select2-container--default .select2-selection--single {
+    width: 100% !important;
+    height: 40px !important; 
+    padding: 8px 12px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center; 
+}
+
+/* Mantém o nome do cliente visível */
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #5D7285;
+    font-weight: 500;
+    padding-left: 5px;
+    line-height: normal !important; 
+}
+
+select.form-control {
+    background-color: #fff !important;
+}
+
+#vendedor {
+    color: #0A5C9B;
+}
+
+.select2-selection__rendered {
+    padding-left: 0px !important; /* Reduz a margem esquerda */
+}
+
+#id_quantity, #id_telefone_cliente, #id_cpf_cliente{
+    height: 40px !important;
+}
+
+@media (max-width: 768px) {
+    table {
+        font-size: 14px;
     }
 
-    input, select {
-        font-size: 12px;
-        height: 34px;
+    th, td {
+        padding: 10px;
     }
-
-    .area-1 input, .area-1 select, 
-    .area-3 input, .area-3 select {
-    width: 300px; /* Define largura fixa */
-    }
-
-    #span {
-        font-size: 12px;
-    }
-
-    .input-container label {
-        font-size: 12px;
-    }
-
-    .btn-new-user {
-        font-size: 12px;
-        width: 300px;
-    }
-
-    .fields {
-        gap: 30px;
-    }
-
-    .top {
-        box-sizing: border-box;
-        padding: 0px;
-        padding-bottom: 15px;
-        margin: 0px;
-    }
-
 }
 
 @media (max-height: 830px) {

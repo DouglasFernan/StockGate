@@ -3,7 +3,7 @@
 {% block title %}Gerenciar Categorias{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/gerente/gerenciar_categorias.css' %}">
-<script src="{% static 'js/ceo/create_user.js' %}"></script>
+<script src="{% static 'js/ceo/manter_categorias.js' %}"></script>
 {% endblock %}
 {% block content %}
 <section id="core">
@@ -39,7 +39,7 @@
                             </button>
                         </a>
                         <a href=""> 
-                            <button class="btn-delete" data-user-id="{{ user.id }}">
+                            <button class="btn-delete" data-user-id="{{ category.id }}">
                                 <img src="{% static 'images/ceo/trub.png' %}" alt="Delete"> 
                             </button>                           
                         </a>                                                    

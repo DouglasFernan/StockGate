@@ -1,7 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
-from .models import CustomUser, Produto, Categoria, Fornecedor, Vendas
+from .models import CustomUser, Produto, Categoria, Fornecedor, Vendas, Cliente
 from django.contrib.auth.models import Group, User
+
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
@@ -32,7 +33,8 @@ class CustomUserChangeForm(UserChangeForm):
 
 class VendedorCreationForm(forms.ModelForm):
     password1 = forms.CharField(widget=forms.PasswordInput, label="Password")
-    password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
+    password2 = forms.CharField(
+        widget=forms.PasswordInput, label="Confirm Password")
 
     class Meta:
         model = CustomUser  # Alterei para CustomUser, caso seja esse o modelo correto
@@ -45,7 +47,7 @@ class VendedorCreationForm(forms.ModelForm):
 
         if password1 != password2:
             raise forms.ValidationError("As senhas devem ser iguais.")
-        
+
         return cleaned_data
 
     def save(self, commit=True):
@@ -55,26 +57,10 @@ class VendedorCreationForm(forms.ModelForm):
             user.set_password(password)  # Define a senha corretamente
         if commit:
             user.save()
-            vendedor_group, created = Group.objects.get_or_create(name="Vendedor")
+            vendedor_group, created = Group.objects.get_or_create(
+                name="Vendedor")
             user.groups.add(vendedor_group)
         return user
-
-
-
-
-# class VendedorCreationForm(forms.ModelForm):
-#     password = forms.CharField(
-#         widget=forms.PasswordInput(attrs={'placeholder': 'Enter password'}),
-#         label="Password",
-#         required=True
-#     )
-#     confirm_password = forms.CharField(
-#         widget=forms.PasswordInput(attrs={'placeholder': 'Confirm password'}),
-#         label="Confirm Password",
-#         required=True
-#     )
-
-
 
 
 class ProdutoForm(forms.ModelForm):
@@ -102,8 +88,53 @@ class FornecedorForm(forms.ModelForm):
         fields = ['name', 'company', 'email']
 
 
-class ProdutoChangeForm(forms.ModelForm):
+class VendasForm(forms.ModelForm):
     class Meta:
-        model = Produto
-        fields = ['name', 'price', 'quantity', 'description',
-                  'product_picture', 'fornecedor', 'categoria']
+        model = Vendas
+        fields = ['vendedor', 'cliente', 'produto', 'quantity',
+                  'payment_method', 'cpf_cliente', 'telefone_cliente']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
+        self.fields['vendedor'].queryset = self.fields['vendedor'].queryset.filter(groups__name="Vendedor")
+        self.fields['quantity'].widget.attrs.update({'min': 1})
+        self.fields['quantity'].required = True
+
+    def clean_total(self):
+        cleaned_data = self.cleaned_data
+        quantity = cleaned_data.get("quantity")
+        produto = cleaned_data.get("produto")
+        if quantity and produto:
+            total = produto.price * quantity
+            return total
+        return 0.0
+    def clean(self):
+        cleaned_data = super().clean()
+        quantity = cleaned_data.get('quantity')
+        produto = cleaned_data.get('produto')
+        if produto and quantity is not None and produto.quantity is not None:
+            if quantity > produto.quantity:
+                self.add_error(
+                    'quantity', f"A quantidade solicitada ({quantity}) é maior que a disponível em estoque ({produto.quantity}).")
+
+        return cleaned_data
+
+
+class ClienteForm(forms.ModelForm):
+    class Meta:
+        model = Cliente
+        fields = ["name", "email", "phone", "cpf", "neighborhood",
+                  "city", "street", "number", "cep", "uf"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
+
+    def clean_cpf(self):
+        cpf = self.cleaned_data.get("cpf")
+        if Cliente.objects.filter(cpf=cpf).exists():
+            raise forms.ValidationError("Já existe um cliente com esse CPF.")
+        return cpf

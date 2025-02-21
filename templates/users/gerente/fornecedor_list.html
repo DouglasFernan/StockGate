@@ -3,7 +3,7 @@
 {% block title %}Gerenciar Fornecedores{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/gerente/fornecedores.css' %}">
-<script src="{% static 'js/ceo/create_user.js' %}"></script>
+<script src="{% static 'js/ceo/manter_fornecedor.js' %}"></script>
 {% endblock %}
 {% block content %}
 <section id="core">
@@ -54,7 +54,7 @@
                                 </button>
                             </a>
                             <a href="">
-                                <button class="btn-delete">
+                                <button class="btn-delete"  data-user-id="{{ user.id }}" >
                                     <img src="{% static 'images/ceo/trub.png' %}" alt="Delete"> Deletar
                                 </button>
                             </a>

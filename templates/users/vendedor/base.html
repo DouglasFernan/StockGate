@@ -28,14 +28,14 @@
                 <div>
                     {% for group in request.user.groups.all %}
                         <span onclick="toggleModal(event)">{{ group.name }} - {{ request.user.name }}</span>
-                        <img src="{% static 'images/ceo/down.png' %}" alt="Seta" style="width: auto; height: auto; margin-left: 10px;" />
+                        <!-- <img src="{% static 'images/ceo/down.png' %}" alt="Seta" style="width: auto; height: auto; margin-left: 10px;" /> -->
                     {% endfor %}
                 </div>
             </div>
         </div>
     </header>
     
-    <!-- Modal Dropdown -->
+    <!-- Modal Dropdown
     <div id="modal-drop" class="dropdown-modal">
         <div class="modal-content">
             <ul>
@@ -59,7 +59,7 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div> -->
 
     <div class="sidebar">
         <div id="logo">
@@ -67,7 +67,7 @@
             <div id="logo-name">Stock Gate</div>
         </div>
         <ul>
-            <li><a href="{% url "vendedor_dashboard" %}"><img src="{% static 'images/ceo/Home.png' %}" alt="Dashboard Icon">Registrar Vendas</a></li>
+            <li><a href="{% url "registrar_vendas" %}"><img src="{% static 'images/ceo/Home.png' %}" alt="Dashboard Icon">Registrar Vendas</a></li>
             <li><a href="{% url "vendedor_consultar_produtos" %}"><img src="{% static 'images/ceo/Bag.png' %}" alt="Produtos Icon">Consultar Produtos</a></li> 
             <li><a href="{% url "vendedor_clientes" %}"><img src="{% static 'images/ceo/3 User.png' %}" alt="Usuários Icon">Clientes</a></li>
             <li><a href="{% url "vendedor_minhas_vendas" %}"><img src="{% static 'images/ceo/Document.png' %}" alt="Histórico Icon">Minhas Vendas</a></li>

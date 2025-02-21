@@ -20,17 +20,18 @@ urlpatterns = [
     path('ceo/gerenciar_categorias/', views.CategoriaListView.as_view(), name="gerenciar_categorias"),
     path('delete_categoria/<int:pk>/', views.CategoriaDeleteView.as_view(), name='deletar_categoria'),
     path('ceo/fornecedores/', views.FornecedorListView.as_view(), name="fornecedores"),
-
+    path('delete_fornecedor/<int:pk>/', views.FornecedorDeleteView.as_view(), name='deletar_fornecedor'),
     # -------- Gerente ------------
     path('gerente/historico_de_vendas/', views.GerenteVendasListView.as_view(), name="gerente_dashboard"),
     path('gerente/gerenciar_vendedores/', views.GerenteVendedorListView.as_view(), name="gerente_gerenciar_usuarios"),
     path("delete_user/<int:pk>/", views.GerenteDeletarVendedorView.as_view(), name="deletar_vendedor"),
     path('gerente/gerenciar_produtos/', views.GerenteProdutoListView.as_view(), name="gerente_gerenciar_produtos"),
-    path('gerente/gerenciar_produtos/novo/', views.CreateProdutoGerenteView.as_view(), name='gerente_create_produto'),
     path('gerente/gerenciar_categorias/', views.GerenteCategoriaListView.as_view(), name="gerente_gerenciar_categorias"),
+    path('delete_categoria/<int:pk>/', views.GerenteCategoriaDeleteView.as_view(), name='gerente_deletar_categoria'),
     path('gerente/fornecedores/', views.GerenteFornecedorListView.as_view(), name="gerente_fornecedores"),
+    path('delete_fornecedor/<int:pk>/', views.GerenteFornecedorDeleteView.as_view(), name='gerente_deletar_fornecedor'),
     # -------- Vendedor ------------
-    path('vendedor/registrar_vendas/', views.vendedor_dashboard.as_view(), name="vendedor_dashboard"),
+    path('vendedor/registrar_vendas/', views.RegistrarVendasListView.as_view(), name="registrar_vendas"),
     path('vendedor/gerenciar_produtos/', views.VendedorProdutoListView.as_view(), name="vendedor_consultar_produtos"),
     path('vendedor/gerenciar_clientes/', views.VendedorClienteListView.as_view(), name="vendedor_clientes"),
     path('vendedor/minhas_vendas/', views.VendedorVendasListView.as_view(), name="vendedor_minhas_vendas"),

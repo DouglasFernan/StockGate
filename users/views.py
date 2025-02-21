@@ -29,7 +29,7 @@ def get_dashboard_url(user):
     group_dashboard_map = {
         'CEO': 'ceo_dashboard',
         'Gerente': 'gerente_dashboard',
-        'Vendedor': 'vendedor_dashboard',
+        'Vendedor': 'registrar_vendas',
     }
     user_group = user.groups.first().name
     return group_dashboard_map[user_group]
@@ -142,6 +142,52 @@ class UsersListView(ListView):
             })
 
 
+class ProdutoListView(ListView):
+    model = models.Produto
+    template_name = "users/ceo/produto_list.html"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search = self.request.GET.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(name__icontains=search))
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = forms.ProdutoForm()
+        context["object_list"] = self.get_queryset()
+        context["modal_open"] = False
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = forms.ProdutoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('gerenciar_produtos'))
+        else:
+            return render(request, 'users/ceo/produto_list.html', {
+                'form': form,
+                'modal_open': True,
+                'object_list': models.Produto.objects.all(),
+            })
+
+
+class ProdutoDeleteView(View):
+    def post(self, request, *args, **kwargs):
+        product_id = kwargs.get("pk")
+        product = get_object_or_404(models.Produto, id=product_id)
+
+        try:
+            product.delete()
+            messages.success(request, "Produto deletado com sucesso!")
+        except Exception as e:
+            messages.error(request, f"Erro ao deletar produto: {str(e)}")
+
+        return redirect("gerenciar_produtos")
+
+
 class CategoriaListView(ListView):
     model = models.Categoria
     template_name = 'users/ceo/categoria_list.html'
@@ -222,50 +268,18 @@ class FornecedorListView(ListView):
             })
 
 
-class ProdutoListView(ListView):
-    model = models.Produto
-    template_name = "users/ceo/produto_list.html"
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        search = self.request.GET.get('search')
-        if search:
-            queryset = queryset.filter(
-                Q(name__icontains=search))
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["form"] = forms.ProdutoForm()
-        context["object_list"] = self.get_queryset()
-        context["modal_open"] = False
-        return context
-
+class FornecedorDeleteView(View):
     def post(self, request, *args, **kwargs):
-        form = forms.ProdutoForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect(reverse('gerenciar_produtos'))
-        else:
-            return render(request, 'users/ceo/produto_list.html', {
-                'form': form,
-                'modal_open': True,
-                'object_list': models.Produto.objects.all(),
-            })
-
-
-class ProdutoDeleteView(View):
-    def post(self, request, *args, **kwargs):
-        product_id = kwargs.get("pk")
-        product = get_object_or_404(models.Produto, id=product_id)
+        fornecedor_id = kwargs.get("pk")
+        fornecedor = get_object_or_404(models.Fornecedor, id=fornecedor_id)
 
         try:
-            product.delete()
-            messages.success(request, "Produto deletado com sucesso!")
+            fornecedor.delete()
+            messages.success(request, "Fornecedor deletado com sucesso!")
         except Exception as e:
-            messages.error(request, f"Erro ao deletar produto: {str(e)}")
+            messages.error(request, f"Erro ao deletar fornecedor: {str(e)}")
 
-        return redirect("gerenciar_produtos")
+        return redirect("fornecedores")
 
 
 # ---------  Gerente   ------------
@@ -343,14 +357,6 @@ class GerenteDeletarVendedorView(View):
         return redirect("gerente_gerenciar_usuarios")
 
 
-class GerenteUsersListView(ListView):
-    model = models.CustomUser
-    template_name = 'users/gerente/customuser_list.html'
-
-    def get_queryset(self):
-        return models.CustomUser.objects.filter(groups__name="Vendedor")
-
-
 class GerenteCategoriaListView(ListView):
     model = models.Categoria
     template_name = 'users/gerente/categoria_list.html'
@@ -381,6 +387,20 @@ class GerenteCategoriaListView(ListView):
                 'modal_open': True,
                 'object_list': models.Categoria.objects.all(),
             })
+
+
+class GerenteCategoriaDeleteView(View):
+    def post(self, request, *args, **kwargs):
+        categoria_id = kwargs.get("pk")
+        categoria = get_object_or_404(models.Categoria, id=categoria_id)
+
+        try:
+            categoria.delete()
+            messages.success(request, "Categoria deletada com sucesso!")
+        except Exception as e:
+            messages.error(request, f"Erro ao deletar categoria: {str(e)}")
+
+        return redirect("gerente_gerenciar_categorias")
 
 
 class GerenteFornecedorListView(ListView):
@@ -415,6 +435,20 @@ class GerenteFornecedorListView(ListView):
             })
 
 
+class GerenteFornecedorDeleteView(View):
+    def post(self, request, *args, **kwargs):
+        fornecedor_id = kwargs.get("pk")
+        fornecedor = get_object_or_404(models.Fornecedor, id=fornecedor_id)
+
+        try:
+            fornecedor.delete()
+            messages.success(request, "Fornecedor deletado com sucesso!")
+        except Exception as e:
+            messages.error(request, f"Erro ao deletar fornecedor: {str(e)}")
+
+        return redirect("gerente_fornecedores")
+
+
 class GerenteProdutoListView(ListView):
     model = models.Produto
     template_name = "users/gerente/produto_list.html"
@@ -446,16 +480,70 @@ class GerenteProdutoListView(ListView):
                 'object_list': models.Produto.objects.all(),
             })
 
-
-class CreateProdutoGerenteView(CreateView):
-    model = models.Produto
-    form_class = forms.ProdutoForm
-    template_name = 'users/gerente/create_produto.html'
-    # Após a criação, redireciona para a lista de produtos
-    success_url = reverse_lazy('gerente_gerenciar_produtos')
-
-
 # ---------  Vendedor   ------------
+
+
+class RegistrarVendasListView(View):
+    template_name = 'users/vendedor/registrar_vendas.html'
+
+    def get(self, request, *args, **kwargs):
+        form = forms.VendasForm()
+        vendas_do_vendedor = models.Vendas.objects.filter(
+            vendedor=request.user
+        ).order_by('-id')  # Ordena da mais recente para a mais antiga
+
+        context = {
+            'form': form,
+            'vendas_do_vendedor': vendas_do_vendedor
+        }
+
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = forms.VendasForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            venda = form.save(commit=False)
+
+            produto = venda.produto
+            quantidade = venda.quantity
+
+            if produto and quantidade:
+                venda.total = produto.price * quantidade
+
+                # Verifica se há estoque suficiente antes de vender
+                if produto.quantity >= quantidade:
+                    produto.quantity -= quantidade  # Atualiza o estoque
+                    produto.save()  # Salva a atualização no banco
+                else:
+                    form.add_error(
+                        'quantity', 'Estoque insuficiente para essa venda.')
+                    vendas_do_vendedor = models.Vendas.objects.filter(
+                        vendedor=request.user
+                    ).order_by('-id')
+                    return render(request, self.template_name, {
+                        'form': form,
+                        'vendas_do_vendedor': vendas_do_vendedor
+                    })
+
+            else:
+                venda.total = 0
+
+            venda.vendedor = request.user
+            venda.save()
+
+            return redirect('registrar_vendas')
+
+        else:
+            vendas_do_vendedor = models.Vendas.objects.filter(
+                vendedor=request.user
+            ).order_by('-id')
+
+            return render(request, self.template_name, {
+                'form': form,
+                'vendas_do_vendedor': vendas_do_vendedor
+            })
+
 
 class VendedorProdutoListView(ListView):
     model = models.Produto

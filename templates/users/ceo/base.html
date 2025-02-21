@@ -28,14 +28,14 @@
                 <div>
                     {% for group in request.user.groups.all %}
                         <span onclick="toggleModal(event)">{{ group.name }} - {{ request.user.name }}</span>
-                        <img src="{% static 'images/ceo/down.png' %}" alt="Seta" style="width: auto; height: auto; margin-left: 10px;" />
+                        <!-- <img src="{% static 'images/ceo/down.png' %}" alt="Seta" style="width: auto; height: auto; margin-left: 10px;" /> -->
                     {% endfor %}
                 </div>
             </div>
         </div>
     </header>
     
-    <!-- Modal Dropdown -->
+    <!-- Modal Dropdown
     <div id="modal-drop" class="dropdown-modal">
         <div class="modal-content-base">
             <ul>
@@ -59,7 +59,7 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div> -->
 
     <div class="sidebar">
         <div id="logo">

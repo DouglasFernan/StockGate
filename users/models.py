@@ -169,22 +169,37 @@ class Vendas(models.Model):
         ("pix", "Pix"),
         ("cash", "Dinheiro"),
     ]
-    vendedor = models.ForeignKey(
-        settings.AUTH_USER_MODEL, verbose_name=_("vendedor"), null=True, on_delete=models.SET_NULL
+    vendedor = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("vendedor"), null=True, on_delete=models.SET_NULL)
+    cliente = models.ForeignKey("Cliente", verbose_name=_("cliente"), null=True, blank=True, on_delete=models.SET_NULL)
+    produto = models.ForeignKey("Produto", verbose_name=_("produto"), null=True, on_delete=models.SET_NULL)
+    cpf_cliente = models.CharField(
+        "CPF do Cliente",
+        max_length=14,
+        validators=[
+            RegexValidator(
+                regex=r"^\d{3}\.\d{3}\.\d{3}-\d{2}$",
+                message="O CPF deve estar no formato XXX.XXX.XXX-XX.",
+            )
+        ],
     )
-    cliente = models.ForeignKey(
-        Cliente, verbose_name=_("cliente"), null=True, blank=True, on_delete=models.SET_NULL
+    telefone_cliente = models.CharField(
+        "Telefone do Cliente",
+        max_length=15,
+        validators=[
+            RegexValidator(
+                regex=r"^\(\d{2}\) \d{5}-\d{4}$",
+                message="O telefone deve estar no formato (XX) XXXXX-XXXX.",
+            )
+        ],
     )
-    produto = models.ForeignKey(
-        Produto, verbose_name=_("produto"), null=True, on_delete=models.SET_NULL
-    )
-    quantity = models.PositiveIntegerField("quantity")
+    quantity = models.PositiveIntegerField("quantity", validators=[MinValueValidator(1), MaxValueValidator(1000)])
+    total = models.DecimalField("total", max_digits=10, decimal_places=2, validators=[MinValueValidator(0)], null=True,)
+    payment_method = models.CharField("payment method", max_length=10, choices=PAYMENT_METHODS)
     created_at = models.DateTimeField("created at", auto_now_add=True)
     updated_at = models.DateTimeField("updated at", auto_now=True)
-    payment_method = models.CharField(
-        "payment method", max_length=10, choices=PAYMENT_METHODS)
-    total = models.DecimalField("total", max_digits=10, decimal_places=2)
-
     class Meta:
         verbose_name = "Venda"
         verbose_name_plural = "Vendas"
+
+    def __str__(self):
+        return f"Venda {self.pk} - {self.cliente}"

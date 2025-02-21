@@ -60,8 +60,8 @@ document.addEventListener("DOMContentLoaded", () => {
             event.preventDefault();
             const userId = button.dataset.userId;
 
-            if (confirm("Tem certeza que deseja deletar este vendedor?")) {
-                fetch(`/delete_user/${userId}/`, {
+            if (confirm("Tem certeza que deseja deletar este fornecedor?")) {
+                fetch(`/delete_fornecedor/${userId}/`, {
                     method: "POST",
                     headers: {
                         "X-CSRFToken": getCsrfToken(),
@@ -69,10 +69,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     },
                 }).then(response => {
                     if (response.ok) {
-                        alert("Vendedor deletado com sucesso!");
+                        alert("Fornecedor deletado com sucesso!");
                         location.reload();
                     } else {
-                        alert("Erro ao deletar o vendedor.");
+                        alert("Erro ao deletar o fornecedor.");
                     }
                 });
             }
