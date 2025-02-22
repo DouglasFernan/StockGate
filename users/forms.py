@@ -98,7 +98,8 @@ class VendasForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
-        self.fields['vendedor'].queryset = self.fields['vendedor'].queryset.filter(groups__name="Vendedor")
+        self.fields['vendedor'].queryset = self.fields['vendedor'].queryset.filter(
+            groups__name="Vendedor")
         self.fields['quantity'].widget.attrs.update({'min': 1})
         self.fields['quantity'].required = True
 
@@ -110,6 +111,7 @@ class VendasForm(forms.ModelForm):
             total = produto.price * quantity
             return total
         return 0.0
+
     def clean(self):
         cleaned_data = super().clean()
         quantity = cleaned_data.get('quantity')
@@ -126,7 +128,7 @@ class ClienteForm(forms.ModelForm):
     class Meta:
         model = Cliente
         fields = ["name", "email", "phone", "cpf", "neighborhood",
-                  "city", "street", "number", "cep", "uf"]
+                  "city", "street", "number", "complemento", "uf"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -136,5 +138,23 @@ class ClienteForm(forms.ModelForm):
     def clean_cpf(self):
         cpf = self.cleaned_data.get("cpf")
         if Cliente.objects.filter(cpf=cpf).exists():
-            raise forms.ValidationError("Já existe um cliente com esse CPF.")
+            raise forms.ValidationError("Já existe um cliente com esse CPF cadastrado.")
         return cpf
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get("phone")
+        if not phone.isdigit():
+            raise forms.ValidationError("O telefone deve conter apenas números.")
+        return phone
+
+    def clean_number(self):
+        number = self.cleaned_data.get("number")
+        if not number.isdigit():
+            raise forms.ValidationError("O número deve conter apenas dígitos.")
+        return number
+
+    def clean_complemento(self):
+        complemento = self.cleaned_data.get("complemento")
+        if complemento and len(complemento) < 3:
+            raise forms.ValidationError("O complemento deve ter pelo menos 3 caracteres.")
+        return complemento

@@ -132,28 +132,41 @@ class Cliente(models.Model):
         ("SE", "Sergipe"),
         ("TO", "Tocantins"),
     ]
-    name = models.CharField("name", max_length=150)
-    email = models.EmailField("email", max_length=254, unique=True)
-    phone = models.CharField("phone", max_length=20)
+
+    name = models.CharField("Nome", max_length=150)
+    email = models.EmailField("E-mail", max_length=254, unique=True)
+    phone = models.CharField(
+        "Telefone",
+        max_length=20,
+        validators=[RegexValidator(
+            regex=r'^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$',
+            message="Formato inválido de telefone. Ex: (11) 91234-5678"
+        )]
+    )
     cpf = models.CharField(
         "cpf",
-        max_length=15,
+        max_length=11,  # Apenas números
         validators=[RegexValidator(
-            regex=r'^\d{3}\.\d{3}\.\d{3}-\d{2}$', message="Invalid CPF format.")],
+            regex=r'^\d{11}$', message="CPF deve conter apenas números.")],
+        unique=True,  # Evita duplicados
     )
-    neighborhood = models.CharField("neighborhood", max_length=100)
-    city = models.CharField("city", max_length=100)
-    street = models.CharField("street", max_length=100)
-    number = models.CharField("house number", max_length=10)
-    cep = models.CharField(
-        "cep",
-        max_length=9,
+    neighborhood = models.CharField("Bairro", max_length=100)
+    city = models.CharField("Cidade", max_length=100)
+    street = models.CharField("Rua", max_length=100)
+
+    number = models.CharField(
+        "Número",
+        max_length=10,
         validators=[RegexValidator(
-            regex=r'^\d{5}-\d{3}$', message="Invalid CEP format.")],
+            regex=r'^\d+$',
+            message="O número deve conter apenas dígitos."
+        )]
     )
-    uf = models.CharField("uf", max_length=2, choices=STATES)
-    created_at = models.DateTimeField("created at", auto_now_add=True)
-    updated_at = models.DateTimeField("updated at", auto_now=True)
+    complemento = models.CharField(
+        "Complemento", max_length=100, blank=True, null=True)
+    uf = models.CharField("UF", max_length=2, choices=STATES)
+    created_at = models.DateTimeField("Criado em", auto_now_add=True)
+    updated_at = models.DateTimeField("Atualizado em", auto_now=True)
 
     class Meta:
         verbose_name = "Cliente"
@@ -169,9 +182,12 @@ class Vendas(models.Model):
         ("pix", "Pix"),
         ("cash", "Dinheiro"),
     ]
-    vendedor = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("vendedor"), null=True, on_delete=models.SET_NULL)
-    cliente = models.ForeignKey("Cliente", verbose_name=_("cliente"), null=True, blank=True, on_delete=models.SET_NULL)
-    produto = models.ForeignKey("Produto", verbose_name=_("produto"), null=True, on_delete=models.SET_NULL)
+    vendedor = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_(
+        "vendedor"), null=True, on_delete=models.SET_NULL)
+    cliente = models.ForeignKey("Cliente", verbose_name=_(
+        "cliente"), null=True, blank=True, on_delete=models.SET_NULL)
+    produto = models.ForeignKey("Produto", verbose_name=_(
+        "produto"), null=True, on_delete=models.SET_NULL)
     cpf_cliente = models.CharField(
         "CPF do Cliente",
         max_length=14,
@@ -192,11 +208,15 @@ class Vendas(models.Model):
             )
         ],
     )
-    quantity = models.PositiveIntegerField("quantity", validators=[MinValueValidator(1), MaxValueValidator(1000)])
-    total = models.DecimalField("total", max_digits=10, decimal_places=2, validators=[MinValueValidator(0)], null=True,)
-    payment_method = models.CharField("payment method", max_length=10, choices=PAYMENT_METHODS)
+    quantity = models.PositiveIntegerField(
+        "quantity", validators=[MinValueValidator(1), MaxValueValidator(1000)])
+    total = models.DecimalField("total", max_digits=10, decimal_places=2, validators=[
+                                MinValueValidator(0)], null=True,)
+    payment_method = models.CharField(
+        "payment method", max_length=10, choices=PAYMENT_METHODS)
     created_at = models.DateTimeField("created at", auto_now_add=True)
     updated_at = models.DateTimeField("updated at", auto_now=True)
+
     class Meta:
         verbose_name = "Venda"
         verbose_name_plural = "Vendas"

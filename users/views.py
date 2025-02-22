@@ -17,14 +17,6 @@ from . import forms
 from . import models
 
 
-# Create your views here.
-# ceo = CustomUser.objects.create(email="douglasgenetic@gmail.com",
-#                                 name="Douglas Fernandes", cpf="13359863402")
-# ceo.set_password("Pass@2024")
-# ceo.groups.add(Group.objects.get(name="CEO"))
-# ceo.save()
-
-
 def get_dashboard_url(user):
     group_dashboard_map = {
         'CEO': 'ceo_dashboard',
@@ -122,23 +114,21 @@ class UsersListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Exibe o formulário de criação
         context["form"] = forms.CustomUserCreationForm()
-        context["object_list"] = self.get_queryset()  # Lista de usuários
-        context["modal_open"] = False  # Inicialmente o modal está fechado
+        context["object_list"] = self.get_queryset()
+        context["modal_open"] = False
         return context
 
     def post(self, request, *args, **kwargs):
         form = forms.CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            # Redireciona após salvar
             return redirect(reverse('gerenciar_usuarios'))
         else:
             return render(request, 'users/ceo/customuser_list.html', {
                 'form': form,
-                'modal_open': True,  # Controla a abertura do modal
-                'object_list': models.CustomUser.objects.all(),  # Lista de usuários
+                'modal_open': True,
+                'object_list': models.CustomUser.objects.all(),
             })
 
 
@@ -202,10 +192,9 @@ class CategoriaListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Exibe o formulário de criação
         context["form"] = forms.CategoriaForm()
-        context["object_list"] = self.get_queryset()  # Lista de usuários
-        context["modal_open"] = False  # Inicialmente o modal está fechado
+        context["object_list"] = self.get_queryset()
+        context["modal_open"] = False
         return context
 
     def post(self, request, *args, **kwargs):
@@ -216,8 +205,8 @@ class CategoriaListView(ListView):
         else:
             return render(request, 'users/ceo/categoria_list.html', {
                 'form': form,
-                'modal_open': True,  # Controla a abertura do modal
-                'object_list': models.Categoria.objects.all(),  # Lista de usuários
+                'modal_open': True,
+                'object_list': models.Categoria.objects.all(),
             })
 
 
@@ -249,10 +238,9 @@ class FornecedorListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # Exibe o formulário de criação
         context["form"] = forms.FornecedorForm()
-        context["object_list"] = self.get_queryset()  # Lista de usuários
-        context["modal_open"] = False  # Inicialmente o modal está fechado
+        context["object_list"] = self.get_queryset()
+        context["modal_open"] = False
         return context
 
     def post(self, request, *args, **kwargs):
@@ -330,13 +318,12 @@ class GerenteVendedorListView(ListView):
         form = forms.VendedorCreationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            # Redireciona após salvar
             return redirect(reverse('gerente_gerenciar_usuarios'))
         else:
             return render(request, 'users/gerente/customuser_list.html', {
                 'form': form,
-                'modal_open': True,  # Abre o modal em caso de erro
-                'object_list': self.get_queryset(),  # Lista de vendedores
+                'modal_open': True,
+                'object_list': self.get_queryset(),
             })
 
 
@@ -489,14 +476,8 @@ class RegistrarVendasListView(View):
     def get(self, request, *args, **kwargs):
         form = forms.VendasForm()
         vendas_do_vendedor = models.Vendas.objects.filter(
-            vendedor=request.user
-        ).order_by('-id')  # Ordena da mais recente para a mais antiga
-
-        context = {
-            'form': form,
-            'vendas_do_vendedor': vendas_do_vendedor
-        }
-
+            vendedor=request.user).order_by('-id')
+        context = {'form': form, 'vendas_do_vendedor': vendas_do_vendedor}
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
@@ -504,28 +485,20 @@ class RegistrarVendasListView(View):
 
         if form.is_valid():
             venda = form.save(commit=False)
-
             produto = venda.produto
             quantidade = venda.quantity
 
             if produto and quantidade:
                 venda.total = produto.price * quantidade
-
-                # Verifica se há estoque suficiente antes de vender
                 if produto.quantity >= quantidade:
-                    produto.quantity -= quantidade  # Atualiza o estoque
-                    produto.save()  # Salva a atualização no banco
+                    produto.quantity -= quantidade
+                    produto.save()
                 else:
                     form.add_error(
                         'quantity', 'Estoque insuficiente para essa venda.')
                     vendas_do_vendedor = models.Vendas.objects.filter(
-                        vendedor=request.user
-                    ).order_by('-id')
-                    return render(request, self.template_name, {
-                        'form': form,
-                        'vendas_do_vendedor': vendas_do_vendedor
-                    })
-
+                        vendedor=request.user).order_by('-id')
+                    return render(request, self.template_name, {'form': form, 'vendas_do_vendedor': vendas_do_vendedor})
             else:
                 venda.total = 0
 
@@ -562,6 +535,48 @@ class VendedorClienteListView(ListView):
     model = models.Cliente
     template_name = "users/vendedor/cliente_list.html"
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search = self.request.GET.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(name__icontains=search) | Q(email__icontains=search)
+            )
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["form"] = forms.ClienteForm()
+        context["object_list"] = self.get_queryset()
+        context["modal_open"] = False
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = forms.ClienteForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('vendedor_clientes'))
+        else:
+            return render(request, 'users/vendedor/cliente_list.html', {
+                'form': form,
+                'modal_open': True,
+                'object_list': models.Cliente.objects.all(),
+            })
+
+
+class VendedorClienteDeleteView(View):
+    def post(self, request, *args, **kwargs):
+        cliente_id = kwargs.get("pk")
+        cliente = get_object_or_404(models.Cliente, id=cliente_id)
+
+        try:
+            cliente.delete()
+            messages.success(request, "Cliente deletado com sucesso!")
+        except Exception as e:
+            messages.error(request, f"Erro ao deletar cliente: {str(e)}")
+
+        return redirect("vendedor_clientes")
+
 
 class VendedorVendasListView(ListView):
     model = models.Vendas
@@ -595,41 +610,3 @@ class vendedor_dashboard(LoginRequiredMixin, ListView):
                 created_at__range=[start_date, end_date])
 
         return queryset.order_by(order)
-
-
-# def get_product(request, product_id):
-#     try:
-#         produto = models.Produto.objects.get(id=product_id)
-#         data = {
-#             'name': produto.name,
-#             'price': produto.price,
-#             'quantity': produto.quantity,
-#             'fornecedor': produto.fornecedor.id,
-#             'categoria': produto.categoria.id,
-#             'description': produto.description,
-#             'product_picture': produto.product_picture.url if produto.product_picture else None,
-#         }
-#         return JsonResponse(data)
-#     except models.Produto.DoesNotExist:
-#         return JsonResponse({'error': 'Produto não encontrado'}, status=404)
-
-
-# def update_product(request):
-#     if request.method == "POST":
-#         product_id = request.POST.get('product_id')
-#         product = get_object_or_404(models.Produto, id=product_id)
-#         product.name = request.POST.get('name')
-#         product.price = request.POST.get('price')
-#         product.quantity = request.POST.get('quantity')
-#         product.fornecedor_id = request.POST.get('fornecedor')
-#         product.categoria_id = request.POST.get('categoria')
-#         product.description = request.POST.get('description')
-
-#         if request.FILES.get('product_picture'):
-#             product.product_picture = request.FILES.get('product_picture')
-
-#         product.save()
-#         messages.success(request, "Produto atualizado com sucesso!")
-#         # Substitua pelo nome correto da view de listagem, se diferente
-#         return redirect('gerenciar_produtos')
-#     return redirect('gerenciar_produtos')
