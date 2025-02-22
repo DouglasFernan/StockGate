@@ -12,7 +12,7 @@ from django.views.generic import FormView, ListView
 from django.db.models import Q
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.forms import UserCreationForm
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from . import forms
 from . import models
 
@@ -562,6 +562,15 @@ class VendedorClienteListView(ListView):
                 'modal_open': True,
                 'object_list': models.Cliente.objects.all(),
             })
+
+
+class ClienteUpdateView(UpdateView):
+    model = models.Cliente
+    form_class = forms.ClienteForm
+    template_name = "users/vendedor/cliente_update.html"
+
+    def get_success_url(self):
+        return reverse_lazy('vendedor_clientes')
 
 
 class VendedorClienteDeleteView(View):

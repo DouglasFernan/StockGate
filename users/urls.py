@@ -34,6 +34,7 @@ urlpatterns = [
     path('vendedor/registrar_vendas/', views.RegistrarVendasListView.as_view(), name="registrar_vendas"),
     path('vendedor/gerenciar_produtos/', views.VendedorProdutoListView.as_view(), name="vendedor_consultar_produtos"),
     path('vendedor/gerenciar_clientes/', views.VendedorClienteListView.as_view(), name="vendedor_clientes"),
+    path('clientes/editar/<int:pk>/', views.ClienteUpdateView.as_view(), name='editar_cliente'),
     path("clientes/deletar/<int:pk>/", views.VendedorClienteDeleteView.as_view(), name="vendedor_cliente_deletar"),
     path('vendedor/minhas_vendas/', views.VendedorVendasListView.as_view(), name="vendedor_minhas_vendas"),
     

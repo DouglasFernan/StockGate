@@ -1,0 +1,235 @@
+{% extends 'users/vendedor/base.html' %}
+{% load static %}
+{% block title %}Editar Cliente{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/vendedor/cliente_update.css' %}">
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Seleciona os campos de CPF e telefone pelos atributos 'name'
+        const cpfField = document.querySelector('input[name="{{ form.cpf.html_name }}"]');
+        const phoneField = document.querySelector('input[name="{{ form.phone.html_name }}"]');
+
+        // Função para aplicar máscara de CPF
+        function applyCpfMask(cpfField) {
+            cpfField.addEventListener("input", function (event) {
+                let value = event.target.value.replace(/\D/g, ""); // Remove tudo que não for dígito
+                if (value.length > 11) {
+                    value = value.substring(0, 11); // Limita a 11 caracteres
+                }
+
+                // Aplica a máscara de CPF
+                value = value.replace(/(\d{3})(\d)/, "$1.$2");
+                value = value.replace(/(\d{3})(\d)/, "$1.$2");
+                value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+
+                event.target.value = value; // Atualiza o valor do campo
+            });
+        }
+
+        // Função para aplicar máscara de telefone
+        function applyPhoneMask(phoneField) {
+            phoneField.addEventListener("input", function (event) {
+                let value = event.target.value.replace(/\D/g, ""); // Remove tudo que não for dígito
+                if (value.length > 11) {
+                    value = value.substring(0, 11); // Limita a 11 caracteres
+                }
+
+                // Aplica a máscara de telefone
+                if (value.length <= 10) {
+                    value = value.replace(/(\d{2})(\d)/, "($1) $2");
+                    value = value.replace(/(\d{4})(\d)/, "$1-$2");
+                } else {
+                    value = value.replace(/(\d{2})(\d)/, "($1) $2");
+                    value = value.replace(/(\d{5})(\d)/, "$1-$2");
+                }
+
+                event.target.value = value; // Atualiza o valor do campo
+            });
+        }
+
+        // Aplica as máscaras se os campos existirem
+        if (cpfField) applyCpfMask(cpfField);
+        if (phoneField) applyPhoneMask(phoneField);
+
+        // Remove máscaras antes de enviar o formulário
+        const form = document.querySelector("form");
+        if (form) {
+            form.addEventListener("submit", function () {
+                if (cpfField) {
+                    cpfField.value = cpfField.value.replace(/\D/g, ""); // Remove a máscara do CPF
+                }
+                if (phoneField) {
+                    phoneField.value = phoneField.value.replace(/\D/g, ""); // Remove a máscara do telefone
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
+{% block content %}
+<section id="core">
+    <div id="users-container">
+        <div class="container">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div  id="create-user-form">
+                    <!-- Coluna Esquerda -->
+                    <div class="form-left">
+                        <div class="input-item">
+                            <label for="{{ form.name.id_for_label }}">Nome</label>
+                            <input type="text" id="{{ form.name.id_for_label }}" 
+                                name="{{ form.name.html_name }}" 
+                                value="{{ form.name.value|default:'' }}" class="form-control">
+                                {% if form.name.errors %}
+                                <div class="error">
+                                    {% for error in form.name.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="input-item">
+                            <label for="{{ form.email.id_for_label }}">E-mail</label>
+                            <input type="email" id="{{ form.email.id_for_label }}" 
+                                name="{{ form.email.html_name }}" 
+                                value="{{ form.email.value|default:'' }}" class="form-control">
+                                {% if form.email.errors %}
+                                <div class="error">
+                                    {% for error in form.email.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="input-item">
+                            <label for="{{ form.phone.id_for_label }}">Telefone</label>
+                            <input type="text" id="{{ form.phone.id_for_label }}" 
+                                name="{{ form.phone.html_name }}" 
+                                value="{{ form.phone.value|default:'' }}" class="form-control">
+                                {% if form.phone.errors %}
+                                <div class="error">
+                                    {% for error in form.phone.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="input-item">
+                            <label for="{{ form.cpf.id_for_label }}">CPF</label>
+                            <input type="text" id="{{ form.cpf.id_for_label }}" 
+                                name="{{ form.cpf.html_name }}" 
+                                value="{{ form.cpf.value|default:'' }}" class="form-control">
+                                {% if form.cpf.errors %}
+                                <div class="error">
+                                    {% for error in form.cpf.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="input-item">
+                            <label for="{{ form.uf.id_for_label }}">Estado</label>
+                            <select id="{{ form.uf.id_for_label }}" name="{{ form.uf.html_name }}" class="form-control">
+                                {% for uf_value, uf_label in form.fields.uf.choices %}
+                                    <option value="{{ uf_value }}" {% if form.uf.value == uf_value %}selected{% endif %}>
+                                        {{ uf_label }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            {% if form.uf.errors %}
+                                <div class="error">
+                                    {% for error in form.uf.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Coluna Direita -->
+                    <div class="form-right">
+                        <div class="input-item">
+                            <label for="{{ form.city.id_for_label }}">Cidade</label>
+                            <input type="text" id="{{ form.city.id_for_label }}" 
+                                name="{{ form.city.html_name }}" 
+                                value="{{ form.city.value|default:'' }}" class="form-control">
+                                {% if form.city.errors %}
+                                <div class="error">
+                                    {% for error in form.city.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="input-item">
+                            <label for="{{ form.neighborhood.id_for_label }}">Bairro</label>
+                            <input type="text" id="{{ form.neighborhood.id_for_label }}" 
+                                name="{{ form.neighborhood.html_name }}" 
+                                value="{{ form.neighborhood.value|default:'' }}" class="form-control">
+                                {% if form.neighborhood.errors %}
+                                <div class="error">
+                                    {% for error in form.neighborhood.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="input-item">
+                            <label for="{{ form.street.id_for_label }}">Rua</label>
+                            <input type="text" id="{{ form.street.id_for_label }}" 
+                                name="{{ form.street.html_name }}" 
+                                value="{{ form.street.value|default:'' }}" class="form-control">
+                                {% if form.street.errors %}
+                                <div class="error">
+                                    {% for error in form.street.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="input-item">
+                            <label for="{{ form.number.id_for_label }}">Número</label>
+                            <input type="text" id="{{ form.number.id_for_label }}" 
+                                name="{{ form.number.html_name }}" 
+                                value="{{ form.number.value|default:'' }}" class="form-control">
+                                {% if form.number.errors %}
+                                <div class="error">
+                                    {% for error in form.number.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="input-item">
+                            <label for="{{ form.complemento.id_for_label }}">Complemento</label>
+                            <input type="text" id="{{ form.complemento.id_for_label }}" 
+                                name="{{ form.complemento.html_name }}" 
+                                value="{{ form.complemento.value|default:'' }}" class="form-control">
+                                {% if form.complemento.errors %}
+                                    <div class="error">
+                                        {% for error in form.complemento.errors %}
+                                            <div>{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button class="btn-new-user-2" type="submit">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

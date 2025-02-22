@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const phoneField = document.querySelector('input[name="phone"]');
     const deleteButtons = document.querySelectorAll(".delete-cliente");
 
-    // Aplica máscara ao CPF
     function applyCpfMask(cpfField) {
         cpfField.addEventListener("input", function (event) {
             let value = event.target.value.replace(/\D/g, "");
@@ -24,7 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Aplica máscara ao telefone
     function applyPhoneMask(phoneField) {
         phoneField.addEventListener("input", function (event) {
             let value = event.target.value.replace(/\D/g, "");
@@ -57,7 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
         form.reset();
     }
 
-    // Abre o modal de criação de cliente
     openModalButtons.forEach(button => {
         button.addEventListener("click", (event) => {
             event.preventDefault();
@@ -67,14 +64,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Fecha o modal ao clicar fora
     closeModalArea.addEventListener("click", (event) => {
         if (event.target === closeModalArea) {
             modal.classList.remove("show");
         }
     });
 
-    // Lógica para deletar cliente via fetch()
     deleteButtons.forEach(button => {
         button.addEventListener("click", (event) => {
             event.preventDefault();
@@ -99,7 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Remove a formatação antes de enviar o formulário
     form.addEventListener("submit", function () {
         if (cpfField) {
             cpfField.value = cpfField.value.replace(/\D/g, "");

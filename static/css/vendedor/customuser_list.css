@@ -248,8 +248,9 @@ form {
     gap: 20px;
 }
 
+/* Estilo para mensagens de erro */
 .error {
-    color: #fff; 
+    color: #fff; /* Texto branco */
     font-weight: 500; 
     text-transform: none; 
     font-size: 12px; 
@@ -258,21 +259,19 @@ form {
 }
 
 .error div {
-    background-color: rgba(211, 47, 47, 0.9); 
-    padding: 6px 12px; 
-    border-radius: 4px; 
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15); 
+    background-color: rgba(211, 47, 47, 0.9); /* Fundo vermelho com transparência */
+    padding: 6px 12px; /* Padding ajustado */
+    border-radius: 4px; /* Bordas arredondadas */
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15); /* Sombra suave */
     display: inline-block;
-    margin-top: 5px; 
-    max-width: 300px; 
+    margin-top: 5px; /* Espaçamento acima da mensagem */
+    max-width: 300px; /* Largura máxima */
 }
 
 .error div::before {
     content: "⚠️ "; /* Ícone de alerta */
-    font-size: 14px; 
+    font-size: 14px; /* Tamanho do ícone */
 }
-
-
 
 .modal {
     display: none;

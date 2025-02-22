@@ -137,14 +137,19 @@ class ClienteForm(forms.ModelForm):
 
     def clean_cpf(self):
         cpf = self.cleaned_data.get("cpf")
-        if Cliente.objects.filter(cpf=cpf).exists():
-            raise forms.ValidationError("Já existe um cliente com esse CPF cadastrado.")
+        cliente_id = self.instance.id  # Obtém o ID do cliente que está sendo editado
+
+        if Cliente.objects.filter(cpf=cpf).exclude(id=cliente_id).exists():
+            raise forms.ValidationError(
+                "Já existe um cliente com esse CPF cadastrado.")
+
         return cpf
 
     def clean_phone(self):
         phone = self.cleaned_data.get("phone")
         if not phone.isdigit():
-            raise forms.ValidationError("O telefone deve conter apenas números.")
+            raise forms.ValidationError(
+                "O telefone deve conter apenas números.")
         return phone
 
     def clean_number(self):
@@ -156,5 +161,6 @@ class ClienteForm(forms.ModelForm):
     def clean_complemento(self):
         complemento = self.cleaned_data.get("complemento")
         if complemento and len(complemento) < 3:
-            raise forms.ValidationError("O complemento deve ter pelo menos 3 caracteres.")
+            raise forms.ValidationError(
+                "O complemento deve ter pelo menos 3 caracteres.")
         return complemento
