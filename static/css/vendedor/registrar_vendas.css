@@ -422,3 +422,33 @@ select.form-control {
         margin: 0px;
     }
 }
+
+@media (min-height: 725px) {
+    #form {
+        padding-top: 0px;
+    }
+
+    th {
+        font-size: 14px;
+    }
+
+    td {
+        font-size: 12px;
+    }
+
+    .table-container {
+        width: 100%;
+        padding-left: 0px;
+        padding-right: 0px;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    label {
+        font-size: 12px;
+    }
+
+    .form-left, .form-right{
+        gap: 0px;
+    }
+}

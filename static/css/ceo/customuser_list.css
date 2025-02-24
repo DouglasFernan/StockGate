@@ -233,6 +233,7 @@ form {
     font-size: 12px; 
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .error div {
@@ -246,8 +247,12 @@ form {
 }
 
 .error div::before {
-    content: "⚠️ "; /* Ícone de alerta */
+    content: "⚠️ "; 
     font-size: 14px; 
+}
+
+.error {
+    background-color: #fff;
 }
 
 
@@ -265,7 +270,6 @@ form {
     z-index: 1000;
 }
 
-/* Exibe o modal quando a classe 'show' é adicionada */
 .modal.show {
     display: flex;
     margin-top: -20px;
@@ -323,14 +327,14 @@ label {
 input.form-control, 
 select.form-control {
     width: 100%;
-    max-width: 100%; /* Garante que não ultrapassem o form */
+    max-width: 100%; 
     padding: 10px 12px;
     font-size: 14px;
     border: 1.8px solid #ccc;
     border-radius: 5px;
     background-color: #f9f9f9;
     transition: all 0.3s ease;
-    box-sizing: border-box; /* Evita que padding aumente o tamanho */
+    box-sizing: border-box; 
 }
 
 input.form-control:focus, select.form-control:focus, textarea.form-control:focus {

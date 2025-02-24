@@ -142,7 +142,7 @@
                     <tbody>
                         {% for venda in vendas_do_vendedor %}
                             <tr>
-                                <td>{{ venda.cliente.name }}</td>
+                                <td title="{{ venda.cliente.name }}">{{ venda.cliente.name|truncatechars:15 }}</td>
                                 <td>{{ venda.created_at|date:"d/m/Y" }}</td>
                                 <td>R$ {{ venda.total }}</td>
                             </tr>

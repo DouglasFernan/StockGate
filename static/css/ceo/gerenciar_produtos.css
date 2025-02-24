@@ -435,3 +435,124 @@ select.form-control {
 input, select, textarea {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
+
+
+@media (min-height: 725px) {
+    
+    /* #id_email {
+        margin-top: 0px;
+    } */
+
+h3 {
+    font-size: 16px;
+}
+
+    #form {
+        margin-top: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        gap: 0px;
+    }
+
+    button.btn-new-user-2 {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    input.form-control, 
+    select.form-control {
+    padding: 8px 10px;
+    font-size: 14px;
+    }
+
+
+    label {
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    .error {
+        font-size: 10px; 
+    }
+    
+    .error div {
+        padding: 3px 8px; 
+        margin-top: 5px; 
+    }
+    
+    .error div::before {
+        content: "⚠️ "; 
+        font-size: 13px; 
+    }
+
+    .container {
+        width: 100%;
+        padding: 17px; 
+    }
+
+    #create-user-form {
+        width: 60%;
+        margin: auto;
+        gap: 2px;
+    }
+
+    #users-container {
+        margin-top: 0px;
+    }
+
+    .form-left, .form-right {
+        width: 48%; 
+    }
+
+    .input-item {
+        margin-bottom: 0px;
+    }
+
+    label {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 0px;
+        font-weight: 500;
+    }
+
+    input.form-control, 
+    select.form-control {
+        width: 100%;
+        padding: 10px 13px; 
+        font-size: 14px; 
+        border-radius: 6px;
+        height: 40px; 
+    }
+
+    button.btn-new-user-2 {
+        padding: 10px 18px; 
+        border-radius: 6px;
+        font-size: 14px;
+        width: 48%;
+    }
+    .btn-cancel{
+        padding: 10px 18px; 
+        border-radius: 6px;
+        font-size: 14px;
+        width: 48%;
+    }
+
+    button.btn-new-user-3 {
+        font-size: 14px;
+    }
+
+    button.btn-new-user-2:hover {
+        background-color: #0A5C9B;
+        transform: translateY(-1px);
+    }
+
+    button.btn-cancel:hover {
+        background-color: #a32d38;
+        transform: translateY(-1px);
+    }
+
+
+  }
+
+  
+

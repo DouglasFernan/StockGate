@@ -200,6 +200,7 @@ class Vendas(models.Model):
     )
     telefone_cliente = models.CharField(
         "Telefone do Cliente",
+        blank=True,
         max_length=15,
         validators=[
             RegexValidator(

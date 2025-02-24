@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const errorMessages = document.querySelectorAll('.error'); 
     const form = document.getElementById('form'); 
     const userIdField = document.getElementById('user_id'); 
-    const deleteButtons = document.querySelectorAll('.delete-user'); // Botões de "Deletar"
+    const deleteButtons = document.querySelectorAll('.delete-user'); 
 
     // Função para aplicar a máscara de CPF
     function applyCpfMask(cpfField) {
@@ -20,52 +20,51 @@ document.addEventListener('DOMContentLoaded', () => {
             value = value.replace(/(\d{3})(\d)/, '$1.$2'); // Adiciona o segundo ponto
             value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona o traço
 
-            event.target.value = value; // Atualiza o valor do campo
+            event.target.value = value; 
         });
     }
 
     // Aplica a máscara ao campo de CPF
-    const cpfField = document.querySelector('input[name="cpf"]'); // Seleciona o campo de CPF pelo nome
+    const cpfField = document.querySelector('input[name="cpf"]'); 
     if (cpfField) {
         applyCpfMask(cpfField);
     }
 
     function clearErrors() {
         errorMessages.forEach(error => {
-            error.innerHTML = ''; // Remove o conteúdo das divs de erro
+            error.innerHTML = ''; 
         });
     }
 
     function clearFormFields() {
-        form.reset(); // Reseta todos os campos do formulário
+        form.reset(); 
     }
 
     // Abre o modal de criação
     openModalButtons.forEach(button => {
         button.addEventListener('click', (event) => {
-            event.preventDefault(); // Impede o comportamento padrão do botão
-            clearErrors(); // Limpa os erros antes de exibir o modal
-            clearFormFields(); // Limpa os campos do formulário
-            modal.classList.add('show'); // Exibe o modal
+            event.preventDefault(); 
+            clearErrors(); 
+            clearFormFields(); 
+            modal.classList.add('show'); 
         });
     });
 
-    // Fecha o modal
     closeModalArea.addEventListener('click', (event) => {
         if (event.target === closeModalArea) {
             modal.classList.remove('show'); // Remove a classe para esconder o modal
         }
     });
 
-    // Adiciona lógica de exclusão
+    // add lógica de exclusão
     deleteButtons.forEach(button => {
         button.addEventListener('click', (event) => {
-            event.preventDefault(); // Evita comportamento padrão
-            const userId = button.dataset.userId; // Obtém o ID do usuário
-            const confirmation = confirm("Tem certeza que deseja deletar este usuário?"); // Confirmação
+            event.preventDefault(); 
+            const userId = button.dataset.userId; // pega o ID 
+            const confirmation = confirm("Tem certeza que deseja deletar este usuário?"); 
 
             if (confirmation) {
-                // Faz uma requisição para deletar o usuário
+                //  requisição para deletar o usuário
                 fetch(`/delete_user/${userId}/`, {
                     method: 'POST',
                     headers: {
@@ -75,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }).then(response => {
                     if (response.ok) {
                         alert("Usuário deletado com sucesso!");
-                        location.reload(); // Recarrega a página
+                        location.reload(); 
                     } else {
                         alert("Erro ao deletar o usuário.");
                     }

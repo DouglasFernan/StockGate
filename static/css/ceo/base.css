@@ -34,13 +34,13 @@ body {
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    width: 350px; /* Aumentei a largura para caber mais texto */
+    width: 350px; 
     z-index: 1050;
 }
 
 .message {
     position: relative;
-    padding: 22px 20px; /* Aumentei um pouco a altura e o espaço interno */
+    padding: 22px 20px; 
     margin-bottom: 12px;
     border-radius: 10px;
     font-size: 16px; 
@@ -59,7 +59,7 @@ body {
 .success { background-color: #28a745; }  /* Verde */
 .info    { background-color: #17a2b8; }  /* Azul */
 .warning { background-color: #ffc107; color: #333; } /* Amarelo */
-.error   { background-color: #dc3545; }  /* Vermelho */
+/* .error   { background-color: #dc3545; }  Vermelho */
 
 .close-btn {
     background: transparent;
@@ -121,7 +121,7 @@ body {
 
 .dropdown-modal.show {
     display: block;
-    opacity: 1; /* Quando a classe show é adicionada, o modal aparece */
+    opacity: 1; 
 }
 
 .dropdown-modal .modal-content-base ul {
