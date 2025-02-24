@@ -1,6 +1,6 @@
 {% extends 'users/gerente/base.html' %}
 {% load static %}
-{% block title %}Gerenciar produtos{% endblock %}
+{% block title %}Gerenciar Produtos{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/gerente/gerenciar_produtos.css' %}">
 <script src="{% static 'js/ceo/manter_produtos.js' %}"></script>
@@ -134,7 +134,6 @@
                             <option value="{{ categoria.id }}" {% if categoria.id == form.categoria.value %}selected{% endif %}>{{ categoria.name }}</option>
                         {% endfor %}
                     </select>
-                    
                     <div class="error">
                         {% for error in form.categoria.errors %}
                             <div>{{ error }}</div>

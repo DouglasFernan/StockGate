@@ -124,15 +124,13 @@ class FornecedorForm(forms.ModelForm):
 class VendasForm(forms.ModelForm):
     class Meta:
         model = Vendas
-        fields = ['vendedor', 'cliente', 'produto', 'quantity',
+        fields = ['cliente', 'produto', 'quantity',
                   'payment_method', 'cpf_cliente', 'telefone_cliente']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
-        self.fields['vendedor'].queryset = self.fields['vendedor'].queryset.filter(
-            groups__name="Vendedor")
         self.fields['quantity'].widget.attrs.update({'min': 1})
         self.fields['quantity'].required = True
 

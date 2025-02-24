@@ -33,7 +33,6 @@
     padding: 20px; /* Adicionei um padding interno */
     background-color: #fff; /* Fundo branco para destacar o formulário */
     border-radius: 8px; /* Bordas arredondadas */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
 /* Formulário */
@@ -67,14 +66,14 @@ label {
 input.form-control, 
 select.form-control {
     width: 100%;
-    padding: 12px 15px; /* Aumentei o padding para deixar maior */
-    font-size: 14px; /* Aumentei o tamanho da fonte */
+    padding: 12px 15px; 
+    font-size: 14px; 
     border: 1px solid #ccc;
     border-radius: 6px;
     background-color: #f9f9f9;
     transition: all 0.3s ease;
     box-sizing: border-box;
-    height: 46px; /* Defini uma altura fixa para inputs e selects */
+    height: 46px; 
 }
 
 input.form-control:focus, select.form-control:focus {
@@ -83,9 +82,8 @@ input.form-control:focus, select.form-control:focus {
     box-shadow: 0 0 5px rgba(12, 127, 218, 0.5);
 }
 
-/* Ajuste para o botão */
 button.btn-new-user-2 {
-    padding: 12px 20px; /* Aumentei o padding do botão */
+    padding: 12px 20px; 
     background-color: #0C7FDA;
     color: #fff;
     border: none;
@@ -94,7 +92,20 @@ button.btn-new-user-2 {
     font-size: 16px;
     transition: background-color 0.3s ease, transform 0.2s ease;
     margin-top: 20px;
-    width: 100%;
+    width: 48%;
+}
+
+.btn-cancel{
+    padding: 12px 20px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 20px;
+    width: 48%;
 }
 
 button.btn-new-user-2:hover {
@@ -102,10 +113,16 @@ button.btn-new-user-2:hover {
     transform: translateY(-2px);
 }
 
+button.btn-cancel:hover {
+    background-color: #a32d38;
+    transform: translateY(-1px);
+}
+
 .button-container {
     width: 100%;
     display: flex;
-    justify-content: center; /* Centraliza o botão */
+    justify-content: space-between; 
+    margin: auto;
 }
 
 /* Estilo para mensagens de erro */
@@ -129,9 +146,7 @@ button.btn-new-user-2:hover {
 }
 
 .error div::before {
-    content: "⚠️ "; /* Ícone de alerta */
+    content: "⚠️ "; 
     font-size: 14px; 
 }
 
-/* Removendo partes não utilizadas */
-/* Remova as classes .fields, .top, .down, .area-1, .area-2, .area-3, .area-4, .btn-new-user, etc., se não estiverem sendo usadas */

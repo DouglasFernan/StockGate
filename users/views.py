@@ -15,6 +15,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView, UpdateView
 from . import forms
 from . import models
+import re
 
 
 def get_dashboard_url(user):
@@ -32,18 +33,49 @@ def get_dashboard_url(user):
 
 
 def login_view(request):
+    email = ""
+    email_error = None
+    password_error = None
+
     if request.method == 'POST':
-        username = request.POST["email"]
-        password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
-        # print(user, username, password,)
-        # breakpoint()
-        if user is not None:
-            login(request, user)
-            return redirect(get_dashboard_url(user))
+        email = request.POST.get("email", "").strip()
+        password = request.POST.get("password", "").strip()
+
+        # Verifica se os campos estão vazios
+        if not email and not password:
+            email_error = "O e-mail é obrigatório."
+            password_error = "A senha é obrigatória."
+        elif not email:
+            email_error = "O e-mail é obrigatório."
+        elif not password:
+            password_error = "A senha é obrigatória."
         else:
-            return render(request, 'users/login.html', {'error': 'Invalid username or password'})
-    return render(request, 'users/login.html')
+            # Verifica se o e-mail tem um formato válido
+            if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+                email_error = "E-mail inválido."
+            else:
+                try:
+                    user = models.CustomUser.objects.get(
+                        email=email)  # Verifica se o e-mail existe
+
+                    # Se o e-mail existir, agora verificamos a senha
+                    user = authenticate(
+                        request, email=email, password=password)
+
+                    if user is not None:
+                        login(request, user)
+                        return redirect(get_dashboard_url(user))
+                    else:
+                        password_error = "Senha incorreta."  # Apenas erro de senha
+
+                except models.CustomUser.DoesNotExist:
+                    email_error = "E-mail não cadastrado."
+
+    return render(request, 'users/login.html', {
+        'email_error': email_error,
+        'password_error': password_error,
+        'email': email
+    })
 
 
 def logout_view(request):
@@ -123,6 +155,7 @@ class UsersListView(ListView):
         form = forms.CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(self.request, 'Usuário criado com sucesso!')
             return redirect(reverse('gerenciar_usuarios'))
         else:
             return render(request, 'users/ceo/customuser_list.html', {
@@ -138,6 +171,7 @@ class UserUpdateView(UpdateView):
     template_name = "users/ceo/user_update.html"
 
     def get_success_url(self):
+        messages.success(self.request, 'Usuário modificado com sucesso!')
         return reverse_lazy('gerenciar_usuarios')
 
 
@@ -164,6 +198,7 @@ class ProdutoListView(ListView):
         form = forms.ProdutoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(self.request, 'Produto criado com sucesso!')
             return redirect(reverse('gerenciar_produtos'))
         else:
             return render(request, 'users/ceo/produto_list.html', {
@@ -179,6 +214,7 @@ class ProdutoUpdateView(UpdateView):
     template_name = "users/ceo/update_produto.html"
 
     def get_success_url(self):
+        messages.success(self.request, 'Produto modificado com sucesso!')
         return reverse_lazy('gerenciar_produtos')
 
 
@@ -189,9 +225,9 @@ class ProdutoDeleteView(View):
 
         try:
             product.delete()
-            messages.success(request, "Produto deletado com sucesso!")
+            messages.success(self.request, "Produto deletado com sucesso!")
         except Exception as e:
-            messages.error(request, f"Erro ao deletar produto: {str(e)}")
+            messages.error(self.request, f"Erro ao deletar produto: {str(e)}")
 
         return redirect("gerenciar_produtos")
 
@@ -219,6 +255,7 @@ class CategoriaListView(ListView):
         form = forms.CategoriaForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(self.request, 'Categoria criada com sucesso!')
             return redirect(reverse('gerenciar_categorias'))
         else:
             return render(request, 'users/ceo/categoria_list.html', {
@@ -234,6 +271,7 @@ class CeoCategoriaUpdateView(UpdateView):
     template_name = "users/ceo/update_categoria.html"
 
     def get_success_url(self):
+        messages.success(self.request, 'Categoria modificada com sucesso!')
         return reverse_lazy('gerenciar_categorias')
 
 
@@ -244,9 +282,10 @@ class CategoriaDeleteView(View):
 
         try:
             categoria.delete()
-            messages.success(request, "Categoria deletada com sucesso!")
+            messages.success(self.request, "Categoria deletada com sucesso!")
         except Exception as e:
-            messages.error(request, f"Erro ao deletar categoria: {str(e)}")
+            messages.error(
+                self.request, f"Erro ao deletar categoria: {str(e)}")
 
         return redirect("gerenciar_categorias")
 
@@ -274,6 +313,7 @@ class FornecedorListView(ListView):
         form = forms.FornecedorForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(self.request, 'Fornecedor criado com sucesso!')
             return redirect(reverse('fornecedores'))
         else:
             return render(request, 'users/ceo/fornecedor_list.html', {
@@ -289,6 +329,7 @@ class FornecedorUpdateView(UpdateView):
     template_name = "users/ceo/update_fornecedor.html"
 
     def get_success_url(self):
+        messages.success(self.request, 'Fornecedor modificado com sucesso!')
         return reverse_lazy('fornecedores')
 
 
@@ -354,6 +395,7 @@ class GerenteVendedorListView(ListView):
         form = forms.VendedorCreationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(self.request, 'Vendedor criado com sucesso!')
             return redirect(reverse('gerente_gerenciar_usuarios'))
         else:
             return render(request, 'users/gerente/customuser_list.html', {
@@ -369,6 +411,7 @@ class GerenteUserUpdateView(UpdateView):
     template_name = "users/gerente/user_update.html"
 
     def get_success_url(self):
+        messages.success(self.request, 'Vendedor modificado com sucesso!')
         return reverse_lazy('gerente_gerenciar_usuarios')
 
 
@@ -412,6 +455,7 @@ class GerenteCategoriaListView(ListView):
         form = forms.CategoriaForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(self.request, 'Categoria criada com sucesso!')
             return redirect(reverse('gerente_gerenciar_categorias'))
         else:
             return render(request, 'users/gerente/categoria_list.html', {
@@ -427,6 +471,7 @@ class GerenteCategoriaUpdateView(UpdateView):
     template_name = "users/gerente/update_categoria.html"
 
     def get_success_url(self):
+        messages.success(self.request, 'Categoria modificada com sucesso!')
         return reverse_lazy('gerente_gerenciar_categorias')
 
 
@@ -467,6 +512,7 @@ class GerenteFornecedorListView(ListView):
         form = forms.FornecedorForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(self.request, 'Fornecedor criado com sucesso!')
             return redirect(reverse('gerente_fornecedores'))
         else:
             return render(request, 'users/gerente/fornecedor_list.html', {
@@ -482,6 +528,7 @@ class GerenteFornecedorUpdateView(UpdateView):
     template_name = "users/gerente/update_fornecedor.html"
 
     def get_success_url(self):
+        messages.success(self.request, 'Fornecedor modificado com sucesso!')
         return reverse_lazy('gerente_fornecedores')
 
 
@@ -522,6 +569,7 @@ class GerenteProdutoListView(ListView):
         form = forms.ProdutoForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(self.request, 'Produto criado com sucesso!')
             return redirect(reverse('gerente_gerenciar_produtos'))
         else:
             return render(request, 'users/gerente/produto_list.html', {
@@ -537,6 +585,7 @@ class GerenteProdutoUpdateView(UpdateView):
     template_name = "users/gerente/update_produto.html"
 
     def get_success_url(self):
+        messages.success(self.request, 'Produto modificado com sucesso!')
         return reverse_lazy('gerente_gerenciar_produtos')
 
 # ---------  Vendedor   ------------
@@ -576,7 +625,7 @@ class RegistrarVendasListView(View):
 
             venda.vendedor = request.user
             venda.save()
-
+            messages.success(self.request, 'Venda registrada com sucesso!')
             return redirect('registrar_vendas')
 
         else:
@@ -633,6 +682,7 @@ class VendedorClienteListView(ListView):
         form = forms.ClienteForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(self.request, 'Cliente criado com sucesso!')
             return redirect(reverse('vendedor_clientes'))
         else:
             return render(request, 'users/vendedor/cliente_list.html', {
@@ -648,6 +698,7 @@ class ClienteUpdateView(UpdateView):
     template_name = "users/vendedor/cliente_update.html"
 
     def get_success_url(self):
+        messages.success(self.request, 'Cliente modificado com sucesso!')
         return reverse_lazy('vendedor_clientes')
 
 

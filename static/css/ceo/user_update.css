@@ -96,18 +96,37 @@ button.btn-new-user-2 {
     font-size: 16px;
     transition: background-color 0.3s ease, transform 0.2s ease;
     margin-top: 20px;
-    width: 60%;
+    width: 48%;
+}
+.btn-cancel{
+    padding: 12px 20px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 20px;
+    width: 48%;
 }
 
 button.btn-new-user-2:hover {
     background-color: #0A5C9B;
-    transform: translateY(-2px);
+    transform: translateY(-1px);
 }
 
+button.btn-cancel:hover {
+    background-color: #a32d38;
+    transform: translateY(-1px);
+}
+
+
 .button-container {
-    width: 100%;
+    width: 60%;
     display: flex;
-    justify-content: center; /* Centraliza o botão */
+    justify-content: space-between; /* Centraliza o botão */
+    margin: auto;
 }
 
 /* Estilo para mensagens de erro */

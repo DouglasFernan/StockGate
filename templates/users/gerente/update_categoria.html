@@ -1,6 +1,6 @@
 {% extends 'users/gerente/base.html' %}
 {% load static %}
-{% block title %}Editar categoria{% endblock %}
+{% block title %}Editar Categoria{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'css/ceo/user_update.css' %}">
 {% endblock %}
@@ -41,6 +41,7 @@
 
                 </div>
                 <div class="button-container">
+                    <button class="btn-cancel" type="button" onclick="history.back()">Cancelar</button>
                     <button class="btn-new-user-2" type="submit">Salvar Alterações</button>
                 </div>
             </form>
