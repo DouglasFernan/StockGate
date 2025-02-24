@@ -6,75 +6,63 @@
  <!--Load the AJAX API-->
  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
  <script type="text/javascript">
-   // Carregando a biblioteca do Google Charts
-   google.charts.load('current', {packages: ['corechart', 'bar']});
-   google.charts.setOnLoadCallback(drawChart);
+  google.charts.load('current', { packages: ['corechart', 'bar'] });
+  google.charts.setOnLoadCallback(drawCharts);
 
-   function drawChart() {
-     // Dados do gráfico
-     var data = google.visualization.arrayToDataTable([
-       ['Mês', 'Vendas'],
-       ['Jan', 100000],
-       ['Fev', 120000],
-       ['Mar', 130000],
-       ['Abr', 90000],
-       ['Mai', 150000],
-       ['Jun', 160000],
-       ['Jul', 170000],
-       ['Ago', 180000],
-       ['Set', 140000],
-       ['Out', 200000],
-       ['Nov', 210000],
-       ['Dez', 250000]
-     ]);
+  function drawCharts() {
+      drawSalesChart();
+      drawSellersChart();
+  }
 
-     // Opções de personalização
-     var options = {
-       title: 'Vendas Mensais',
-       chartArea: {width: '70%'},
-       hAxis: {
-         title: 'Mês',
-       },
-       vAxis: {
-         title: 'Total de Vendas',
-         minValue: 0
-       },
-       colors: ['#0C7FDA'] // Cor personalizada para as barras
-     };
+  function drawSalesChart() {
+      var salesData = {{ dados_mensais|safe }};
 
-     // Renderizando o gráfico
-     var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-     chart.draw(data, options);
-   }
- </script>
-    <script type="text/javascript">
-    google.charts.load('current', {packages: ['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
+      if (!salesData || salesData.length === 0) {
+          console.warn("Nenhum dado de vendas mensais disponível.");
+          return;
+      }
 
-    function drawChart() {
-        // Dados do gráfico
-        var data = google.visualization.arrayToDataTable([
-        ['Vendedor', 'Vendas'],
-        ['João', 5000],
-        ['Maria', 7000],
-        ['Pedro', 6000],
-        ['Ana', 8000],
-        ['Carlos', 5000]
-        ]);
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Mês');
+      data.addColumn('number', 'Vendas');
+      data.addRows(salesData);
 
-        // Opções de personalização
-        var options = {
-        title: 'Desempenho dos Vendedores',
-        is3D: true, // Gráfico em 3D (opcional)
-        pieHole: 0.4, // Para transformar em gráfico de rosca (opcional)
-        colors: ['#4CAF50', '#FF9800', '#2196F3', '#F44336', '#9C27B0'] // Cores personalizadas
-        };
+      var options = {
+          title: 'Vendas Mensais',
+          chartArea: { width: '70%' },
+          hAxis: { title: 'Mês' },
+          vAxis: { title: 'Total de Vendas', minValue: 0 },
+          colors: ['#0C7FDA']
+      };
 
-        // Renderizando o gráfico
-        var chart = new google.visualization.PieChart(document.getElementById('pie_chart_div'));
-        chart.draw(data, options);
-    }
-    </script>
+      var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+  }
+
+  function drawSellersChart() {
+      var sellerData = {{ dados_vendedores|safe }};
+
+      if (!sellerData || sellerData.length === 0) {
+          console.warn("Nenhum dado de vendas por vendedor disponível.");
+          return;
+      }
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Vendedor');
+      data.addColumn('number', 'Vendas');
+      data.addRows(sellerData);
+
+      var options = {
+          title: 'Desempenho dos Vendedores',
+          is3D: true,
+          pieHole: 0.4,
+          colors: ['#4CAF50', '#FF9800', '#2196F3', '#F44336', '#9C27B0']
+      };
+
+      var chart = new google.visualization.PieChart(document.getElementById('pie_chart_div'));
+      chart.draw(data, options);
+  }
+</script>
 {% endblock %}
 {% block content %}
 <section id="core">

@@ -9,12 +9,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views import View
 from django.views.generic import FormView, ListView
-from django.db.models import Q
+from django.db.models import Q, Sum
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import CreateView, UpdateView
+from datetime import datetime
 from . import forms
 from . import models
+import json
 import re
 
 
@@ -92,7 +94,42 @@ class UserRegistration(FormView):
 
 @login_required
 def ceo_dashboard(request):
-    return render(request, 'users/ceo/dashboard.html')
+    campo_data = 'created_at'
+    meses_nomes = ["Jan", "Fev", "Mar", "Abr", "Mai",
+                   "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
+    dados_mensais_dict = {mes: 0 for mes in meses_nomes}
+    vendas_por_mes = (
+        models.Vendas.objects
+        .filter(**{f"{campo_data}__year": datetime.today().year})
+        .values_list(f"{campo_data}__month")
+        .annotate(total_vendas=Sum('total'))
+        .order_by(f"{campo_data}__month")
+    )
+    for mes, total in vendas_por_mes:
+        if 1 <= mes <= 12:
+            dados_mensais_dict[meses_nomes[mes - 1]] = float(total)
+    # Convertendo para a estrutura esperada pelo Google Charts
+    dados_mensais = [[mes, total] for mes, total in dados_mensais_dict.items()]
+
+    # Vendas vendedor
+    vendas_vendedores = (
+        models.Vendas.objects
+        .filter(**{f"{campo_data}__year": datetime.today().year})
+        .values_list('vendedor__name')
+        .annotate(total_vendas=Sum('total'))
+        .order_by('-total_vendas')
+    )
+
+    # Convertendo Decimal para float na lista de vendedores
+    dados_vendedores = [(vendedor, float(total))
+                        for vendedor, total in vendas_vendedores]
+
+    context = {
+        'dados_mensais': json.dumps(dados_mensais),
+        'dados_vendedores': json.dumps(dados_vendedores),
+    }
+
+    return render(request, 'users/ceo/dashboard.html', context)
 
 
 class CeoDeletarUsuarioView(View):
