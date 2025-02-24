@@ -1,0 +1,52 @@
+{% extends 'users/ceo/base.html' %}
+{% load static %}
+{% block title %}Editar categoria{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/ceo/user_update.css' %}">
+{% endblock %}
+{% block content %}
+<section id="core">
+    <div id="users-container">
+        <h3>Você está editando a categoria <span style="color: #0A5C9B;">{{form.name.value}}</span> </h3>
+        <div class="container">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div  id="create-user-form">
+                    <!-- Coluna Esquerda -->
+                        <div class="input-item">
+                            <label for="{{ form.name.id_for_label }}">Nome</label>
+                            <input type="text" id="{{ form.name.id_for_label }}" name="{{ form.name.html_name }}" value="{{ form.name.value|default:'' }}" class="form-control">
+                                {% if form.name.errors %}
+                                    <div class="error">
+                                        {% for error in form.name.errors %}
+                                            <div>{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                        </div>
+
+                        <div class="input-item">
+                            <label for="{{ form.description.id_for_label }}">Descrição</label>
+                            <input placeholder="Descrição" type="text" id="{{ form.description.id_for_label }}" name="{{ form.description.html_name }}" value="{{ form.description.value|default:'' }}" class="form-control" >
+                                {% if form.description.errors %}
+                                    <div class="error">
+                                        {% for error in form.description.errors %}
+                                            <div>{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                        </div>
+
+                        <!-- {{form.initial}} -->
+
+                </div>
+                <div class="button-container">
+                    <button class="btn-new-user-2" type="submit">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

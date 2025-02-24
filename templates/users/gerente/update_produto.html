@@ -1,0 +1,112 @@
+{% extends 'users/gerente/base.html' %}
+{% load static %}
+{% block title %}Editar Cliente{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/ceo/user_update.css' %}">
+{% endblock %}
+{% block content %}
+<section id="core">
+    <div id="users-container">
+        <h3>Você está editando o produto <span style="color: #0A5C9B;">{{form.name.value}}</span> </h3>
+        <div class="container">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div  id="create-user-form">
+                    <!-- Coluna Esquerda -->
+                        <div class="input-item">
+                            <label for="{{ form.name.id_for_label }}">Nome</label>
+                            <input type="text" id="{{ form.name.id_for_label }}" 
+                                name="{{ form.name.html_name }}" 
+                                value="{{ form.name.value|default:'' }}" class="form-control">
+                                {% if form.name.errors %}
+                                    <div class="error">
+                                        {% for error in form.name.errors %}
+                                            <div>{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                        </div>
+
+                        <div class="input-item">
+                            <label for="{{ form.price.id_for_label }}">Preço</label>
+                            <input placeholder="Preço" type="number"  id="{{ form.price.id_for_label }}" name="{{ form.price.html_name }}" value="{{ produto.price|floatformat:2 }}" step="0.01" class="form-control">
+                                {% if form.price.errors %}
+                                    <div class="error">
+                                        {% for error in form.price.errors %}
+                                            <div>{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                        </div>
+                        <!-- from users.models import Produto
+                        produto = Produto.objects.first()
+                        print(type(produto.price), produto.price)
+                         -->
+                        <div class="input-item">
+                            <label for="{{ form.quantity.id_for_label }}">Quantidade</label>
+                            <input placeholder="Quantidade" type="number" id="{{ form.quantity.id_for_label }}" name="{{ form.quantity.html_name }}" value="{{ form.quantity.value|default:'' }}" class="form-control" maxlength="10">
+                                {% if form.quantity.errors %}
+                                    <div class="error">
+                                        {% for error in form.quantity.errors %}
+                                            <div>{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                        </div>
+                        <!-- {{form.initial}} -->
+
+                        <div class="input-item">
+                            <label for="{{ form.product_picture.id_for_label }}">Foto do produto</label>
+                            <input type="file" id="{{ form.product_picture.id_for_label }}" name="{{ form.product_picture.html_name }}" class="form-control">
+                            {% if form.description.errors %}
+                                <div class="error">
+                                    {% for error in form.description.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="input-item">
+                            <label for="{{ form.fornecedor.id_for_label }}">Fornecedor</label>
+                            <select name="{{ form.fornecedor.html_name }}" id="{{ form.fornecedor.id_for_label }}" class="form-control">
+                                {% for fornecedor in form.fornecedor.field.queryset %}
+                                    <option value="{{ fornecedor.id }}" {% if fornecedor.id in form.fornecedor.value %}selected{% endif %}>{{ fornecedor.name }}</option>
+                                {% endfor %}
+                            </select>
+                            {% if form.fornecedor.errors %}
+                                <div class="error">
+                                    {% for error in form.fornecedor.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="input-item">
+                            <label for="{{ form.categoria.id_for_label }}">Categoria</label>
+                            <select name="{{ form.categoria.html_name }}" id="{{ form.categoria.id_for_label }}" class="form-control">
+                                {% for categoria in form.categoria.field.queryset %}
+                                    <option value="{{ categoria.id }}" {% if categoria.id == form.categoria.value %}selected{% endif %}>{{ categoria.name }}</option>
+                                {% endfor %}
+                            </select>
+                            {% if form.categoria.errors %}
+                                <div class="error">
+                                    {% for error in form.categoria.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                </div>
+                <div class="button-container">
+                    <button class="btn-new-user-2" type="submit">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

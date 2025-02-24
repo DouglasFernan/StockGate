@@ -1,0 +1,64 @@
+{% extends 'users/gerente/base.html' %}
+{% load static %}
+{% block title %}Editar Fornecedor{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/ceo/user_update.css' %}">
+{% endblock %}
+{% block content %}
+<section id="core">
+    <div id="users-container">
+        <h3>Você está editando o fornecedor <span style="color: #0A5C9B;">{{form.name.value}}</span> </h3>
+        <div class="container">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div  id="create-user-form">
+                    <!-- Coluna Esquerda -->
+                        <div class="input-item">
+                            <label for="{{ form.name.id_for_label }}">Nome</label>
+                            <input type="text" id="{{ form.name.id_for_label }}" name="{{ form.name.html_name }}" value="{{ form.name.value|default:'' }}" class="form-control">
+                                {% if form.name.errors %}
+                                    <div class="error">
+                                        {% for error in form.name.errors %}
+                                            <div>{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                        </div>
+
+                        <div class="input-item">
+                            <label for="{{ form.company.id_for_label }}">Empresa</label>
+                            <input placeholder="Empresa" type="text" id="{{ form.company.id_for_label }}" name="{{ form.company.html_name }}" value="{{ form.company.value|default:'' }}" class="form-control" >
+                                {% if form.company.errors %}
+                                    <div class="error">
+                                        {% for error in form.company.errors %}
+                                            <div>{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                        </div>
+
+                        <div class="input-item">
+                            <label for="{{ form.email.id_for_label }}">E-mail</label>
+                            <input placeholder="email" type="email" id="{{ form.email.id_for_label }}" name="{{ form.email.html_name }}" value="{{ form.email.value|default:'' }}" class="form-control" >
+                                {% if form.email.errors %}
+                                    <div class="error">
+                                        {% for error in form.email.errors %}
+                                            <div>{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                        </div>
+
+                        <!-- {{form.initial}} -->
+
+                </div>
+                <div class="button-container">
+                    <button class="btn-new-user-2" type="submit">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

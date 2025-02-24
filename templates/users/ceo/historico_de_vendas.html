@@ -50,7 +50,6 @@
                     <span class="title">TOTAL</span>
                     <span class="title">QUANTIDADE</span>
                     <span class="title">DATA</span>
-                    <div class="title">Opções</div> 
                 </div>
 
                 {% for venda in object_list %}
@@ -67,7 +66,6 @@
                             <span class="sales-total">R$ {{ venda.total }}</span>
                             <span class="sales-id">{{ venda.quantity }}</span>
                             <span class="sales-date">{{ venda.created_at|date:"d/m/Y" }}</span>
-                            <div class="sales-options">...</div>
                         </div>
                     </div>
                 {% empty %}

@@ -1,0 +1,139 @@
+/* Estilo geral */
+.content {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    font-family: 'Epilogue', sans-serif;
+    height: 90%;
+}
+
+#core {
+    width: calc(100% - 370px);
+    height: calc(100% - 150px);
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Centralizar o users-container verticalmente */
+#users-container {
+    display: flex;
+    align-items: center; /* Centraliza verticalmente */
+    justify-content: center; /* Centraliza horizontalmente */
+    height: 100%; /* Ocupa toda a altura disponível */
+    margin-top: 20px; /* Adicionei um espaçamento no topo, se necessário */
+    flex-direction: column;
+}
+
+/* Ajuste no container do formulário */
+.container {
+    width: 100%;
+    max-width: 800px; /* Defina um valor máximo se necessário */
+    margin: 0 auto; /* Centraliza horizontalmente */
+    padding: 20px; /* Adicionei um padding interno */
+    background-color: #fff; /* Fundo branco para destacar o formulário */
+    border-radius: 8px; /* Bordas arredondadas */
+}
+
+/* Formulário */
+#create-user-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex-direction: column;
+    gap: 10px;
+    width: 60%;
+    margin: auto;
+}
+
+.form-left, .form-right {
+    width: 48%; 
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-item {
+    margin-bottom: 10px;
+}
+
+label {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+/* Ajustes para aumentar inputs e selects */
+input.form-control, 
+select.form-control {
+    width: 100%;
+    padding: 12px 15px; /* Aumentei o padding para deixar maior */
+    font-size: 14px; /* Aumentei o tamanho da fonte */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    height: 46px; /* Defini uma altura fixa para inputs e selects */
+}
+
+input.form-control:focus, select.form-control:focus {
+    border-color: #0C7FDA;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(12, 127, 218, 0.5);
+}
+
+/* Ajuste para o botão */
+button.btn-new-user-2 {
+    padding: 12px 20px; /* Aumentei o padding do botão */
+    background-color: #0C7FDA;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 20px;
+    width: 60%;
+}
+
+button.btn-new-user-2:hover {
+    background-color: #0A5C9B;
+    transform: translateY(-2px);
+}
+
+.button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Centraliza o botão */
+}
+
+/* Estilo para mensagens de erro */
+.error {
+    color: #fff; 
+    font-weight: 500; 
+    text-transform: none; 
+    font-size: 12px; 
+    display: flex;
+    flex-direction: column;
+}
+
+.error div {
+    background-color: rgba(211, 47, 47, 0.9); 
+    padding: 5px 10px; 
+    border-radius: 4px; 
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15); 
+    display: inline-block;
+    margin-top: 4px; 
+    max-width: 300px; 
+}
+
+.error div::before {
+    content: "⚠️ "; /* Ícone de alerta */
+    font-size: 14px; 
+}
+
+/* Removendo partes não utilizadas */
+/* Remova as classes .fields, .top, .down, .area-1, .area-2, .area-3, .area-4, .btn-new-user, etc., se não estiverem sendo usadas */

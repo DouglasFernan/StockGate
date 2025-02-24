@@ -48,7 +48,7 @@
                         <div></div>
                         <span></span>
                         <div class="user-actions">
-                            <a href="">
+                            <a href="{% url 'editar_fornecedor' user.id %}">
                                 <button class="btn-edit">
                                     <img src="{% static 'images/ceo/edit.png' %}" alt="Edit"> Editar
                                 </button>
@@ -62,7 +62,7 @@
                     </div>    
                 </div>
                 {% empty %}
-                    <h5>No data yet</h5>
+                    <h5>Sem dados</h5>
             {% endfor %}
         </ul>
     </div>

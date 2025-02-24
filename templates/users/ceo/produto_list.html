@@ -31,7 +31,7 @@
                 {% comment %} <div class="inline"> {% endcomment %}
                     <div class="box">
                         <div id="edit-div">
-                            <a href="">
+                            <a href="{% url 'editar_produto' product.id %}">
                                 <button class="btn-edit" data-id="{{ user.id }}">
                                     <img src="{% static 'images/ceo/edit.png' %}" alt="Edit"> 
                                 </button>
@@ -52,7 +52,7 @@
                     </div>
                 {% comment %} </div> {% endcomment %}
             {% empty %}
-                <h5>No data yet</h5>
+                <h5>Sem dados</h5>
             {% endfor %}
         </div>
     </div>

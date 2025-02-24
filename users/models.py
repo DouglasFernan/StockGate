@@ -40,7 +40,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField("email", unique=True)
     name = models.CharField("name", max_length=150)
     cpf = models.CharField("CPF", max_length=14, unique=True,
-                           validators=[MinLengthValidator(14)])
+                           validators=[MinLengthValidator(11)])
     profile_picture = models.ImageField(
         upload_to='profile_pictures/', null=True, blank=True, default='profile_pictures/default.jpg')
     REQUIRED_FIELDS = []
@@ -183,11 +183,11 @@ class Vendas(models.Model):
         ("cash", "Dinheiro"),
     ]
     vendedor = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_(
-        "vendedor"), null=True, on_delete=models.SET_NULL)
+        "vendedor"), on_delete=models.DO_NOTHING)
     cliente = models.ForeignKey("Cliente", verbose_name=_(
-        "cliente"), null=True, blank=True, on_delete=models.SET_NULL)
+        "cliente"), on_delete=models.DO_NOTHING)
     produto = models.ForeignKey("Produto", verbose_name=_(
-        "produto"), null=True, on_delete=models.SET_NULL)
+        "produto"), null=True, on_delete=models.DO_NOTHING)
     cpf_cliente = models.CharField(
         "CPF do Cliente",
         max_length=14,

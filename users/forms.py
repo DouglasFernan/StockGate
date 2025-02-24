@@ -30,6 +30,32 @@ class CustomUserChangeForm(UserChangeForm):
         model = CustomUser
         fields = ("email", "name", "cpf", "profile_picture", "groups")
 
+    def clean_cpf(self):
+        cpf = self.cleaned_data.get("cpf")
+        user_id = self.instance.id  # Obtém o ID do cliente que está sendo editado
+
+        if CustomUser.objects.filter(cpf=cpf).exclude(id=user_id).exists():
+            raise forms.ValidationError(
+                "Já existe um cliente com esse CPF cadastrado.")
+
+        return cpf
+
+
+class CustomVendedorChangeForm(UserChangeForm):
+    class Meta:
+        model = CustomUser
+        fields = ("email", "name", "cpf", "profile_picture")
+
+    def clean_cpf(self):
+        cpf = self.cleaned_data.get("cpf")
+        user_id = self.instance.id  # Obtém o ID do cliente que está sendo editado
+
+        if CustomUser.objects.filter(cpf=cpf).exclude(id=user_id).exists():
+            raise forms.ValidationError(
+                "Já existe um cliente com esse CPF cadastrado.")
+
+        return cpf
+
 
 class VendedorCreationForm(forms.ModelForm):
     password1 = forms.CharField(widget=forms.PasswordInput, label="Password")
@@ -74,6 +100,13 @@ class ProdutoForm(forms.ModelForm):
         # Adiciona classes CSS para estilização (opcional)
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
+
+
+class ProdutoChangeForm(forms.ModelForm):
+    class Meta:
+        model = Produto
+        fields = ['name', 'price', 'quantity', 'description',
+                  'product_picture', 'fornecedor', 'categoria']
 
 
 class CategoriaForm(forms.ModelForm):

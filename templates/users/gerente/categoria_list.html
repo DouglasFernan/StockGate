@@ -33,8 +33,8 @@
                      data-category-name="{{ category.name }}"
                      data-category-desc="{{ category.description }}">
                     <div id="edit-div">
-                        <a href="">
-                            <button class="btn-edit" data-id="{{ user.id }}">
+                        <a href="{% url 'gerente_editar_categorias' category.id %}">
+                            <button class="btn-edit" data-id="{{ category.id }}">
                                 <img src="{% static 'images/ceo/edit.png' %}" alt="Edit"> 
                             </button>
                         </a>
@@ -50,7 +50,7 @@
                     </div>
                 </div>
             {% empty %}
-                <h5>No data yet</h5>
+                <h5>Sem dados</h5>
             {% endfor %}
         </div>
     </div>

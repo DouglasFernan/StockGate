@@ -44,11 +44,11 @@
                         <span></span>
                         <span class="user-email">{{ user.email }}</span>
                         <span class="user-last-login">
-                            {% if user.last_login %}
-                                {{ user.last_login|date:"d/m/Y" }}
-                            {% else %}
-                                Sem dados
-                            {% endif %}
+                        {% if user.ultima_compra %}
+                            {{ user.ultima_compra.created_at|date:"d/m/Y" }}
+                        {% else %}
+                            Sem dados
+                        {% endif %}
                         </span>                        
                         <div class="user-actions">
                             <a href="{% url 'editar_cliente' user.id %}">
@@ -64,6 +64,8 @@
                         </div>
                     </div>    
                 </div>
+            {%  empty %}
+                <h5>Sem dados</h5>
             {% endfor %}
         </ul>
     </div>

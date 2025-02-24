@@ -55,7 +55,7 @@
                             {% endif %}
                         </span>                        
                         <div class="user-actions">
-                            <a href="">
+                            <a href="{% url 'editar_usuarios' user.id %}">
                                 <button class="btn-edit" data-id="{{ user.id }}">
                                     <img src="{% static 'images/ceo/edit.png' %}" alt="Edit"> Editar
                                 </button>

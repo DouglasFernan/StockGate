@@ -132,6 +132,15 @@ class UsersListView(ListView):
             })
 
 
+class UserUpdateView(UpdateView):
+    model = models.CustomUser
+    form_class = forms.CustomUserChangeForm
+    template_name = "users/ceo/user_update.html"
+
+    def get_success_url(self):
+        return reverse_lazy('gerenciar_usuarios')
+
+
 class ProdutoListView(ListView):
     model = models.Produto
     template_name = "users/ceo/produto_list.html"
@@ -162,6 +171,15 @@ class ProdutoListView(ListView):
                 'modal_open': True,
                 'object_list': models.Produto.objects.all(),
             })
+
+
+class ProdutoUpdateView(UpdateView):
+    model = models.Produto
+    form_class = forms.ProdutoChangeForm
+    template_name = "users/ceo/update_produto.html"
+
+    def get_success_url(self):
+        return reverse_lazy('gerenciar_produtos')
 
 
 class ProdutoDeleteView(View):
@@ -210,6 +228,15 @@ class CategoriaListView(ListView):
             })
 
 
+class CeoCategoriaUpdateView(UpdateView):
+    model = models.Categoria
+    form_class = forms.CategoriaForm
+    template_name = "users/ceo/update_categoria.html"
+
+    def get_success_url(self):
+        return reverse_lazy('gerenciar_categorias')
+
+
 class CategoriaDeleteView(View):
     def post(self, request, *args, **kwargs):
         categoria_id = kwargs.get("pk")
@@ -254,6 +281,15 @@ class FornecedorListView(ListView):
                 'modal_open': True,  # Controla a abertura do modal
                 'object_list': models.Fornecedor.objects.all(),  # Lista de usuários
             })
+
+
+class FornecedorUpdateView(UpdateView):
+    model = models.Fornecedor
+    form_class = forms.FornecedorForm
+    template_name = "users/ceo/update_fornecedor.html"
+
+    def get_success_url(self):
+        return reverse_lazy('fornecedores')
 
 
 class FornecedorDeleteView(View):
@@ -327,6 +363,15 @@ class GerenteVendedorListView(ListView):
             })
 
 
+class GerenteUserUpdateView(UpdateView):
+    model = models.CustomUser
+    form_class = forms.CustomVendedorChangeForm
+    template_name = "users/gerente/user_update.html"
+
+    def get_success_url(self):
+        return reverse_lazy('gerente_gerenciar_usuarios')
+
+
 class GerenteDeletarVendedorView(View):
     def post(self, request, *args, **kwargs):
         user_id = kwargs.get("pk")
@@ -376,6 +421,15 @@ class GerenteCategoriaListView(ListView):
             })
 
 
+class GerenteCategoriaUpdateView(UpdateView):
+    model = models.Categoria
+    form_class = forms.CategoriaForm
+    template_name = "users/gerente/update_categoria.html"
+
+    def get_success_url(self):
+        return reverse_lazy('gerente_gerenciar_categorias')
+
+
 class GerenteCategoriaDeleteView(View):
     def post(self, request, *args, **kwargs):
         categoria_id = kwargs.get("pk")
@@ -422,6 +476,15 @@ class GerenteFornecedorListView(ListView):
             })
 
 
+class GerenteFornecedorUpdateView(UpdateView):
+    model = models.Fornecedor
+    form_class = forms.FornecedorForm
+    template_name = "users/gerente/update_fornecedor.html"
+
+    def get_success_url(self):
+        return reverse_lazy('gerente_fornecedores')
+
+
 class GerenteFornecedorDeleteView(View):
     def post(self, request, *args, **kwargs):
         fornecedor_id = kwargs.get("pk")
@@ -466,6 +529,15 @@ class GerenteProdutoListView(ListView):
                 'modal_open': True,
                 'object_list': models.Produto.objects.all(),
             })
+
+
+class GerenteProdutoUpdateView(UpdateView):
+    model = models.Produto
+    form_class = forms.ProdutoForm
+    template_name = "users/gerente/update_produto.html"
+
+    def get_success_url(self):
+        return reverse_lazy('gerente_gerenciar_produtos')
 
 # ---------  Vendedor   ------------
 
@@ -542,6 +614,12 @@ class VendedorClienteListView(ListView):
             queryset = queryset.filter(
                 Q(name__icontains=search) | Q(email__icontains=search)
             )
+
+        # Adicionar última compra de cada cliente
+        for cliente in queryset:
+            cliente.ultima_compra = models.Vendas.objects.filter(
+                cliente=cliente).order_by('-created_at').first()
+
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -560,7 +638,7 @@ class VendedorClienteListView(ListView):
             return render(request, 'users/vendedor/cliente_list.html', {
                 'form': form,
                 'modal_open': True,
-                'object_list': models.Cliente.objects.all(),
+                'object_list': self.get_queryset(),
             })
 
 

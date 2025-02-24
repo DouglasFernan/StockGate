@@ -1,0 +1,143 @@
+{% extends 'users/gerente/base.html' %}
+{% load static %}
+{% block title %}Editar vendedor{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/ceo/user_update.css' %}">
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Seleciona os campos de CPF e telefone pelos atributos 'name'
+        const cpfField = document.querySelector('input[name="{{ form.cpf.html_name }}"]');
+        const phoneField = document.querySelector('input[name="{{ form.phone.html_name }}"]');
+
+        // Função para aplicar máscara de CPF
+        function applyCpfMask(cpfField) {
+            cpfField.addEventListener("input", function (event) {
+                let value = event.target.value.replace(/\D/g, ""); // Remove tudo que não for dígito
+                if (value.length > 11) {
+                    value = value.substring(0, 11); // Limita a 11 caracteres
+                }
+
+                // Aplica a máscara de CPF
+                value = value.replace(/(\d{3})(\d)/, "$1.$2");
+                value = value.replace(/(\d{3})(\d)/, "$1.$2");
+                value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+
+                event.target.value = value; // Atualiza o valor do campo
+            });
+        }
+
+        // Função para aplicar máscara de telefone
+        function applyPhoneMask(phoneField) {
+            phoneField.addEventListener("input", function (event) {
+                let value = event.target.value.replace(/\D/g, ""); // Remove tudo que não for dígito
+                if (value.length > 11) {
+                    value = value.substring(0, 11); // Limita a 11 caracteres
+                }
+
+                // Aplica a máscara de telefone
+                if (value.length <= 10) {
+                    value = value.replace(/(\d{2})(\d)/, "($1) $2");
+                    value = value.replace(/(\d{4})(\d)/, "$1-$2");
+                } else {
+                    value = value.replace(/(\d{2})(\d)/, "($1) $2");
+                    value = value.replace(/(\d{5})(\d)/, "$1-$2");
+                }
+
+                event.target.value = value; // Atualiza o valor do campo
+            });
+        }
+
+        // Aplica as máscaras se os campos existirem
+        if (cpfField) applyCpfMask(cpfField);
+        if (phoneField) applyPhoneMask(phoneField);
+
+        // Remove máscaras antes de enviar o formulário
+        const form = document.querySelector("form");
+        if (form) {
+            form.addEventListener("submit", function () {
+                if (cpfField) {
+                    cpfField.value = cpfField.value.replace(/\D/g, ""); // Remove a máscara do CPF
+                }
+                if (phoneField) {
+                    phoneField.value = phoneField.value.replace(/\D/g, ""); // Remove a máscara do telefone
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}
+{% block content %}
+<section id="core">
+    <div id="users-container">
+        <h3>Você está editando o usuário <span style="color: #0A5C9B;">{{form.name.value}}</span> </h3>
+        <div class="container">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div  id="create-user-form">
+                    <!-- Coluna Esquerda -->
+                        <div class="input-item">
+                            <label for="{{ form.name.id_for_label }}">Nome</label>
+                            <input type="text" id="{{ form.name.id_for_label }}" 
+                                name="{{ form.name.html_name }}" 
+                                value="{{ form.name.value|default:'' }}" class="form-control">
+                                {% if form.name.errors %}
+                                <div class="error">
+                                    {% for error in form.name.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="input-item">
+                            <label for="{{ form.email.id_for_label }}">E-mail</label>
+                            <input type="email" id="{{ form.email.id_for_label }}" 
+                                name="{{ form.email.html_name }}" 
+                                value="{{ form.email.value|default:'' }}" class="form-control">
+                                {% if form.email.errors %}
+                                <div class="error">
+                                    {% for error in form.email.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="input-item">
+                            <label for="{{ form.cpf.id_for_label }}">CPF</label>
+                            <input type="text" id="{{ form.cpf.id_for_label }}" 
+                                name="{{ form.cpf.html_name }}" 
+                                value="{{ form.cpf.value|default:'' }}" class="form-control">
+                                {% if form.cpf.errors %}
+                                <div class="error">
+                                    {% for error in form.cpf.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="input-item">
+                            <label for="{{ form.profile_picture.id_for_label }}">Foto de Perfil</label>
+                            <input type="file" id="{{ form.profile_picture.id_for_label }}" name="{{ form.profile_picture.html_name }}" class="form-control">
+                            <div class="error">
+                                {% if form.profile_picture.errors %}
+                                <div class="error">
+                                    {% for error in form.profile_picture.errors %}
+                                        <div>{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            </div>
+                        </div>
+                </div>
+                <div class="button-container">
+                    <button class="btn-new-user-2" type="submit">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
