@@ -248,7 +248,6 @@ form {
     gap: 20px;
 }
 
-/* Estilo para mensagens de erro */
 .error {
     color: #fff; /* Texto branco */
     font-weight: 500; 
@@ -264,13 +263,17 @@ form {
     border-radius: 4px; /* Bordas arredondadas */
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15); /* Sombra suave */
     display: inline-block;
-    margin-top: 5px; /* Espaçamento acima da mensagem */
+    margin-top: 5px; 
     max-width: 300px; /* Largura máxima */
 }
 
 .error div::before {
     content: "⚠️ "; /* Ícone de alerta */
     font-size: 14px; /* Tamanho do ícone */
+}
+
+.error {
+    background-color: #fff;
 }
 
 .modal {

@@ -388,6 +388,14 @@ select.form-control {
     height: 40px !important;
 }
 
+#id_telefone_cliente, #id_cpf_cliente, #id_quantity:hover {
+    cursor: text;
+}
+
+.error {
+    background-color: #fff;
+}
+
 @media (max-width: 768px) {
     table {
         font-size: 14px;
@@ -452,3 +460,4 @@ select.form-control {
         gap: 0px;
     }
 }
+

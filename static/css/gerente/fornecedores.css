@@ -239,7 +239,9 @@ form {
     font-size: 14px; 
 }
 
-
+.error {
+    background-color: white;
+}
 
 .modal {
     display: none;

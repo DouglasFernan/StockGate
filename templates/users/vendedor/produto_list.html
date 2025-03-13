@@ -25,6 +25,7 @@
             {% for product in object_list %}
                 {% comment %} <div class="inline"> {% endcomment %}
                     <div id="open-modal" class="box">
+                        <div class="quantidade">Quantidade em estoque: <span id="span-produto">{{product.quantity}}</span> </div>
                         <div class="user-photo">
                             <img src="{{ product.product_picture.url }}" alt="Foto de {{ product.name }}" />
                         </div>
@@ -40,7 +41,7 @@
         </div>
     </div>
 </section>
-<section class="modal-sales">
+{% comment %} <section class="modal-sales">
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="modal-header">
@@ -93,6 +94,6 @@
             </a>
         </div>
     </form>
-</section>
+</section> {% endcomment %}
 
 {% endblock %}

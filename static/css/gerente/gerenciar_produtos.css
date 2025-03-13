@@ -262,7 +262,7 @@ input[type="file"] {
 }
 
 .error {
-    color: #fff; 
+    color: #fff;
     font-weight: 500; 
     text-transform: none; 
     font-size: 12px; 
@@ -285,6 +285,9 @@ input[type="file"] {
     font-size: 14px; 
 }
 
+.error {
+    background-color: white;
+}
 
 
 .modal {
